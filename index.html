@@ -1580,7 +1580,7 @@
      * Backend Integration Configuration (Ready to connect Google Apps Script Web App URL)
      */
     const API_CONFIG = {
-     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz5to3dweehxQezZp6R6GR91wXJvdRLChLd7TQpfg2Y7lQxOtpgg28fJpaCoU3Ttk1P/exec";
+      googleAppsScriptUrl: "PASTE_YOUR_NEW_APPS_SCRIPT_WEB_APP_URL_HERE",
       googleClientId: "", // PASTE_YOUR_GOOGLE_CLIENT_ID_HERE
       supportedLanguages: ["en", "ur"],
       storageKeys: {
@@ -3055,12 +3055,54 @@
 
       if (!isValid) return;
 
-      waitWithLoading(currentLang === "ur" ? "آپ کی درخواست جمع ہو رہی ہے..." : "Submitting your admission form...", () => {
-        AcademyStorage.saveAdmissionForUser(user.email, record);
-        refreshAdmissionStateUI(); refreshCourseFee();
-        const tracker = document.getElementById("submittedAdmissionTracker");
-        if (tracker) tracker.scrollIntoView({ behavior: "smooth", block: "center" });
-      });
+      (async () => {
+        const submitBtn = document.getElementById("submitAdmissionBtn");
+        const oldBtnHtml = submitBtn.innerHTML;
+        submitBtn.disabled = true;
+        submitBtn.classList.add("opacity-60", "cursor-not-allowed");
+        showGlobalLoading(currentLang === "ur" ? "آپ کی درخواست Google Sheet میں محفوظ ہو رہی ہے..." : "Saving your application to Google Sheets...");
+        try {
+          const response = await fetch(API_CONFIG.googleAppsScriptUrl, {
+            method: "POST",
+            // text/plain avoids a browser CORS preflight for the Apps Script web app.
+            headers: { "Content-Type": "text/plain;charset=utf-8" },
+            body: JSON.stringify({
+              action: "savePublicAdmission",
+              admission: {
+                studentName: record.studentName,
+                guardianName: record.guardianName,
+                studentAge: record.studentAge,
+                studentGender: record.studentGender,
+                country: record.country,
+                whatsappNumber: record.whatsappNumber,
+                emailAddress: record.emailAddress,
+                selectedCourse: record.selectedCourse,
+                previousExperience: record.previousExperience,
+                preferredTiming: record.preferredTiming
+              }
+            })
+          });
+          const result = await response.json();
+          if (!result || !result.ok) throw new Error(result && result.error ? result.error : "Google Sheet save failed.");
+          record.applicationId = result.applicationId;
+          record.status = "pending_payment";
+          record.paymentStatus = result.paymentStatus || "Pending Verification";
+          AcademyStorage.saveAdmissionForUser(user.email, record);
+          refreshAdmissionStateUI();
+          refreshCourseFee();
+          const tracker = document.getElementById("submittedAdmissionTracker");
+          if (tracker) tracker.scrollIntoView({ behavior: "smooth", block: "center" });
+          alert(currentLang === "ur" ? "آپ کی درخواست Google Sheet میں محفوظ ہو گئی ہے۔" : "Your application has been saved to Google Sheets.");
+        } catch (error) {
+          console.error("Admission save error:", error);
+          alert((currentLang === "ur" ? "درخواست محفوظ نہیں ہو سکی: " : "Could not save application: ") + (error.message || "Please try again."));
+        } finally {
+          hideGlobalLoading();
+          submitBtn.disabled = false;
+          submitBtn.classList.remove("opacity-60", "cursor-not-allowed");
+          submitBtn.innerHTML = oldBtnHtml;
+        }
+      })();
     });
 
     // Clicking "Pay" button reveals Till ID, QR Scanner & Receipt Submission Form
