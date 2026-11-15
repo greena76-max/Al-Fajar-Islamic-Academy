@@ -134,7 +134,8 @@
         <!-- Institutional Crest & Brand Identity -->
         <a href="#home" onclick="navigateTo('home', event)" class="flex items-center gap-3 group focus:outline-none">
           <!-- Custom SVG Islamic Emblem -->
-          <div class="w-12 h-12 rounded-xl bg-emeraldPrimary border-2 border-goldPrimary flex items-center justify-center shadow-md group-hover:scale-105 transition-transform shrink-0">
+          <div class="w-12 h-12 rounded-xl bg-emeraldPrimary border-2 border-goldPrimary flex items-center justify-center shadow-md group-hover:scale-105 transition-transform shrink-0 relative overflow-hidden">
+            <img src="logo.png" alt="Al-Fajar Academy Logo" class="absolute inset-0 w-full h-full object-contain bg-white" onerror="this.style.display='none'" />
             <svg class="w-7 h-7 text-goldPrimary" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M24 4L29.5 14.5L41 11L37.5 22.5L44 28L35 33L36 44L24 39L12 44L13 33L4 28L10.5 22.5L7 11L18.5 14.5L24 4Z" stroke="currentColor" stroke-width="2" fill="rgba(212,175,55,0.12)"/>
               <!-- Open Quran Icon Inside Emblem -->
@@ -996,7 +997,7 @@
                   <!-- ACTION A: PROMINENT "PAY" BUTTON (SHOWN WHEN PENDING PAYMENT) -->
                   <div id="payNowActionBox" class="pt-2 text-center space-y-3">
                     <p class="text-xs sm:text-sm text-slate-600" data-i18n="payPromptText">
-                      Your admission details have been recorded. Please click the Pay button below to view the Till ID & QR Scanner and submit your fee payment receipt.
+                      Your admission details have been recorded. Please click the Pay button below to view the IBAN & QR Scanner and submit your fee payment receipt.
                     </p>
                     <button type="button" onclick="openPaymentSection()" class="w-full sm:w-auto px-10 py-4 rounded-xl bg-gradient-to-r from-goldPrimary to-goldDark text-emeraldDeep font-extrabold text-base sm:text-lg shadow-goldGlow hover:brightness-105 transition-all inline-flex items-center justify-center gap-2">
                       <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
@@ -1007,28 +1008,31 @@
                   <!-- ACTION B: TILL ID + QR SCANNER + PAYMENT RECEIPT FORM (REVEALED ON CLICKING "PAY") -->
                   <div id="paymentGatewaySection" class="hidden space-y-6 pt-4 border-t-2 border-dashed border-goldPrimary/40">
                     <div class="bg-emeraldDeep islamic-pattern-emerald text-white rounded-2xl p-6 border border-goldPrimary/60">
-                      <h4 class="text-lg font-bold text-goldLight mb-1" data-i18n="tillSectionTitle">Pay via Till ID or Scan QR Code</h4>
+                      <h4 class="text-lg font-bold text-goldLight mb-1" data-i18n="tillSectionTitle">Pay via Bank Transfer / Scan QR Code</h4>
                       <p class="text-xs sm:text-sm text-creamBg/85 mb-5" data-i18n="tillSectionDesc">
-                        Use Easypaisa, JazzCash, or any Raast-enabled banking app to pay via Till ID or by scanning the QR code below.
+                        Transfer the exact course fee to the academy IBAN below or scan the payment QR code.
                       </p>
 
                       <div class="grid grid-cols-1 sm:grid-cols-12 gap-6 items-center">
-                        <!-- Till ID Box -->
+                        <!-- IBAN Box -->
                         <div class="sm:col-span-7 bg-emeraldPrimary/90 rounded-2xl p-4 border border-goldPrimary/40 space-y-2">
-                          <span class="text-xs uppercase tracking-wider text-goldLight font-semibold block" data-i18n="lblMerchantTillId">Official Academy Till ID</span>
+                          <span class="text-xs uppercase tracking-wider text-goldLight font-semibold block" data-i18n="lblMerchantTillId">Official Academy IBAN</span>
                           <div class="flex items-center justify-between gap-2 bg-emeraldDeep px-3.5 py-2.5 rounded-xl border border-goldPrimary/50">
-                            <span id="academyTillIdValue" dir="ltr" class="font-mono text-lg sm:text-xl font-bold text-goldPrimary tracking-wider">00984512</span>
+                            <span id="academyTillIdValue" dir="ltr" class="font-mono text-lg sm:text-xl font-bold text-goldPrimary tracking-wider">PK10JCMA0310923478306672</span>
                             <button type="button" onclick="copyTillId()" class="px-3 py-1.5 rounded-lg bg-goldPrimary text-emeraldDeep text-xs font-bold hover:bg-goldLight transition-colors">
                               <span id="copyTillBtnText" data-i18n="btnCopy">Copy</span>
                             </button>
                           </div>
-                          <p class="text-[11px] text-creamBg/75" data-i18n="tillNote">Supported: Easypaisa Till Payment / JazzCash Till ID / Raast QR</p>
+                          <p class="text-[11px] text-creamBg/75" data-i18n="tillNote">Bank transfer / Raast QR</p>
+                          <div class="mt-3 rounded-xl bg-emeraldDeep/80 border border-goldPrimary/30 p-3"><div class="text-xs text-goldLight">Selected course fee</div><div id="paymentCourseFee" class="text-xl font-extrabold text-goldPrimary">Select a course</div><div id="paymentCourseFeeUsd" class="text-xs text-creamBg/80"></div></div>
                         </div>
 
                         <!-- QR Code Scanner Visual -->
                         <div class="sm:col-span-5 flex flex-col items-center justify-center bg-white rounded-2xl p-4 text-emeraldDeep shadow-md">
-                          <!-- Clean SVG QR Scanner Graphic -->
-                          <svg class="w-32 h-32 text-emeraldDeep" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Payment QR Code Scanner">
+                          <!-- Upload your payment QR image with the exact filename scanner.png -->
+                          <img src="scanner.png" alt="Academy payment QR scanner" class="w-36 h-36 object-contain rounded-lg" onerror="this.classList.add('hidden'); document.getElementById('qrFallbackGraphic').classList.remove('hidden');" />
+                          <!-- Existing QR placeholder is retained as a fallback until scanner.png is uploaded -->
+                          <svg id="qrFallbackGraphic" class="hidden w-32 h-32 text-emeraldDeep" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Payment QR Code Scanner">
                             <!-- Scanner Corner Brackets -->
                             <path d="M8 24V12C8 9.79 9.79 8 12 8H24M96 8H108C110.21 8 112 9.79 112 12V24M112 96V108C112 110.21 110.21 112 108 112H96M24 112H12C9.79 112 8 110.21 8 108V96" stroke="#D4AF37" stroke-width="3" stroke-linecap="round"/>
                             <!-- QR Finder Squares -->
@@ -1170,7 +1174,7 @@
                     </li>
                     <li class="flex items-start gap-3">
                       <span class="w-6 h-6 rounded-full bg-emeraldPrimary text-goldPrimary font-bold text-xs flex items-center justify-center shrink-0 mt-0.5">2</span>
-                      <span data-i18n="sideStep2">Click the "Pay" button on your submitted application to pay via Till ID or QR Scanner.</span>
+                      <span data-i18n="sideStep2">Click the "Pay" button on your submitted application to pay via IBAN or QR Scanner.</span>
                     </li>
                     <li class="flex items-start gap-3">
                       <span class="w-6 h-6 rounded-full bg-emeraldPrimary text-goldPrimary font-bold text-xs flex items-center justify-center shrink-0 mt-0.5">3</span>
@@ -1185,11 +1189,11 @@
 
                 <div class="bg-emeraldDeep islamic-pattern-emerald text-white rounded-3xl p-6 sm:p-7 border border-goldPrimary/50 shadow-soft space-y-3">
                   <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-goldPrimary/20 text-goldLight text-xs font-semibold">
-                    <span data-i18n="paymentBadge">Till ID & QR Verification</span>
+                    <span data-i18n="paymentBadge">IBAN & QR Verification</span>
                   </div>
-                  <h3 class="text-lg font-bold text-white" data-i18n="paymentTitle">Easypaisa & JazzCash Till Payment</h3>
+                  <h3 class="text-lg font-bold text-white" data-i18n="paymentTitle">Bank Transfer & QR Payment</h3>
                   <p class="text-xs sm:text-sm text-creamBg/90 leading-relaxed" data-i18n="paymentDesc">
-                    Pay conveniently using our official Till ID or QR Scanner and upload your receipt screenshot for manual backend verification within 24 hours.
+                    Pay conveniently using our official IBAN or QR Scanner and upload your receipt screenshot for manual backend verification within 24 hours.
                   </p>
                 </div>
               </div>
@@ -1439,7 +1443,7 @@
         <div class="space-y-4">
           <h4 class="font-bold text-goldPrimary text-sm uppercase tracking-wider" data-i18n="footerContactTitle">Admissions & Student Portal</h4>
           <p class="text-xs sm:text-sm text-creamBg/80 leading-relaxed" data-i18n="footerContactNote">
-            Sign in with Google or create an account to submit your admission form, pay via Till ID / QR Scanner, and access your Student Portal.
+            Sign in with Google or create an account to submit your admission form, pay via IBAN / QR Scanner, and access your Student Portal.
           </p>
           <div class="flex flex-col gap-2.5 pt-1">
             <button type="button" onclick="navigateTo('admission')" class="px-4 py-2.5 rounded-xl bg-goldPrimary text-emeraldDeep font-bold text-xs sm:text-sm hover:bg-goldLight transition-colors text-center">
@@ -1575,7 +1579,8 @@
      * Backend Integration Configuration (Ready to connect Google Apps Script Web App URL)
      */
     const API_CONFIG = {
-      googleAppsScriptUrl: "", // Paste deployed Google Apps Script Web App URL here when connecting backend
+      googleAppsScriptUrl: "https://script.google.com/macros/s/AKfycbz4qaQbFM5l0NUKyl3La9HREzaLZTZxLtcVKfQf8MKdu6viUVaspH8ZWK6riSR1GVuN/exec",
+      clientId: "", // Paste your Google OAuth Client ID here
       supportedLanguages: ["en", "ur"],
       storageKeys: {
         users: "afia_users_db",
@@ -1643,7 +1648,7 @@
         why5Title: "Safe & Supervised Online Environment",
         why5Desc: "Classes are conducted via structured Zoom sessions with administrative oversight to ensure punctuality and quality.",
         why6Title: "Accessible & Transparent Admissions",
-        why6Desc: "Simple online admission with Till ID / QR payment verification — no complicated international gateways required.",
+        why6Desc: "Simple online admission with IBAN / QR payment verification — no complicated international gateways required.",
 
         // Courses Section
         coursesEyebrow: "Academic Programs",
@@ -1775,13 +1780,13 @@
 
         trackerEyebrow: "Your Submitted Application",
         trackerTitle: "Admission Application Status",
-        payPromptText: "Your admission details have been recorded. Please click the Pay button below to view the Till ID & QR Scanner and submit your fee payment receipt.",
+        payPromptText: "Your admission details have been recorded. Please click the Pay button below to view the IBAN & QR Scanner and submit your fee payment receipt.",
         btnPayNow: "Pay",
-        tillSectionTitle: "Pay via Till ID or Scan QR Code",
-        tillSectionDesc: "Use Easypaisa, JazzCash, or any Raast-enabled banking app to pay via Till ID or by scanning the QR code below.",
-        lblMerchantTillId: "Official Academy Till ID",
+        tillSectionTitle: "Pay via Bank Transfer / Scan QR Code",
+        tillSectionDesc: "Transfer the exact course fee to the academy IBAN below or scan the payment QR code.",
+        lblMerchantTillId: "Official Academy IBAN",
         btnCopy: "Copy",
-        tillNote: "Supported: Easypaisa Till Payment / JazzCash Till ID / Raast QR",
+        tillNote: "Bank transfer / Raast QR",
         qrScanLabel: "Scan to Pay",
         submitPaymentHeading: "Submit Payment Details & Receipt",
         lblSenderName: "Account Holder Name (Paid From)",
@@ -1800,12 +1805,12 @@
 
         sideStepsTitle: "Admission & Verification Process",
         sideStep1: "Sign in with Google or create an account, then fill out the online admission form.",
-        sideStep2: "Click the \"Pay\" button on your submitted application to pay via Till ID or QR Scanner.",
+        sideStep2: "Click the \"Pay\" button on your submitted application to pay via IBAN or QR Scanner.",
         sideStep3: "Submit the sender account name, Trx ID, and receipt image, then wait up to 24 hours for verification.",
         sideStep4: "Receive your Portal Username & Password and log into the Student Portal to view your class timing, syllabus, and exam results.",
-        paymentBadge: "Till ID & QR Verification",
-        paymentTitle: "Easypaisa & JazzCash Till Payment",
-        paymentDesc: "Pay conveniently using our official Till ID or QR Scanner and upload your receipt screenshot for manual backend verification within 24 hours.",
+        paymentBadge: "IBAN & QR Verification",
+        paymentTitle: "Bank Transfer & QR Payment",
+        paymentDesc: "Pay conveniently using our official IBAN or QR Scanner and upload your receipt screenshot for manual backend verification within 24 hours.",
 
         // Student Portal Page
         portalEyebrow: "Academic Learning & Examination System",
@@ -1849,7 +1854,7 @@
         footerLinksTitle: "Quick Links",
         footerCoursesTitle: "Academic Programs",
         footerContactTitle: "Admissions & Student Portal",
-        footerContactNote: "Sign in with Google or create an account to submit your admission form, pay via Till ID / QR Scanner, and access your Student Portal.",
+        footerContactNote: "Sign in with Google or create an account to submit your admission form, pay via IBAN / QR Scanner, and access your Student Portal.",
         footerCopyright: "© Al-Fajar Islamic Academy. All Rights Reserved.",
 
         errRequired: "This field is required.",
@@ -1911,7 +1916,7 @@
         why5Title: "محفوظ اور زیرِ نگرانی آن لائن ماحول",
         why5Desc: "تمام کلاسز زوم (Zoom) کے ذریعے انتظامیہ کی نگرانی میں وقت کی پابندی کے ساتھ منعقد ہوتی ہیں۔",
         why6Title: "آسان اور شفاف داخلہ و فیس نظام",
-        why6Desc: "سادہ آن لائن داخلہ اور ٹِل آئی ڈی (Till ID) و کیو آر اسکینر کے ذریعے فیس کی آسان ادائیگی۔",
+        why6Desc: "سادہ آن لائن داخلہ اور آئی بین (IBAN) و کیو آر اسکینر کے ذریعے فیس کی آسان ادائیگی۔",
 
         // Courses Section
         coursesEyebrow: "تعلیمی پروگرامز",
@@ -2016,7 +2021,7 @@
         // Admission Page & Payment Flow
         admissionPageEyebrow: "طلبہ کی رجسٹریشن",
         admissionPageTitle: "آن لائن داخلہ درخواست فارم",
-        admissionPageSubtitle: "داخلہ فارم پُر کریں، ادائیگی کریں (Pay) بٹن پر کلک کر کے ٹِل آئی ڈی یا اسکینر سے فیس ادا کریں اور رسید جمع کرائیں۔",
+        admissionPageSubtitle: "داخلہ فارم پُر کریں، ادائیگی کریں (Pay) بٹن پر کلک کر کے آئی بین یا اسکینر سے فیس ادا کریں اور رسید جمع کرائیں۔",
         formSectionTitle: "طالب علم اور سرپرست کی معلومات",
         lblStudentName: "طالب علم کا نام",
         lblGuardianName: "والد / سرپرست کا نام",
@@ -2043,13 +2048,13 @@
 
         trackerEyebrow: "آپ کی جمع شدہ درخواست",
         trackerTitle: "داخلہ درخواست کی موجودہ صورتحال",
-        payPromptText: "آپ کا داخلہ فارم محفوظ ہو گیا ہے۔ اب نیچے دیے گئے Pay بٹن پر کلک کر کے ٹِل آئی ڈی اور کیو آر اسکینر کے ذریعے فیس ادا کریں اور رسید جمع کرائیں۔",
+        payPromptText: "آپ کا داخلہ فارم محفوظ ہو گیا ہے۔ اب نیچے دیے گئے Pay بٹن پر کلک کر کے آئی بین اور کیو آر اسکینر کے ذریعے فیس ادا کریں اور رسید جمع کرائیں۔",
         btnPayNow: "ادائیگی کریں (Pay)",
-        tillSectionTitle: "ٹِل آئی ڈی (Till ID) یا کیو آر اسکینر کے ذریعے ادائیگی",
-        tillSectionDesc: "ایزی پیسہ، جاز کیش یا کسی بھی بینک ایپ سے درج ذیل ٹِل آئی ڈی یا کیو آر کوڈ اسکین کر کے ادائیگی کریں۔",
-        lblMerchantTillId: "اکیڈمی آفیشل ٹِل آئی ڈی (Till ID)",
+        tillSectionTitle: "آئی بین (IBAN) یا کیو آر اسکینر کے ذریعے ادائیگی",
+        tillSectionDesc: "ایزی پیسہ، جاز کیش یا کسی بھی بینک ایپ سے درج ذیل آئی بین یا کیو آر کوڈ اسکین کر کے ادائیگی کریں۔",
+        lblMerchantTillId: "اکیڈمی آفیشل آئی بین (IBAN)",
         btnCopy: "کاپی کریں",
-        tillNote: "سہولت: ایزی پیسہ ٹِل آئی ڈی / جاز کیش ٹِل آئی ڈی / راست کیو آر",
+        tillNote: "سہولت: ایزی پیسہ آئی بین / جاز کیش آئی بین / راست کیو آر",
         qrScanLabel: "اسکین کر کے ادائیگی کریں",
         submitPaymentHeading: "ادائیگی کی تفصیلات اور رسید جمع کرائیں",
         lblSenderName: "اکاؤنٹ ہولڈر کا نام (جس اکاؤنٹ سے ادائیگی ہوئی)",
@@ -2068,12 +2073,12 @@
 
         sideStepsTitle: "داخلہ اور تصدیق کا طریقہ کار",
         sideStep1: "گوگل سے لاگ ان کریں یا نیا اکاؤنٹ بنائیں، پھر آن لائن داخلہ فارم جمع کرائیں۔",
-        sideStep2: "جمع شدہ درخواست پر Pay بٹن دبا کر ٹِل آئی ڈی یا کیو آر اسکینر کے ذریعے ادائیگی کریں۔",
+        sideStep2: "جمع شدہ درخواست پر Pay بٹن دبا کر آئی بین یا کیو آر اسکینر کے ذریعے ادائیگی کریں۔",
         sideStep3: "اکاؤنٹ کا نام، Trx ID اور رسید کی تصویر اپ لوڈ کریں اور تصدیق کے لیے 24 گھنٹے انتظار کریں۔",
         sideStep4: "یوزر نیم اور پاس ورڈ ملنے پر سٹوڈنٹ پورٹل میں لاگ ان ہو کر کلاس ٹائمنگ، نصاب اور رزلٹ دیکھیں۔",
-        paymentBadge: "ٹِل آئی ڈی اور کیو آر تصدیق",
+        paymentBadge: "آئی بین اور کیو آر تصدیق",
         paymentTitle: "ایزی پیسہ اور جاز کیش ٹِل ادائیگی",
-        paymentDesc: "آفیشل ٹِل آئی ڈی یا کیو آر اسکینر سے ادائیگی کریں اور 24 گھنٹوں میں تصدیق کے لیے رسید اپ لوڈ کریں۔",
+        paymentDesc: "آفیشل آئی بین یا کیو آر اسکینر سے ادائیگی کریں اور 24 گھنٹوں میں تصدیق کے لیے رسید اپ لوڈ کریں۔",
 
         // Student Portal Page
         portalEyebrow: "آن لائن تعلیمی و امتحانی نظام",
@@ -2117,7 +2122,7 @@
         footerLinksTitle: "اہم روابط",
         footerCoursesTitle: "تعلیمی پروگرامز",
         footerContactTitle: "داخلہ اور سٹوڈنٹ پورٹل",
-        footerContactNote: "داخلہ فارم پُر کرنے، ٹِل آئی ڈی / کیو آر سے فیس جمع کرانے اور سٹوڈنٹ پورٹل تک رسائی کے لیے لاگ ان کریں۔",
+        footerContactNote: "داخلہ فارم پُر کرنے، آئی بین / کیو آر سے فیس جمع کرانے اور سٹوڈنٹ پورٹل تک رسائی کے لیے لاگ ان کریں۔",
         footerCopyright: "© الفجر اسلامک اکیڈمی۔ جملہ حقوق محفوظ ہیں۔",
 
         errRequired: "یہ خانہ پُر کرنا ضروری ہے۔",
@@ -2133,6 +2138,15 @@
     /**
      * Structured Data for All 6 Required Courses + Detailed Syllabus Modules for Student Portal
      */
+    const COURSE_FEES = {
+      "Noorani Qaida": 1500,
+      "Quran Reading": 2000,
+      "Quran with Tajweed": 2500,
+      "Hifz-ul-Quran": 4000,
+      "Quran Revision": 2000,
+      "Basic Islamic Education": 1500
+    };
+    const PKR_PER_USD_ESTIMATE = 277.27; // indicative mid-market estimate; actual bank conversion may differ
     const COURSES_DATA = [
       {
         id: "Noorani Qaida",
@@ -2365,21 +2379,21 @@
       {
         en: {
           q: "Why do I need to Login or Sign Up before applying for admission?",
-          a: "Creating an account or signing in with Google links your admission form, Till ID / QR payment receipt, and 24-hour verification status to your profile so you can securely receive your Student Portal Username and Password."
+          a: "Creating an account or signing in with Google links your admission form, IBAN / QR payment receipt, and 24-hour verification status to your profile so you can securely receive your Student Portal Username and Password."
         },
         ur: {
           q: "داخلہ فارم پُر کرنے سے پہلے لاگ ان یا سائن اپ کرنا کیوں ضروری ہے؟",
-          a: "گوگل سے لاگ ان کرنے یا اکاؤنٹ بنانے سے آپ کی داخلہ درخواست، ٹِل آئی ڈی / کیو آر ادائیگی کی رسید اور 24 گھنٹے کی تصدیق کا اسٹیٹس آپ کے اکاؤنٹ سے منسلک رہتا ہے تاکہ آپ کو سٹوڈنٹ پورٹل کا یوزر نیم اور پاس ورڈ محفوظ طریقے سے مل سکے۔"
+          a: "گوگل سے لاگ ان کرنے یا اکاؤنٹ بنانے سے آپ کی داخلہ درخواست، آئی بین / کیو آر ادائیگی کی رسید اور 24 گھنٹے کی تصدیق کا اسٹیٹس آپ کے اکاؤنٹ سے منسلک رہتا ہے تاکہ آپ کو سٹوڈنٹ پورٹل کا یوزر نیم اور پاس ورڈ محفوظ طریقے سے مل سکے۔"
         }
       },
       {
         en: {
           q: "How do I pay my fee after submitting the Admission Form?",
-          a: "Once you submit the Admission Form, a 'Pay' button appears on your application status card. Clicking 'Pay' reveals our official Till ID and QR Code Scanner along with a form to submit your sender account name, Transaction ID (Trx ID), and receipt screenshot."
+          a: "Once you submit the Admission Form, a 'Pay' button appears on your application status card. Clicking 'Pay' reveals our official IBAN and QR Code Scanner along with a form to submit your sender account name, Transaction ID (Trx ID), and receipt screenshot."
         },
         ur: {
           q: "داخلہ فارم جمع کرانے کے بعد فیس کیسے ادا کرنی ہے؟",
-          a: "داخلہ فارم جمع کرانے کے فوراً بعد آپ کی درخواست پر 'Pay' (ادائیگی کریں) کا بٹن ظاہر ہو جائے گا۔ اس پر کلک کرنے سے آفیشل ٹِل آئی ڈی اور کیو آر اسکینر کے ساتھ رسید جمع کرانے کا فارم کھل جائے گا۔"
+          a: "داخلہ فارم جمع کرانے کے فوراً بعد آپ کی درخواست پر 'Pay' (ادائیگی کریں) کا بٹن ظاہر ہو جائے گا۔ اس پر کلک کرنے سے آفیشل آئی بین اور کیو آر اسکینر کے ساتھ رسید جمع کرانے کا فارم کھل جائے گا۔"
         }
       },
       {
@@ -2459,6 +2473,7 @@
                 </div>
                 <h3 class="text-lg font-bold text-emeraldDeep">${info.title}</h3>
                 <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">${info.summary}</p>
+                <p class="text-sm font-bold text-emeraldPrimary">Rs. ${Number(COURSE_FEES[course.id]).toLocaleString()} / month <span class="text-xs font-medium text-slate-500">(≈ $${(COURSE_FEES[course.id]/PKR_PER_USD_ESTIMATE).toFixed(2)} USD)</span></p>
               </div>
               <div class="pt-5 mt-5 border-t border-goldPrimary/20 flex items-center justify-between gap-2">
                 <button type="button" onclick="applyForCourse('${course.id}')" class="w-full py-2.5 px-4 rounded-xl bg-emeraldPrimary hover:bg-emeraldDeep text-white text-xs sm:text-sm font-semibold transition-colors text-center">
@@ -2487,6 +2502,7 @@
 
                 <h2 class="text-xl sm:text-2xl font-bold text-emeraldDeep">${info.title}</h2>
                 <p class="text-sm text-slate-600 leading-relaxed">${info.summary}</p>
+                <p class="text-base font-bold text-emeraldPrimary">Rs. ${Number(COURSE_FEES[course.id]).toLocaleString()} / month <span class="text-xs font-medium text-slate-500">(≈ $${(COURSE_FEES[course.id]/PKR_PER_USD_ESTIMATE).toFixed(2)} USD)</span></p>
 
                 <div class="bg-creamBg rounded-2xl p-4 border border-goldPrimary/25 space-y-2">
                   <p class="text-xs font-bold uppercase tracking-wider text-goldDark">${t.courseFocusLabel}</p>
@@ -2638,9 +2654,7 @@
     function applyForCourse(courseValue) {
       navigateTo("admission");
       const selectEl = document.getElementById("selectedCourse");
-      if (selectEl) {
-        selectEl.value = courseValue;
-      }
+      if (selectEl) { selectEl.value = courseValue; updatePaymentCourseFee(); }
     }
 
     /**
@@ -2731,7 +2745,7 @@
     }
 
     // Email & Password Login Handler
-    document.getElementById("loginForm").addEventListener("submit", function (e) {
+    document.getElementById("loginForm").addEventListener("submit", async function (e) {
       e.preventDefault();
       hideAuthAlert();
       const t = TRANSLATIONS[currentLang];
@@ -2755,6 +2769,7 @@
         return;
       }
 
+      await runLoading(5000, currentLang === "en" ? "Signing in" : "لاگ اِن ہو رہا ہے");
       AcademyStorage.setCurrentUser({ name: found.name, email: found.email, provider: "email" });
       this.reset();
       closeAuthModal();
@@ -2763,7 +2778,7 @@
     });
 
     // Sign Up Handler
-    document.getElementById("signupForm").addEventListener("submit", function (e) {
+    document.getElementById("signupForm").addEventListener("submit", async function (e) {
       e.preventDefault();
       hideAuthAlert();
       const t = TRANSLATIONS[currentLang];
@@ -2800,6 +2815,7 @@
         return;
       }
 
+      await runLoading(5000, currentLang === "en" ? "Creating your account" : "آپ کا اکاؤنٹ بنایا جا رہا ہے");
       users.push({ name, email, password });
       AcademyStorage.saveUsers(users);
       AcademyStorage.setCurrentUser({ name, email, provider: "email" });
@@ -2811,7 +2827,7 @@
     });
 
     // Forgot Password Handler
-    document.getElementById("forgotForm").addEventListener("submit", function (e) {
+    document.getElementById("forgotForm").addEventListener("submit", async function (e) {
       e.preventDefault();
       hideAuthAlert();
       const t = TRANSLATIONS[currentLang];
@@ -2839,6 +2855,7 @@
         return;
       }
 
+      await runLoading(5000, currentLang === "en" ? "Updating password" : "پاس ورڈ تبدیل ہو رہا ہے");
       users[idx].password = newPassword;
       AcademyStorage.saveUsers(users);
       this.reset();
@@ -2993,7 +3010,7 @@
     }
 
     // Submit Admission Form Handler
-    document.getElementById("admissionForm").addEventListener("submit", function (e) {
+    document.getElementById("admissionForm").addEventListener("submit", async function (e) {
       e.preventDefault();
       clearValidationErrors();
 
@@ -3053,6 +3070,9 @@
 
       if (!isValid) return;
 
+      await runLoading(5000, currentLang === "en" ? "Submitting admission form" : "داخلہ فارم جمع ہو رہا ہے");
+      record.monthlyFeePKR = COURSE_FEES[record.selectedCourse] || 0;
+      record.monthlyFeeUSDApprox = record.monthlyFeePKR ? Number((record.monthlyFeePKR / PKR_PER_USD_ESTIMATE).toFixed(2)) : 0;
       AcademyStorage.saveAdmissionForUser(user.email, record);
       refreshAdmissionStateUI();
 
@@ -3063,14 +3083,26 @@
       }
     });
 
-    // Clicking "Pay" button reveals Till ID, QR Scanner & Receipt Submission Form
-    function openPaymentSection() {
+    // Clicking "Pay" button reveals IBAN, QR Scanner & Receipt Submission Form
+    async function openPaymentSection() {
+      await runLoading(5000, currentLang === "en" ? "Preparing your payment" : "آپ کی ادائیگی تیار کی جا رہی ہے");
       const gatewaySec = document.getElementById("paymentGatewaySection");
+      updatePaymentCourseFee();
       gatewaySec.classList.remove("hidden");
       gatewaySec.scrollIntoView({ behavior: "smooth", block: "start" });
     }
 
-    // Copy Till ID Helper
+    function updatePaymentCourseFee() {
+      const record = AcademyStorage.getAdmissionForUser((AcademyStorage.getCurrentUser() || {}).email);
+      const selected = (record && record.selectedCourse) || document.getElementById("selectedCourse")?.value;
+      const fee = COURSE_FEES[selected];
+      const p = document.getElementById("paymentCourseFee");
+      const u = document.getElementById("paymentCourseFeeUsd");
+      if (p) p.textContent = fee ? `PKR ${fee.toLocaleString()}` : "Please select a course";
+      if (u) u.textContent = fee ? `Approx. USD ${(fee / PKR_PER_USD_ESTIMATE).toFixed(2)} / month` : "";
+    }
+
+    // Copy IBAN Helper
     function copyTillId() {
       const tillText = document.getElementById("academyTillIdValue").textContent.trim();
       const tempInput = document.createElement("input");
@@ -3109,7 +3141,7 @@
     }
 
     // Submit Payment Details & Receipt Handler
-    document.getElementById("paymentReceiptForm").addEventListener("submit", function (e) {
+    document.getElementById("paymentReceiptForm").addEventListener("submit", async function (e) {
       e.preventDefault();
       clearValidationErrors();
       const t = TRANSLATIONS[currentLang];
@@ -3128,6 +3160,7 @@
         valid = false;
       }
       if (!valid) return;
+      await runLoading(10000, currentLang === "en" ? "Submitting payment for verification" : "ادائیگی کی تفصیلات تصدیق کے لیے جمع ہو رہی ہیں");
 
       const record = AcademyStorage.getAdmissionForUser(user.email);
       if (!record) return;
@@ -3322,6 +3355,57 @@
       renderFAQs();
       updateAuthUI();
     });
-  </script>
+  
+    /* ================================================================
+       GLOBAL LOADING OVERLAY, PASSWORD VISIBILITY & LOCAL HELP ASSISTANT
+       ================================================================ */
+    function ensureEnhancementUI() {
+      if (!document.getElementById("globalLoadingOverlay")) {
+        const overlay = document.createElement("div");
+        overlay.id = "globalLoadingOverlay";
+        overlay.className = "hidden fixed inset-0 z-[100] items-center justify-center bg-slate-950/55 backdrop-blur-md";
+        overlay.innerHTML = `<div class="bg-white rounded-3xl p-8 shadow-2xl text-center w-[min(88vw,340px)]"><img src="logo.png" alt="Academy logo" class="w-16 h-16 object-contain mx-auto mb-4" onerror="this.style.display='none'"><div class="mx-auto mb-4 h-10 w-10 rounded-full border-4 border-emerald-100 border-t-emerald-700 animate-spin"></div><div id="globalLoadingText" class="font-bold text-emerald-900">Please wait...</div><div class="text-xs text-slate-500 mt-2">Al-Fajar Islamic Academy</div></div>`;
+        document.body.appendChild(overlay);
+      }
+      if (!document.getElementById("academyHelpAssistant")) {
+        const wrap = document.createElement("div");
+        wrap.id = "academyHelpAssistant";
+        wrap.className = "fixed bottom-5 right-5 z-[70]";
+        wrap.innerHTML = `<button id="assistantToggle" type="button" class="rounded-full bg-emerald-900 text-white px-5 py-3 shadow-xl border border-yellow-400 font-bold">✦ Help Assistant</button><div id="assistantPanel" class="hidden absolute bottom-16 right-0 w-[min(90vw,360px)] bg-white border border-emerald-200 rounded-2xl shadow-2xl overflow-hidden"><div class="bg-emerald-900 text-white p-4 flex justify-between"><div><b>Academy Assistant</b><div class="text-xs text-emerald-100">English / اردو • Instant help</div></div><button id="assistantClose" type="button" aria-label="Close">✕</button></div><div id="assistantMessages" class="p-3 h-64 overflow-y-auto space-y-2 text-sm"><div class="bg-emerald-50 rounded-xl p-3">Hello! Ask about courses, fees, admission, payment or Student Portal. / داخلہ، فیس یا کورس کے بارے میں پوچھیں۔</div><div class="grid grid-cols-2 gap-2"><button class="assistantQuick rounded-lg bg-slate-100 p-2 text-xs" data-q="How do I apply for admission?">Admission process</button><button class="assistantQuick rounded-lg bg-slate-100 p-2 text-xs" data-q="Show course fees">Course fees</button><button class="assistantQuick rounded-lg bg-slate-100 p-2 text-xs" data-q="How can I pay?">Payment method</button><button class="assistantQuick rounded-lg bg-slate-100 p-2 text-xs" data-q="How do I use Student Portal?">Student Portal</button></div></div><form id="assistantForm" class="p-3 border-t flex gap-2"><input id="assistantInput" class="min-w-0 flex-1 border rounded-lg px-3 py-2 text-sm" placeholder="Type your question..."/><button class="bg-emerald-800 text-white rounded-lg px-4 text-sm font-bold">Send</button></form></div>`;
+        document.body.appendChild(wrap);
+        document.getElementById("assistantToggle").addEventListener("click",()=>document.getElementById("assistantPanel").classList.toggle("hidden"));
+        document.getElementById("assistantClose").addEventListener("click",()=>document.getElementById("assistantPanel").classList.add("hidden"));
+        document.querySelectorAll(".assistantQuick").forEach(b=>b.addEventListener("click",()=>answerAcademyQuestion(b.dataset.q)));
+        document.getElementById("assistantForm").addEventListener("submit",e=>{e.preventDefault();const v=document.getElementById("assistantInput").value.trim();if(v){document.getElementById("assistantInput").value="";answerAcademyQuestion(v);}});
+      }
+      document.querySelectorAll('input[type="password"]').forEach(input=>{
+        if(input.dataset.eyeReady) return; input.dataset.eyeReady="1";
+        const holder=input.parentElement; holder.classList.add("relative"); input.classList.add("pr-12");
+        const eye=document.createElement("button"); eye.type="button"; eye.className="absolute right-3 top-[30px] text-slate-500 text-xs font-bold"; eye.textContent="👁"; eye.setAttribute("aria-label","Show or hide password");
+        eye.addEventListener("click",()=>{const show=input.type==="password";input.type=show?"text":"password";eye.textContent=show?"🙈":"👁";}); holder.appendChild(eye);
+      });
+      const courseSelect=document.getElementById("selectedCourse"); if(courseSelect&&!courseSelect.dataset.feeReady){courseSelect.dataset.feeReady="1";courseSelect.addEventListener("change",updatePaymentCourseFee);}
+    }
+    function runLoading(ms, message) {
+      ensureEnhancementUI(); const overlay=document.getElementById("globalLoadingOverlay");
+      document.getElementById("globalLoadingText").textContent=message||"Please wait...";
+      overlay.classList.remove("hidden"); overlay.classList.add("flex");
+      return new Promise(resolve=>setTimeout(()=>{overlay.classList.add("hidden");overlay.classList.remove("flex");resolve();},ms));
+    }
+    function answerAcademyQuestion(question) {
+      const q=String(question||"").toLowerCase(); let answer="";
+      const feeLines=Object.entries(COURSE_FEES).map(([name,fee])=>`${name}: PKR ${fee.toLocaleString()} / month (about USD ${(fee/PKR_PER_USD_ESTIMATE).toFixed(2)})`).join("<br>");
+      if(/fee|price|cost|فیس|قیمت/.test(q)) answer=`Monthly course fees:<br>${feeLines}<br><small>USD values are approximate and exchange rates can change.</small>`;
+      else if(/admission|apply|enroll|داخلہ|داخلے/.test(q)) answer="To apply: create an account or log in, open Admissions, complete all required student details, select a course and submit the form. Then open Pay, transfer the displayed fee to the IBAN / scan the QR, and submit your sender name, transaction ID and receipt. / اکاؤنٹ بنائیں، داخلہ فارم مکمل کریں، کورس منتخب کریں، پھر ادائیگی اور رسید جمع کروائیں۔";
+      else if(/pay|payment|iban|qr|ادائیگی|بینک/.test(q)) answer="After submitting the admission form, press Pay. The selected course fee appears with the academy IBAN and QR scanner. Transfer the exact amount and submit sender name, transaction ID and payment screenshot. / داخلہ فارم کے بعد Pay دبائیں؛ فیس، IBAN اور QR نظر آئیں گے۔";
+      else if(/portal|username|password|پورٹل|یوزر/.test(q)) answer="After the academy verifies your payment and issues your Student Portal credentials, open Student Portal and enter your username and password. For account or admission records, log in with the same registered email. / تصدیق کے بعد ملنے والا یوزر نیم اور پاس ورڈ Student Portal میں درج کریں۔";
+      else if(/course|کورس/.test(q)) answer=`Available courses:<br>${Object.keys(COURSE_FEES).join("<br>")}<br>Choose Courses to view details and monthly fees.`;
+      else answer="I can help with admission steps, course list, monthly fees, payment and Student Portal. Please ask one of these topics. / میں داخلہ، کورسز، فیس، ادائیگی اور سٹوڈنٹ پورٹل کے بارے میں رہنمائی کر سکتا ہوں۔";
+      const box=document.getElementById("assistantMessages"); const user=document.createElement("div");user.className="ml-8 bg-slate-100 rounded-xl p-3";user.textContent=question;box.appendChild(user);const reply=document.createElement("div");reply.className="mr-5 bg-emerald-50 rounded-xl p-3";reply.innerHTML=answer;box.appendChild(reply);box.scrollTop=box.scrollHeight;
+    }
+    document.addEventListener("DOMContentLoaded",ensureEnhancementUI);
+    ensureEnhancementUI();
+
+</script>
 </body>
 </html>
