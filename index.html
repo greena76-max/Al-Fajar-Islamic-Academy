@@ -992,13 +992,18 @@
                     </span>
                   </div>
 
+                  <div class="space-y-3">
+                    <h4 class="text-sm font-bold text-emeraldDeep" data-i18n="allApplicationsTitle">All Your Applications</h4>
+                    <div id="allAdmissionsList" class="space-y-3"></div>
+                  </div>
+
                   <!-- Submitted Details Summary -->
                   <div id="submittedDetailsSummary" class="grid grid-cols-1 sm:grid-cols-2 gap-3 bg-creamBg rounded-2xl p-4 border border-goldPrimary/30 text-xs sm:text-sm"></div>
 
                   <!-- ACTION A: PROMINENT "PAY" BUTTON (SHOWN WHEN PENDING PAYMENT) -->
                   <div id="payNowActionBox" class="pt-2 text-center space-y-3">
                     <p class="text-xs sm:text-sm text-slate-600" data-i18n="payPromptText">
-                      Your admission details have been recorded. Your selected course fee is shown below. Click Pay to view the IBAN & QR Scanner and submit your receipt.
+                      Your application has been received. Your selected course fee is shown below. Click Pay to view payment details and submit your receipt.
                     </p>
                     <button type="button" onclick="openPaymentSection()" class="w-full sm:w-auto px-10 py-4 rounded-xl bg-gradient-to-r from-goldPrimary to-goldDark text-emeraldDeep font-extrabold text-base sm:text-lg shadow-goldGlow hover:brightness-105 transition-all inline-flex items-center justify-center gap-2">
                       <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
@@ -1113,7 +1118,7 @@
                       Your Admission has been Successfully Submitted! Please Wait 24 Hours.
                     </h4>
                     <p class="text-xs sm:text-sm text-slate-700 max-w-xl mx-auto leading-relaxed" data-i18n="msg24HourDesc">
-                      We have received your payment details and receipt screenshot. Our backend team will verify your payment within 24 hours. Once verified, your Student Portal Username and Password will appear right here.
+                      We have received your payment details and receipt. The academy will review them within 24 hours. Your portal credentials will be available here after approval.
                     </p>
                     <div id="submittedPaymentReceiptMeta" class="text-xs text-slate-600 bg-white/80 rounded-xl p-3 border border-amber-200 inline-block"></div>
 
@@ -1131,7 +1136,7 @@
                           Congratulations! Your Admission is Confirmed.
                         </h4>
                         <p class="text-xs sm:text-sm text-slate-700 mt-1" data-i18n="verifiedCongratsDesc">
-                          Your payment has been verified from our backend. Use the Student Portal Username and Password below to log into your Student Portal.
+                          Your payment has been verified. Use the Student Portal Username and Password below to log into your Student Portal.
                         </p>
                       </div>
                     </div>
@@ -1139,11 +1144,11 @@
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 bg-white rounded-2xl p-4 border border-emeraldPrimary/30">
                       <div>
                         <span class="text-xs text-slate-500 block" data-i18n="lblAssignedUsername">Student Portal Username</span>
-                        <div class="flex items-center gap-2"><span id="issuedPortalUsername" dir="ltr" class="font-mono text-base font-bold text-emeraldDeep break-all"></span><button type="button" onclick="copyTextById('issuedPortalUsername',this)" class="rounded-lg border px-2 py-1 text-xs" aria-label="Copy username">⧉</button></div>
+                        <div class="flex items-center gap-2"><span id="issuedPortalUsername" dir="ltr" data-secret="" class="font-mono text-base font-bold text-emeraldDeep break-all">••••••••</span><button type="button" onclick="toggleAdmissionSecret('issuedPortalUsername',this)" class="rounded-lg border px-2 py-1 text-xs" aria-label="Show username">👁️</button><button type="button" onclick="copyTextById('issuedPortalUsername',this)" class="rounded-lg border px-2 py-1 text-xs" aria-label="Copy username">⧉</button></div>
                       </div>
                       <div>
                         <span class="text-xs text-slate-500 block" data-i18n="lblAssignedPassword">Student Portal Password</span>
-                        <div class="flex items-center gap-2"><span id="issuedPortalPassword" dir="ltr" class="font-mono text-base font-bold text-emeraldDeep break-all"></span><button type="button" onclick="copyTextById('issuedPortalPassword',this)" class="rounded-lg border px-2 py-1 text-xs" aria-label="Copy password">⧉</button></div>
+                        <div class="flex items-center gap-2"><span id="issuedPortalPassword" dir="ltr" data-secret="" class="font-mono text-base font-bold text-emeraldDeep break-all">••••••••</span><button type="button" onclick="toggleAdmissionSecret('issuedPortalPassword',this)" class="rounded-lg border px-2 py-1 text-xs" aria-label="Show password">👁️</button><button type="button" onclick="copyTextById('issuedPortalPassword',this)" class="rounded-lg border px-2 py-1 text-xs" aria-label="Copy password">⧉</button></div>
                         <p class="mt-2 text-xs font-semibold text-red-700"><span aria-hidden="true">👁️</span> <span data-i18n="dontSharePassword">Don't share your password.</span></p>
                       </div>
                     </div>
@@ -1190,7 +1195,7 @@
                   </div>
                   <h3 class="text-lg font-bold text-white" data-i18n="paymentTitle">Easypaisa & JazzCash Till Payment</h3>
                   <p class="text-xs sm:text-sm text-creamBg/90 leading-relaxed" data-i18n="paymentDesc">
-                    Pay conveniently using our official Till ID or QR Scanner and upload your receipt screenshot for manual backend verification within 24 hours.
+                    Pay conveniently using our official Till ID or QR Scanner and upload your receipt screenshot for manual verification within 24 hours.
                   </p>
                 </div>
               </div>
@@ -1221,7 +1226,8 @@
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
 
           <!-- 5.1 STUDENT PORTAL CREDENTIALS LOGIN CARD -->
-          <div id="portalLoginView" class="max-w-md mx-auto bg-white rounded-3xl p-7 sm:p-9 border-2 border-goldPrimary/50 shadow-soft space-y-6">
+          <div id="portalLoginView" class="max-w-lg mx-auto bg-white rounded-[2rem] p-7 sm:p-10 border border-goldPrimary/60 shadow-[0_24px_70px_-28px_rgba(4,57,39,0.35)] space-y-7 relative overflow-hidden">
+            <div class="absolute inset-x-0 top-0 h-1.5 bg-gradient-to-r from-emeraldDeep via-goldPrimary to-emeraldDeep"></div>
             <div class="text-center space-y-2">
               <div class="w-14 h-14 mx-auto rounded-2xl bg-emeraldPrimary text-goldPrimary flex items-center justify-center shadow">
                 <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z"/></svg>
@@ -1237,7 +1243,7 @@
                 <label for="portalUsernameInput" class="block text-xs sm:text-sm font-semibold text-emeraldDeep mb-1.5" data-i18n="lblPortalUsername">
                   Portal Username
                 </label>
-                <input type="text" id="portalUsernameInput" dir="ltr" required
+                <input type="text" id="portalUsernameInput" dir="ltr" autocomplete="username" required
                   class="w-full px-4 py-3 rounded-xl border border-slate-300 bg-creamBg/40 focus:bg-white focus:border-emeraldPrimary outline-none text-sm font-mono"
                   placeholder="e.g. AFIA-2026-101" />
               </div>
@@ -1246,7 +1252,7 @@
                 <label for="portalPasswordInput" class="block text-xs sm:text-sm font-semibold text-emeraldDeep mb-1.5" data-i18n="lblPortalPassword">
                   Portal Password
                 </label>
-                <div class="relative"><input type="password" id="portalPasswordInput" dir="ltr" required
+                <div class="relative"><input type="password" id="portalPasswordInput" dir="ltr" autocomplete="current-password" required
                   class="w-full px-4 py-3 rounded-xl border border-slate-300 bg-creamBg/40 focus:bg-white focus:border-emeraldPrimary outline-none text-sm font-mono"
                   placeholder="••••••••" /> <button type="button" onclick="togglePasswordVisibility('portalPasswordInput',this)" class="absolute inset-y-0 right-3 text-slate-500 text-xs font-semibold" aria-label="Show password">👁️</button></div>
               </div>
@@ -1285,7 +1291,7 @@
 
               <div class="flex flex-wrap items-center gap-3">
                 <button type="button" onclick="syncStudentPortalFromBackend()" class="px-4 py-2.5 rounded-xl bg-creamCard hover:bg-goldLight/40 text-emeraldDeep text-xs font-bold border border-goldPrimary/50 transition-colors">
-                  <span data-i18n="btnRefreshPortal">Refresh Backend Updates</span>
+                  <span data-i18n="btnRefreshPortal">Refresh Student Record</span>
                 </button>
                 <button type="button" onclick="logoutStudentPortal()" class="px-4 py-2.5 rounded-xl border border-red-200 text-red-700 hover:bg-red-50 text-xs font-semibold transition-colors">
                   <span data-i18n="btnPortalLogout">Logout Portal</span>
@@ -1370,13 +1376,13 @@
                 </table>
               </div>
 
-              <!-- Teacher / Backend Remarks Footer -->
+              <!-- Academic Remarks Footer -->
               <div class="bg-creamBg rounded-2xl p-4 border border-goldPrimary/30 flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs sm:text-sm">
                 <div>
-                  <span class="font-bold text-emeraldDeep" data-i18n="lblBackendRemarks">Academic Remarks:</span>
+                  <span class="font-bold text-emeraldDeep">Academic Remarks:</span>
                   <span id="dashBackendRemarks" class="text-slate-700 ms-1"></span>
                 </div>
-                <span class="text-[11px] text-slate-500" data-i18n="aiouSyncNote">Synced directly with Academy Backend Records</span>
+                <span class="text-[11px] text-slate-500">Official student record</span>
               </div>
             </div>
 
@@ -1871,7 +1877,9 @@
 
         trackerEyebrow: "Your Submitted Application",
         trackerTitle: "Admission Application Status",
-        payPromptText: "Your admission details have been recorded. Your selected course fee is shown below. Click Pay to view the IBAN & QR Scanner and submit your receipt.",
+        allApplicationsTitle: "All Your Applications",
+        loadingPleaseWait: "Please wait while we complete your request.",
+        payPromptText: "Your application has been received. Your selected course fee is shown below. Click Pay to view payment details and submit your receipt.",
         btnPayNow: "Pay",
         tillSectionTitle: "Pay via IBAN or Scan QR Code",
         tillSectionDesc: "Use your banking app, Easypaisa, JazzCash, or Raast to pay using the IBAN below or the QR scanner.",
@@ -1885,11 +1893,11 @@
         lblReceiptImage: "Select Receipt Image (Screenshot)",
         btnSubmitPaymentDetails: "Submit Payment Details",
 
-        msg24HourTitle: "Your Admission has been Successfully Submitted! Please Wait 24 Hours.",
-        msg24HourDesc: "We have received your payment details and receipt screenshot. Our backend team will verify your payment within 24 hours. Once verified, your Student Portal Username and Password will appear right here.",
-        btnSimulateBackendVerify: "[Backend Sync Preview: Verify Admission & Issue Credentials]",
+        msg24HourTitle: "Admission Submitted Successfully",
+        msg24HourDesc: "We have received your payment details and receipt. The academy will review them within 24 hours. Your portal credentials will be available here after approval.",
+        btnSimulateBackendVerify: "Admission Verification",
         verifiedCongratsTitle: "Congratulations! Your Admission is Confirmed.",
-        verifiedCongratsDesc: "Your payment has been verified from our backend. Use the Student Portal Username and Password below to log into your Student Portal.",
+        verifiedCongratsDesc: "Your payment has been verified. Use the Student Portal Username and Password below to log into your Student Portal.",
         lblAssignedUsername: "Student Portal Username",
         lblAssignedPassword: "Student Portal Password",
         dontSharePassword: "Don't share your password.",
@@ -1902,7 +1910,7 @@
         sideStep4: "Receive your Portal Username & Password and log into the Student Portal to view your class timing, syllabus, and exam results.",
         paymentBadge: "Till ID & QR Verification",
         paymentTitle: "Easypaisa & JazzCash Till Payment",
-        paymentDesc: "Pay conveniently using our official Till ID or QR Scanner and upload your receipt screenshot for manual backend verification within 24 hours.",
+        paymentDesc: "Pay conveniently using our official Till ID or QR Scanner and upload your receipt screenshot for manual verification within 24 hours.",
 
         // Student Portal Page
         portalEyebrow: "Academic Learning & Examination System",
@@ -1917,7 +1925,7 @@
         portalActiveBadge: "Enrolled & Verified Student",
         lblRollNo: "Registration / Roll No:",
         lblEnrolledCourse: "Enrolled Course:",
-        btnRefreshPortal: "Refresh Backend Updates",
+        btnRefreshPortal: "Refresh Student Record",
         btnPortalLogout: "Logout Portal",
         dashScheduleEyebrow: "Live Class Schedule",
         dashZoomBadge: "Zoom Live",
@@ -1939,7 +1947,7 @@
         tblGrade: "Grade",
         tblResultStatus: "Result Status",
         lblBackendRemarks: "Academic Remarks:",
-        aiouSyncNote: "Synced directly with Academy Backend Records",
+        aiouSyncNote: "Academic record updated by the academy",
 
         // Footer
         footerAbout: "An international-standard online Quran academy dedicated to structured Tajweed, Nazirah, Hifz-ul-Quran, and foundational Islamic character education.",
@@ -2140,6 +2148,8 @@
 
         trackerEyebrow: "آپ کی جمع شدہ درخواست",
         trackerTitle: "داخلہ درخواست کی موجودہ صورتحال",
+        allApplicationsTitle: "آپ کی تمام داخلہ درخواستیں",
+        loadingPleaseWait: "براہ کرم انتظار کریں، آپ کی درخواست مکمل کی جا رہی ہے۔",
         payPromptText: "آپ کا داخلہ فارم محفوظ ہو گیا ہے۔ اب نیچے دیے گئے Pay بٹن پر کلک کر کے ٹِل آئی ڈی اور کیو آر اسکینر کے ذریعے فیس ادا کریں اور رسید جمع کرائیں۔",
         btnPayNow: "ادائیگی کریں (Pay)",
         tillSectionTitle: "آئی بین (IBAN) یا کیو آر اسکینر کے ذریعے ادائیگی",
@@ -2154,11 +2164,11 @@
         lblReceiptImage: "رسید کی تصویر منتخب کریں (اسکرین شاٹ)",
         btnSubmitPaymentDetails: "ادائیگی کی تفصیلات جمع کرائیں",
 
-        msg24HourTitle: "آپ کا داخلہ کامیابی سے جمع ہو گیا ہے! تصدیق کے لیے براہ کرم 24 گھنٹے انتظار کریں۔",
-        msg24HourDesc: "ہمیں آپ کی ادائیگی کی تفصیلات اور رسید موصول ہو گئی ہے۔ ہماری ٹیم 24 گھنٹوں کے اندر تصدیق مکمل کرے گی، جس کے بعد آپ کا سٹوڈنٹ پورٹل یوزر نیم اور پاس ورڈ یہاں ظاہر ہو جائے گا۔",
-        btnSimulateBackendVerify: "[بیک اینڈ تصدیق کا نمونہ: داخلہ منظور کریں اور پاس ورڈ جاری کریں]",
+        msg24HourTitle: "آپ کا داخلہ کامیابی سے جمع ہو گیا ہے",
+        msg24HourDesc: "ہمیں آپ کی ادائیگی کی تفصیلات اور رسید موصول ہو گئی ہے۔ اکیڈمی 24 گھنٹوں کے اندر ان کا جائزہ لے گی۔ منظوری کے بعد آپ کا پورٹل یوزر نیم اور پاس ورڈ یہاں دستیاب ہو گا۔",
+        btnSimulateBackendVerify: "داخلہ کی تصدیق",
         verifiedCongratsTitle: "مبارک ہو! آپ کا داخلہ منظور کر لیا گیا ہے۔",
-        verifiedCongratsDesc: "بیک اینڈ سے آپ کی فیس کی تصدیق ہو گئی ہے۔ سٹوڈنٹ پورٹل میں لاگ ان ہونے کے لیے درج ذیل یوزر نیم اور پاس ورڈ استعمال کریں۔",
+        verifiedCongratsDesc: "آپ کی فیس کی تصدیق ہو گئی ہے۔ سٹوڈنٹ پورٹل میں لاگ ان ہونے کے لیے درج ذیل یوزر نیم اور پاس ورڈ استعمال کریں۔",
         lblAssignedUsername: "سٹوڈنٹ پورٹل یوزر نیم",
         lblAssignedPassword: "سٹوڈنٹ پورٹل پاس ورڈ",
         btnOpenStudentPortalNow: "سٹوڈنٹ پورٹل کھولیں اور لاگ ان کریں",
@@ -2170,7 +2180,7 @@
         sideStep4: "یوزر نیم اور پاس ورڈ ملنے پر سٹوڈنٹ پورٹل میں لاگ ان ہو کر کلاس ٹائمنگ، نصاب اور رزلٹ دیکھیں۔",
         paymentBadge: "ٹِل آئی ڈی اور کیو آر تصدیق",
         paymentTitle: "ایزی پیسہ اور جاز کیش ٹِل ادائیگی",
-        paymentDesc: "آفیشل ٹِل آئی ڈی یا کیو آر اسکینر سے ادائیگی کریں اور 24 گھنٹوں میں تصدیق کے لیے رسید اپ لوڈ کریں۔",
+        paymentDesc: "آفیشل IBAN یا QR کوڈ سے ادائیگی کریں اور 24 گھنٹوں میں تصدیق کے لیے رسید اپ لوڈ کریں۔",
 
         // Student Portal Page
         portalEyebrow: "آن لائن تعلیمی و امتحانی نظام",
@@ -2185,7 +2195,7 @@
         portalActiveBadge: "منظور شدہ باقاعدہ طالب علم",
         lblRollNo: "رجسٹریشن / رول نمبر:",
         lblEnrolledCourse: "منتخب کورس:",
-        btnRefreshPortal: "بیک اینڈ اپ ڈیٹس تازہ کریں",
+        btnRefreshPortal: "طالب علم کا ریکارڈ تازہ کریں",
         btnPortalLogout: "پورٹل لاگ آؤٹ",
         dashScheduleEyebrow: "لائیو کلاس شیڈول",
         dashZoomBadge: "زوم لائیو",
@@ -2207,7 +2217,7 @@
         tblGrade: "گریڈ",
         tblResultStatus: "نتیجہ",
         lblBackendRemarks: "تعلیمی ریمارکس:",
-        aiouSyncNote: "اکیڈمی بیک اینڈ ریکارڈ کے ساتھ براہِ راست منسلک",
+        aiouSyncNote: "اکیڈمی کے ریکارڈ کے مطابق اپ ڈیٹ",
 
         // Footer
         footerAbout: "بین الاقوامی معیار کی آن لائن قرآن اکیڈمی جو تجوید، ناظرہ، حفظ القرآن اور بنیادی اسلامی کردار سازی کے لیے وقف ہے۔",
@@ -2482,7 +2492,7 @@
       {
         en: {
           q: "How long does admission verification take and how do I log into the Student Portal?",
-          a: "After submitting your payment receipt, verification takes up to 24 hours. Once verified from our backend, your Student Portal Username and Password are displayed on your Admission page, which you use to log into the Student Portal."
+          a: "After submitting your payment receipt, verification takes up to 24 hours. Once verified, your Student Portal Username and Password are displayed on your Admission page, which you use to log into the Student Portal."
         },
         ur: {
           q: "داخلہ کی تصدیق میں کتنا وقت لگتا ہے اور سٹوڈنٹ پورٹل میں کیسے لاگ ان ہوں؟",
@@ -2492,7 +2502,7 @@
       {
         en: {
           q: "What information is displayed inside the Student Portal?",
-          a: "Inside the Student Portal, you can view your assigned class timing, class days, live Zoom session link, detailed course syllabus (what will be taught), and your AIOU-style Examination & Result Card updated directly from our backend."
+          a: "Inside the Student Portal, you can view your assigned class timing, class days, live Zoom session link, detailed course syllabus (what will be taught), and your AIOU-style Examination & Result Card updated by the academy."
         },
         ur: {
           q: "سٹوڈنٹ پورٹل کے اندر کون سی معلومات دکھائی جاتی ہیں؟",
@@ -2524,15 +2534,28 @@
         try { return JSON.parse(localStorage.getItem(API_CONFIG.storageKeys.admissions) || "{}"); }
         catch { return {}; }
       },
-      saveAdmissionForUser(email, record) {
+      getAdmissionRecords(email) {
+        if (!email) return [];
         const all = this.getAdmissions();
-        all[email.toLowerCase()] = record;
+        const value = all[email.toLowerCase()];
+        if (Array.isArray(value)) return value;
+        return value ? [value] : [];
+      },
+      saveAdmissionForUser(email, record) {
+        if (!email || !record) return;
+        const all = this.getAdmissions();
+        const key = email.toLowerCase();
+        const records = Array.isArray(all[key]) ? all[key] : (all[key] ? [all[key]] : []);
+        const id = String(record.applicationId || "");
+        const index = id ? records.findIndex(item => String(item.applicationId || "") === id) : -1;
+        if (index >= 0) records[index] = { ...records[index], ...record };
+        else records.push(record);
+        all[key] = records;
         localStorage.setItem(API_CONFIG.storageKeys.admissions, JSON.stringify(all));
       },
       getAdmissionForUser(email) {
-        if (!email) return null;
-        const all = this.getAdmissions();
-        return all[email.toLowerCase()] || null;
+        const records = this.getAdmissionRecords(email);
+        return records.length ? records[records.length - 1] : null;
       }
     };
 
@@ -3220,6 +3243,7 @@ document.getElementById("signupResendBtn").addEventListener("click", async funct
           paymentStatus,
           status: normalized === "verified" ? "approved" : normalized === "rejected" ? "payment_rejected" : (a.trxId ? "under_review" : "pending_payment"),
           portalUsername: a.portalUsername || "",
+          portalPassword: a.portalPassword || a.password || "",
           classTiming: a.classTiming || "",
           examResultsJson: a.examResultsJson || "[]",
           payment: a.trxId ? { senderAccountName: a.accountHolderName, transactionId: a.trxId, receiptImageUrl: a.receiptImageUrl } : null
@@ -3231,6 +3255,61 @@ document.getElementById("signupResendBtn").addEventListener("click", async funct
         console.warn("Admission status sync:", error);
         return null;
       }
+    }
+
+    function renderAllAdmissionCards(email) {
+      const host = document.getElementById("allAdmissionsList");
+      if (!host) return;
+      const records = AcademyStorage.getAdmissionRecords(email);
+      if (!records.length) { host.innerHTML = ""; return; }
+      host.innerHTML = records.slice().reverse().map((record, reverseIndex) => {
+        const index = records.length - 1 - reverseIndex;
+        const appId = String(record.applicationId || ("local-" + index));
+        const safeId = "admission-credential-" + appId.replace(/[^a-zA-Z0-9_-]/g, "");
+        const status = String(record.paymentStatus || record.status || "Submitted").toLowerCase();
+        const approved = record.status === "approved" || status.includes("verified") || status.includes("approved");
+        const rejected = record.status === "payment_rejected" || status.includes("reject");
+        const statusText = approved ? (currentLang === "ur" ? "منظور شدہ" : "Verified & Approved")
+          : rejected ? (currentLang === "ur" ? "ادائیگی مسترد" : "Payment Rejected")
+          : record.payment ? (currentLang === "ur" ? "تصدیق جاری ہے" : "Under Review")
+          : (currentLang === "ur" ? "ادائیگی باقی ہے" : "Awaiting Payment");
+        const statusClass = approved ? "bg-emerald-100 text-emerald-800" : rejected ? "bg-red-100 text-red-800" : "bg-amber-100 text-amber-800";
+        const username = record.portalUsername || (record.portalCredentials && record.portalCredentials.username) || "";
+        const password = record.portalPassword || (record.portalCredentials && record.portalCredentials.password) || "";
+        const credentials = approved && (username || password) ? `
+          <div class="mt-3 rounded-xl border border-emerald-200 bg-emerald-50 p-3 space-y-2">
+            <div class="flex items-center justify-between gap-2">
+              <span class="text-xs font-semibold text-emeraldDeep">${currentLang === "ur" ? "پورٹل یوزر نیم" : "Portal Username"}</span>
+              <div class="flex items-center gap-2"><span id="${safeId}-user" data-secret="${escapeHtml(username)}" class="font-mono text-sm text-emeraldDeep">••••••••</span><button type="button" onclick="toggleAdmissionSecret('${safeId}-user',this)" class="rounded-lg border border-emerald-300 bg-white px-2 py-1 text-xs font-bold text-emeraldDeep">${currentLang === "ur" ? "دکھائیں" : "Show"}</button></div>
+            </div>
+            <div class="flex items-center justify-between gap-2">
+              <span class="text-xs font-semibold text-emeraldDeep">${currentLang === "ur" ? "پورٹل پاس ورڈ" : "Portal Password"}</span>
+              <div class="flex items-center gap-2">
+                <span id="${safeId}" data-secret="${escapeHtml(password)}" class="font-mono text-sm text-emeraldDeep">••••••••</span>
+                <button type="button" onclick="toggleAdmissionSecret('${safeId}',this)" class="rounded-lg border border-emerald-300 bg-white px-3 py-1 text-xs font-bold text-emeraldDeep">${currentLang === "ur" ? "دکھائیں" : "Show"}</button>
+              </div>
+            </div>
+          </div>` : "";
+        return `<article class="rounded-2xl border border-goldPrimary/30 bg-white p-4 shadow-sm">
+          <div class="flex flex-wrap items-start justify-between gap-2">
+            <div><p class="text-xs text-slate-500">${currentLang === "ur" ? "درخواست نمبر" : "Application ID"}</p>
+              <strong class="font-mono text-sm text-emeraldDeep">${escapeHtml(appId)}</strong></div>
+            <span class="rounded-full px-3 py-1 text-[11px] font-bold ${statusClass}">${statusText}</span>
+          </div>
+          <div class="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+            <p><span class="text-slate-500">${currentLang === "ur" ? "طالب علم" : "Student"}:</span> <strong>${escapeHtml(record.studentName || "")}</strong></p>
+            <p><span class="text-slate-500">${currentLang === "ur" ? "کورس" : "Course"}:</span> <strong>${escapeHtml(record.selectedCourse || "")}</strong></p>
+          </div>${credentials}
+        </article>`;
+      }).join("");
+    }
+
+    function toggleAdmissionSecret(id, button) {
+      const field = document.getElementById(id);
+      if (!field) return;
+      const visible = field.textContent !== "••••••••";
+      field.textContent = visible ? "••••••••" : (field.dataset.secret || "—");
+      button.textContent = visible ? (currentLang === "ur" ? "دکھائیں" : "Show") : (currentLang === "ur" ? "چھپائیں" : "Hide");
     }
 
     function refreshAdmissionStateUI() {
@@ -3256,6 +3335,7 @@ document.getElementById("signupResendBtn").addEventListener("click", async funct
       }
 
       const record = AcademyStorage.getAdmissionForUser(user.email);
+      renderAllAdmissionCards(user.email);
       const tracker = document.getElementById("submittedAdmissionTracker");
       const formCard = document.getElementById("admissionFormCard");
 
@@ -3308,8 +3388,12 @@ document.getElementById("signupResendBtn").addEventListener("click", async funct
         statusBadge.textContent = currentLang === "en" ? "Verified & Approved" : "منظور شدہ";
         statusBadge.className = "px-3.5 py-1.5 rounded-full text-xs font-bold bg-emerald-100 text-emeraldDeep border border-emeraldPrimary";
         verifiedBox.classList.remove("hidden");
-        document.getElementById("issuedPortalUsername").textContent = record.portalUsername || (record.portalCredentials && record.portalCredentials.username) || "Issued by email";
-        document.getElementById("issuedPortalPassword").textContent = "Sent to registered email";
+        const userValue = record.portalUsername || (record.portalCredentials && record.portalCredentials.username) || "";
+        document.getElementById("issuedPortalUsername").textContent = "••••••••";
+        document.getElementById("issuedPortalUsername").dataset.secret = userValue;
+        const passValue = record.portalPassword || (record.portalCredentials && record.portalCredentials.password) || "";
+        document.getElementById("issuedPortalPassword").textContent = "••••••••";
+        document.getElementById("issuedPortalPassword").dataset.secret = passValue;
       }
     }
 
@@ -3394,7 +3478,7 @@ document.getElementById("signupResendBtn").addEventListener("click", async funct
         const oldBtnHtml = submitBtn.innerHTML;
         submitBtn.disabled = true;
         submitBtn.classList.add("opacity-60", "cursor-not-allowed");
-        showGlobalLoading(currentLang === "ur" ? "آپ کی درخواست Google Sheet میں محفوظ ہو رہی ہے..." : "Saving your application to Google Sheets...");
+        showGlobalLoading(currentLang === "ur" ? "آپ کا داخلہ فارم جمع ہو رہا ہے..." : "Submitting your admission...");
         try {
           const response = await fetch(API_CONFIG.googleAppsScriptUrl, {
             method: "POST",
@@ -3419,7 +3503,7 @@ document.getElementById("signupResendBtn").addEventListener("click", async funct
             })
           });
           const result = await response.json();
-          if (!result || !result.ok) throw new Error(result && result.error ? result.error : "Google Sheet save failed.");
+          if (!result || !result.ok) throw new Error(result && result.error ? result.error : "Your application could not be saved.");
           record.applicationId = result.applicationId;
           record.status = "pending_payment";
           record.paymentStatus = result.paymentStatus || "Pending Verification";
@@ -3428,10 +3512,10 @@ document.getElementById("signupResendBtn").addEventListener("click", async funct
           refreshCourseFee();
           const tracker = document.getElementById("submittedAdmissionTracker");
           if (tracker) tracker.scrollIntoView({ behavior: "smooth", block: "center" });
-          alert(currentLang === "ur" ? "آپ کی درخواست Google Sheet میں محفوظ ہو گئی ہے۔" : "Your application has been saved to Google Sheets.");
+          showToast(currentLang === "ur" ? "آپ کا داخلہ فارم کامیابی سے جمع ہو گیا ہے۔" : "Admission submitted successfully.", "success");
         } catch (error) {
           console.error("Admission save error:", error);
-          alert((currentLang === "ur" ? "درخواست محفوظ نہیں ہو سکی: " : "Could not save application: ") + (error.message || "Please try again."));
+          showToast((currentLang === "ur" ? "داخلہ جمع نہیں ہو سکا: " : "Could not submit admission: ") + (error.message || "Please try again."), "error");
         } finally {
           hideGlobalLoading();
           submitBtn.disabled = false;
@@ -3533,10 +3617,10 @@ document.getElementById("signupResendBtn").addEventListener("click", async funct
         document.getElementById("receiptPreviewWrapper").classList.add("hidden");
         currentReceiptBase64 = "";
         refreshAdmissionStateUI();
-        alert(result.message || "Payment details submitted for verification.");
+        showToast(currentLang === "ur" ? "ادائیگی کی تفصیلات کامیابی سے جمع ہو گئیں۔" : "Payment details submitted successfully.", "success");
       } catch (error) {
         console.error("Payment submission error:", error);
-        alert(error.message || "Payment submission failed. Please try again.");
+        showToast(error.message || (currentLang === "ur" ? "ادائیگی جمع نہیں ہو سکی۔ دوبارہ کوشش کریں۔" : "Payment submission failed. Please try again."), "error");
       } finally {
         submitBtn.disabled = false;
         submitBtn.textContent = originalText;
@@ -3568,7 +3652,7 @@ document.getElementById("signupResendBtn").addEventListener("click", async funct
         teacherName: record.studentGender === "Female" ? "Ustadha Maryam Siddiqui" : "Qari Muhammad Usman",
         zoomUrl: "https://zoom.us",
         academicTerm: "2026 — Term I",
-        remarks: "Enrolled and active. Mid-term & Final assessments are updated from backend.",
+        remarks: "Enrolled and active. Mid-term & Final assessments are updated by the academy.",
         results: [
           {
             code: courseObj.code,
@@ -3605,7 +3689,9 @@ document.getElementById("signupResendBtn").addEventListener("click", async funct
     document.getElementById("studentPortalLoginForm").addEventListener("submit", async function (e) {
       e.preventDefault();
       const errEl = document.getElementById("portalLoginError");
+      const submitBtn = this.querySelector('button[type="submit"]');
       errEl.classList.add("hidden");
+      setActionButtonLoading(submitBtn, currentLang === "ur" ? "پورٹل میں لاگ اِن ہو رہا ہے..." : "Signing in...");
       try {
         const result = await academyApi("portalLogin", {
           username: document.getElementById("portalUsernameInput").value.trim(),
@@ -3617,6 +3703,8 @@ document.getElementById("signupResendBtn").addEventListener("click", async funct
       } catch (error) {
         errEl.textContent = error.message || "Student portal login failed.";
         errEl.classList.remove("hidden");
+      } finally {
+        clearActionButtonLoading(submitBtn);
       }
     });
 
@@ -3723,6 +3811,57 @@ document.getElementById("signupResendBtn").addEventListener("click", async funct
     document.getElementById("selectedCourse")?.addEventListener("change", refreshCourseFee);
     refreshCourseFee();
 
+    let academyToastTimer = null;
+    function showToast(message, type = "info") {
+      const host = document.getElementById("academyToast");
+      if (!host) return;
+      const icon = type === "success" ? "✓" : type === "error" ? "!" : "i";
+      host.className = "fixed top-5 right-5 z-[120] w-[min(92vw,390px)] rounded-2xl border shadow-2xl p-4 flex items-start gap-3 transition-all " +
+        (type === "error" ? "bg-white border-red-200 text-red-800" : type === "success" ? "bg-white border-emerald-200 text-emerald-900" : "bg-white border-goldPrimary/40 text-emeraldDeep");
+      host.innerHTML = `<span class="w-8 h-8 shrink-0 rounded-full flex items-center justify-center font-bold ${type === "error" ? "bg-red-100" : "bg-emerald-100"}">${icon}</span><div class="min-w-0 flex-1 text-sm font-semibold leading-relaxed">${escapeHtml(message)}</div><button type="button" aria-label="Close notification" onclick="hideToast()" class="text-slate-400 hover:text-slate-700">✕</button>`;
+      host.classList.remove("hidden");
+      clearTimeout(academyToastTimer);
+      academyToastTimer = setTimeout(hideToast, 4800);
+    }
+    function hideToast() {
+      const host = document.getElementById("academyToast");
+      if (host) host.classList.add("hidden");
+    }
+    function setActionButtonLoading(button, label) {
+      if (!button || button.dataset.loading === "true") return;
+      button.dataset.loading = "true";
+      button.dataset.originalHtml = button.innerHTML;
+      button.disabled = true;
+      button.classList.add("opacity-70", "cursor-wait");
+      button.innerHTML = `<span class="inline-flex items-center justify-center gap-2"><span class="w-4 h-4 rounded-full border-2 border-current/30 border-t-current animate-spin"></span>${label || (currentLang === "ur" ? "براہ کرم انتظار کریں..." : "Please wait...")}</span>`;
+    }
+    function clearActionButtonLoading(button) {
+      if (!button || button.dataset.loading !== "true") return;
+      button.innerHTML = button.dataset.originalHtml || button.innerHTML;
+      button.disabled = false;
+      button.classList.remove("opacity-70", "cursor-wait");
+      delete button.dataset.loading;
+      delete button.dataset.originalHtml;
+    }
+
+    // Keep the clicked submit/action button visibly busy while its network request is running.
+    if (!window.__academyFetchWrapped) {
+      const nativeAcademyFetch = window.fetch.bind(window);
+      window.fetch = async function (...args) {
+        const focused = document.activeElement;
+        const actionButton = focused && focused.tagName === "BUTTON"
+          ? focused
+          : (focused && focused.closest ? focused.closest("form")?.querySelector('button[type="submit"]') : null);
+        if (actionButton) setActionButtonLoading(actionButton);
+        try {
+          return await nativeAcademyFetch(...args);
+        } finally {
+          if (actionButton) clearActionButtonLoading(actionButton);
+        }
+      };
+      window.__academyFetchWrapped = true;
+    }
+
     function togglePasswordVisibility(id, button) {
       const field = document.getElementById(id); if (!field) return;
       const show = field.type === "password"; field.type = show ? "text" : "password";
@@ -3730,7 +3869,8 @@ document.getElementById("signupResendBtn").addEventListener("click", async funct
       button.setAttribute("aria-label", show ? "Hide password" : "Show password");
     }
     function copyTextById(id, button) {
-      const value = document.getElementById(id)?.textContent || "";
+      const field = document.getElementById(id);
+      const value = (field && field.dataset.secret) ? field.dataset.secret : (field?.textContent || "");
       if (!value) return;
       const fallback = () => { const t=document.createElement("textarea"); t.value=value; document.body.appendChild(t); t.select(); document.execCommand("copy"); t.remove(); };
       if (navigator.clipboard?.writeText) navigator.clipboard.writeText(value).catch(fallback); else fallback();
@@ -3763,13 +3903,15 @@ document.getElementById("signupResendBtn").addEventListener("click", async funct
 
 </script>
 
+  <div id="academyToast" class="hidden fixed top-5 right-5 z-[120] w-[min(92vw,390px)]" role="status" aria-live="polite"></div>
+
   <!-- Global action loading overlay: site is intentionally blocked while an action is processing -->
   <div id="globalLoadingOverlay" class="hidden fixed inset-0 z-[100] bg-emeraldDeep/90 backdrop-blur-md flex items-center justify-center p-6" aria-live="assertive" aria-busy="true">
     <div class="text-center text-white space-y-5">
       <img src="logo.png" alt="Al-Fajar Islamic Academy" class="w-24 h-24 mx-auto rounded-2xl object-contain bg-white p-2" onerror="this.style.display='none'" />
       <div class="w-14 h-14 mx-auto rounded-full border-4 border-goldPrimary/30 border-t-goldPrimary animate-spin"></div>
       <p id="globalLoadingText" class="font-bold text-lg">Please wait...</p>
-      <p class="text-xs text-creamBg/80">Al-Fajar Islamic Academy</p>
+      <p class="text-xs text-creamBg/80" data-i18n="loadingPleaseWait">Please wait while we complete your request.</p>
     </div>
   </div>
 
