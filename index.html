@@ -1384,6 +1384,10 @@
                 </div>
                 <span class="text-[11px] text-slate-500">Official student record</span>
               </div>
+              <div id="dashResultsPdfWrap" class="hidden rounded-2xl border border-goldPrimary/40 bg-creamBg p-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                <div><p class="font-bold text-emeraldDeep">Official Results PDF</p><p class="text-xs text-slate-600">Open or download your published result document.</p></div>
+                <a id="dashResultsPdfLink" href="#" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center rounded-xl bg-emeraldDeep px-5 py-3 text-sm font-bold text-white hover:bg-emeraldPrimary">View Results PDF</a>
+              </div>
             </div>
 
           </div>
@@ -3245,6 +3249,8 @@ document.getElementById("signupResendBtn").addEventListener("click", async funct
           portalUsername: a.portalUsername || "",
           portalPassword: a.portalPassword || a.password || "",
           classTiming: a.classTiming || "",
+          rollNo: a.rollNo || a.portalUsername || "",
+          resultsPdfUrl: a.resultsPdfUrl || "",
           examResultsJson: a.examResultsJson || "[]",
           payment: a.trxId ? { senderAccountName: a.accountHolderName, transactionId: a.trxId, receiptImageUrl: a.receiptImageUrl } : null
         };
@@ -3723,7 +3729,8 @@ document.getElementById("signupResendBtn").addEventListener("click", async funct
           studentName: result.admission.studentName,
           email: result.admission.email,
           course: result.admission.course,
-          rollNo: result.admission.portalUsername,
+          rollNo: result.admission.rollNo || result.admission.portalUsername,
+          resultsPdfUrl: result.admission.resultsPdfUrl || "",
           classTiming: result.admission.classTiming,
           examResultsJson: result.admission.examResultsJson
         };
@@ -3749,6 +3756,13 @@ document.getElementById("signupResendBtn").addEventListener("click", async funct
       } catch (e) { results = []; }
       document.getElementById("dashStudentName").textContent = student.studentName || "Student";
       document.getElementById("dashRollNo").textContent = student.rollNo || student.applicationId || "—";
+      const pdfWrap = document.getElementById("dashResultsPdfWrap");
+      const pdfLink = document.getElementById("dashResultsPdfLink");
+      const resultsPdfUrl = String(student.resultsPdfUrl || "").trim();
+      if (pdfWrap && pdfLink) {
+        if (/^https:\/\//i.test(resultsPdfUrl)) { pdfLink.href = resultsPdfUrl; pdfWrap.classList.remove("hidden"); }
+        else { pdfLink.removeAttribute("href"); pdfWrap.classList.add("hidden"); }
+      }
       document.getElementById("dashCourseTitle").textContent = courseLocalized.title;
       document.getElementById("dashClassTime").textContent = student.classTiming || "To be announced";
       document.getElementById("dashClassDays").textContent = "As assigned by the academy";
