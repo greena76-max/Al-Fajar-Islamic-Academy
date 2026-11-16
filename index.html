@@ -2725,13 +2725,51 @@
       box.classList.add("hidden");
     }
 
-    // "Login with Google" Handler
-    function handleGoogleLogin() {
-      const msg = currentLang === "ur"
-        ? "Google Login فعال کرنے کے لیے API_CONFIG میں اپنا Google Client ID درج کریں اور Google Identity Services / سرور سائیڈ token verification مکمل کریں۔"
-        : "Google sign-in is not connected yet. Paste your Google Client ID in API_CONFIG.googleClientId and complete Google Identity Services plus server-side token verification.";
-      showAuthAlert(msg, true);
+   
+// "Login with Google" Handler
+function handleGoogleLogin() {
+  if (!API_CONFIG.googleClientId) {
+    showAuthAlert("Google Client ID missing. Check API_CONFIG.", true);
+    return;
+  }
+
+  if (!window.google || !window.google.accounts) {
+    showAuthAlert("Google service is loading. Please try again.", true);
+    return;
+  }
+
+  window.google.accounts.id.initialize({
+    client_id: API_CONFIG.googleClientId,
+    callback: async function(response) {
+      try {
+        const result = await fetch(API_CONFIG.googleAppsScriptUrl, {
+          method: "POST",
+          headers: {
+            "Content-Type": "text/plain;charset=utf-8"
+          },
+          body: JSON.stringify({
+            action: "googleLogin",
+            idToken: response.credential
+          })
+        });
+
+        const data = await result.json();
+
+        if (data.ok) {
+          showAuthAlert("Google login successful!", false);
+          console.log("Google login response:", data);
+        } else {
+          showAuthAlert(data.message || "Google login failed.", true);
+        }
+      } catch (error) {
+        console.error(error);
+        showAuthAlert("Server connection failed. Please try again.", true);
+      }
     }
+  });
+
+  window.google.accounts.id.prompt();
+}
 
     // Email & Password Login Handler
     document.getElementById("loginForm").addEventListener("submit", function (e) {
