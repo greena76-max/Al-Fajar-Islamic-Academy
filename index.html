@@ -2755,12 +2755,30 @@ function handleGoogleLogin() {
 
         const data = await result.json();
 
-        if (data.ok) {
-          showAuthAlert("Google login successful!", false);
-          console.log("Google login response:", data);
-        } else {
-          showAuthAlert(data.message || "Google login failed.", true);
-        }
+        
+if (data.ok) {
+  AcademyStorage.setCurrentUser({
+    name: data.user.name,
+    email: data.user.email,
+    provider: "Google"
+  });
+
+  localStorage.setItem(
+    API_CONFIG.storageKeys.portalSession,
+    data.sessionToken
+  );
+
+  showAuthAlert("Google login successful!", false);
+  closeAuthModal();
+  updateAuthUI();
+  refreshAdmissionStateUI();
+
+} else {
+  showAuthAlert(
+    data.error || "Google login failed.",
+    true
+  );
+}
       } catch (error) {
         console.error(error);
         showAuthAlert("Server connection failed. Please try again.", true);
