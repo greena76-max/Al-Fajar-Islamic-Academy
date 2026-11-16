@@ -1117,12 +1117,7 @@
                     </p>
                     <div id="submittedPaymentReceiptMeta" class="text-xs text-slate-600 bg-white/80 rounded-xl p-3 border border-amber-200 inline-block"></div>
 
-                    <!-- Developer / Backend Integration Preview Hook (Simulates Backend Approval from Google Sheets) -->
-                    <div class="pt-3 border-t border-amber-200/80">
-                      <button type="button" onclick="simulateBackendVerification()" class="px-4 py-2 rounded-lg bg-emeraldDeep text-goldLight text-xs font-semibold hover:brightness-110 transition-all">
-                        <span data-i18n="btnSimulateBackendVerify">[Backend Sync Preview: Verify Admission & Issue Credentials]</span>
-                      </button>
-                    </div>
+
                   </div>
 
                   <!-- ACTION D: VERIFIED ADMISSION & BACKEND-ISSUED STUDENT PORTAL CREDENTIALS -->
@@ -1579,6 +1574,10 @@
     />
   </div>
 
+  <div class="flex items-center justify-between text-xs">
+    <span id="signupResendCountdown" class="text-slate-500">Resend available in 60 seconds</span>
+    <button type="button" id="signupResendBtn" disabled class="font-semibold text-goldDark disabled:opacity-40 hover:underline">Resend OTP</button>
+  </div>
   <button type="submit"
     class="w-full py-3 rounded-xl bg-emeraldPrimary hover:bg-emeraldDeep text-white font-bold text-sm shadow transition-all">
     Verify Email & Create Account
@@ -1588,20 +1587,34 @@
 
       <!-- FORM 3: FORGOT PASSWORD FORM -->
       <form id="forgotForm" novalidate class="hidden space-y-4">
-        <p class="text-xs text-slate-600 leading-relaxed" data-i18n="forgotHelpText">
-          Enter your registered email address and a new password to reset your account credentials.
-        </p>
-        <div>
-          <label for="forgotEmail" class="block text-xs font-semibold text-emeraldDeep mb-1" data-i18n="lblEmail">Email Address</label>
-          <input type="email" id="forgotEmail" dir="ltr" required class="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm focus:border-emeraldPrimary outline-none" placeholder="name@example.com" />
+        <div id="forgotRequestStep" class="space-y-4">
+          <p class="text-xs text-slate-600 leading-relaxed" data-i18n="forgotHelpText">Enter your registered email address to receive a password reset code.</p>
+          <div>
+            <label for="forgotEmail" class="block text-xs font-semibold text-emeraldDeep mb-1" data-i18n="lblEmail">Email Address</label>
+            <input type="email" id="forgotEmail" dir="ltr" required class="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm focus:border-emeraldPrimary outline-none" placeholder="name@example.com" />
+          </div>
+          <button type="submit" id="forgotSendOtpBtn" class="w-full py-3 rounded-xl bg-emeraldPrimary hover:bg-emeraldDeep text-white font-bold text-sm shadow transition-all">Send Verification Code</button>
         </div>
-        <div>
-          <label for="forgotNewPassword" class="block text-xs font-semibold text-emeraldDeep mb-1" data-i18n="lblNewPassword">New Password</label>
-          <div class="relative"><input type="password" id="forgotNewPassword" dir="ltr" required class="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm focus:border-emeraldPrimary outline-none" placeholder="••••••••" /> <button type="button" onclick="togglePasswordVisibility('forgotNewPassword',this)" class="absolute inset-y-0 right-3 text-slate-500 text-xs font-semibold" aria-label="Show password">👁️</button></div>
+        <div id="forgotResetStep" class="hidden space-y-3">
+          <p class="text-xs text-slate-600 leading-relaxed">Enter the 6-digit code sent to your email, then choose a new password. Check both Inbox and Spam folders.</p>
+          <div>
+            <label for="forgotOtp" class="block text-xs font-semibold text-emeraldDeep mb-1">Verification Code</label>
+            <input type="text" id="forgotOtp" inputmode="numeric" autocomplete="one-time-code" maxlength="6" pattern="[0-9]{6}" dir="ltr" placeholder="Enter 6-digit OTP" class="w-full px-4 py-3 rounded-xl border border-slate-300 text-center text-lg tracking-widest focus:border-emeraldPrimary outline-none" />
+          </div>
+          <div>
+            <label for="forgotNewPassword" class="block text-xs font-semibold text-emeraldDeep mb-1" data-i18n="lblNewPassword">New Password</label>
+            <div class="relative"><input type="password" id="forgotNewPassword" dir="ltr" class="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm focus:border-emeraldPrimary outline-none" placeholder="••••••••" /> <button type="button" onclick="togglePasswordVisibility('forgotNewPassword',this)" class="absolute inset-y-0 right-3 text-slate-500 text-xs font-semibold" aria-label="Show password">👁️</button></div>
+          </div>
+          <div>
+            <label for="forgotConfirmPassword" class="block text-xs font-semibold text-emeraldDeep mb-1">Confirm New Password</label>
+            <div class="relative"><input type="password" id="forgotConfirmPassword" dir="ltr" class="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm focus:border-emeraldPrimary outline-none" placeholder="••••••••" /> <button type="button" onclick="togglePasswordVisibility('forgotConfirmPassword',this)" class="absolute inset-y-0 right-3 text-slate-500 text-xs font-semibold" aria-label="Show password">👁️</button></div>
+          </div>
+          <button type="button" id="forgotResetBtn" class="w-full py-3 rounded-xl bg-emeraldPrimary hover:bg-emeraldDeep text-white font-bold text-sm shadow transition-all">Reset Password</button>
+          <div class="flex items-center justify-between text-xs">
+            <span id="forgotResendCountdown" class="text-slate-500">Resend available in 60 seconds</span>
+            <button type="button" id="forgotResendBtn" disabled class="font-semibold text-goldDark disabled:opacity-40 hover:underline">Resend OTP</button>
+          </div>
         </div>
-        <button type="submit" class="w-full py-3 rounded-xl bg-emeraldPrimary hover:bg-emeraldDeep text-white font-bold text-sm shadow transition-all">
-          <span data-i18n="btnResetSubmit">Reset Password</span>
-        </button>
       </form>
     </div>
   </div>
@@ -1628,6 +1641,49 @@
     let currentLang = "en";
     let currentPage = "home";
     let currentReceiptBase64 = "";
+    let signupResendTimer = null;
+    let forgotResendTimer = null;
+    let forgotOtpEmail = "";
+    let forgotOtpExpiresAt = 0;
+
+    async function academyApi(action, payload = {}) {
+      const response = await fetch(API_CONFIG.googleAppsScriptUrl, {
+        method: "POST",
+        headers: { "Content-Type": "text/plain;charset=utf-8" },
+        body: JSON.stringify({ action, ...payload })
+      });
+      const data = await response.json();
+      if (!response.ok || !data || data.ok !== true) {
+        throw new Error(data && data.error ? data.error : "The request could not be completed.");
+      }
+      return data;
+    }
+
+    function getAcademySessionToken() {
+      return localStorage.getItem(API_CONFIG.storageKeys.portalSession) || "";
+    }
+
+    function startOtpCountdown(kind, seconds = 60) {
+      const isSignup = kind === "signup";
+      const button = document.getElementById(isSignup ? "signupResendBtn" : "forgotResendBtn");
+      const label = document.getElementById(isSignup ? "signupResendCountdown" : "forgotResendCountdown");
+      const oldTimer = isSignup ? signupResendTimer : forgotResendTimer;
+      if (oldTimer) clearInterval(oldTimer);
+      let remaining = Math.max(0, Number(seconds) || 60);
+      button.disabled = remaining > 0;
+      const update = () => {
+        label.textContent = remaining > 0 ? `Resend available in ${remaining} seconds` : "You can request a new code now.";
+        button.disabled = remaining > 0;
+        if (remaining <= 0) {
+          clearInterval(timer);
+          if (isSignup) signupResendTimer = null; else forgotResendTimer = null;
+        }
+        remaining--;
+      };
+      update();
+      const timer = setInterval(update, 1000);
+      if (isSignup) signupResendTimer = timer; else forgotResendTimer = timer;
+    }
 
     /**
      * Complete Bilingual Dictionary (English & Urdu)
@@ -2807,6 +2863,7 @@ if (data.ok) {
   closeAuthModal();
   updateAuthUI();
   refreshAdmissionStateUI();
+  syncAdmissionStatusFromBackend();
 
 } else {
   showAuthAlert(
@@ -2874,6 +2931,7 @@ document.getElementById("loginForm").addEventListener("submit", async function (
     closeAuthModal();
     updateAuthUI();
     refreshAdmissionStateUI();
+    syncAdmissionStatusFromBackend();
 
   } catch (error) {
     console.error(error);
@@ -2930,8 +2988,8 @@ document.getElementById("signupForm").addEventListener("submit", async function 
    if (data.ok && data.requiresOtp) {
   document.getElementById("signupForm").classList.add("hidden");
   document.getElementById("signupOtpForm").classList.remove("hidden");
-
-  showAuthAlert("Verification code sent! Check your email.", false);
+  startOtpCountdown("signup", 60);
+  showAuthAlert("Verification code sent! Check both Inbox and Spam folders.", false);
   return;
 }
 
@@ -2998,6 +3056,7 @@ document.getElementById("signupOtpForm").addEventListener("submit", async functi
     closeAuthModal();
     updateAuthUI();
     refreshAdmissionStateUI();
+    syncAdmissionStatusFromBackend();
 
   } catch (error) {
     console.error(error);
@@ -3006,94 +3065,84 @@ document.getElementById("signupOtpForm").addEventListener("submit", async functi
 });
 
   
-// Forgot Password Handler
+// Forgot Password: request OTP, then verify it in the in-page reset form.
 document.getElementById("forgotForm").addEventListener("submit", async function (e) {
   e.preventDefault();
   hideAuthAlert();
-
-  const form = this;
   const email = document.getElementById("forgotEmail").value.trim().toLowerCase();
-  const newPassword = document.getElementById("forgotNewPassword").value;
-
-  if (!email || !newPassword) {
-    showAuthAlert(TRANSLATIONS[currentLang].errRequired, true);
-    return;
-  }
-
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
     showAuthAlert(TRANSLATIONS[currentLang].errEmailInvalid, true);
     return;
   }
-
-  if (newPassword.length < 8) {
-    showAuthAlert("Password must be at least 8 characters.", true);
-    return;
-  }
-
   try {
-    // Step 1: Send OTP to email
-    const otpResponse = await fetch(API_CONFIG.googleAppsScriptUrl, {
-      method: "POST",
-      headers: {
-        "Content-Type": "text/plain;charset=utf-8"
-      },
-      body: JSON.stringify({
-        action: "forgotPassword",
-        email: email
-      })
-    });
-
-    const otpData = await otpResponse.json();
-
-    if (!otpData.ok) {
-      showAuthAlert(otpData.error || "Could not send verification code.", true);
-      return;
-    }
-
-    // Step 2: Ask user for OTP
-    const otp = prompt("Enter the verification code sent to your email:");
-
-    if (!otp) {
-      showAuthAlert("Password reset cancelled. You can try again.", true);
-      return;
-    }
-
-    // Step 3: Reset password using OTP
-    const resetResponse = await fetch(API_CONFIG.googleAppsScriptUrl, {
-      method: "POST",
-      headers: {
-        "Content-Type": "text/plain;charset=utf-8"
-      },
-      body: JSON.stringify({
-        action: "resetPassword",
-        email: email,
-        otp: otp.trim(),
-        newPassword: newPassword
-      })
-    });
-
-    const resetData = await resetResponse.json();
-
-    if (!resetData.ok) {
-      showAuthAlert(resetData.error || "Password reset failed.", true);
-      return;
-    }
-
-    form.reset();
-
-    showAuthAlert(
-      "Password updated successfully! You can now Login.",
-      false
-    );
-
+    await academyApi("forgotPassword", { email });
+    forgotOtpEmail = email;
+    document.getElementById("forgotRequestStep").classList.add("hidden");
+    document.getElementById("forgotResetStep").classList.remove("hidden");
+    document.getElementById("forgotOtp").value = "";
+    document.getElementById("forgotNewPassword").value = "";
+    document.getElementById("forgotConfirmPassword").value = "";
+    startOtpCountdown("forgot", 60);
+    showAuthAlert("Verification code sent. Check both your Inbox and Spam folders.", false);
   } catch (error) {
-    console.error(error);
-    showAuthAlert("Server connection failed. Please try again.", true);
+    showAuthAlert(error.message || "Could not send verification code.", true);
+  }
+});
+
+document.getElementById("forgotResetBtn").addEventListener("click", async function () {
+  hideAuthAlert();
+  const otp = document.getElementById("forgotOtp").value.trim();
+  const password = document.getElementById("forgotNewPassword").value;
+  const confirm = document.getElementById("forgotConfirmPassword").value;
+  if (!/^[0-9]{6}$/.test(otp)) return showAuthAlert("Please enter the 6-digit verification code.", true);
+  if (password.length < 8) return showAuthAlert("New password must be at least 8 characters.", true);
+  if (password !== confirm) return showAuthAlert("The new passwords do not match.", true);
+  try {
+    await academyApi("resetPassword", { email: forgotOtpEmail, otp, newPassword: password });
+    document.getElementById("forgotForm").reset();
+    document.getElementById("forgotRequestStep").classList.remove("hidden");
+    document.getElementById("forgotResetStep").classList.add("hidden");
+    document.getElementById("forgotEmail").value = forgotOtpEmail;
+    if (forgotResendTimer) clearInterval(forgotResendTimer);
+    forgotResendTimer = null;
+    switchAuthTab("login");
+    document.getElementById("loginEmail").value = forgotOtpEmail;
+    showAuthAlert("Password updated successfully. You can now log in with your new password.", false);
+  } catch (error) {
+    showAuthAlert(error.message || "Password reset failed.", true);
+  }
+});
+
+document.getElementById("forgotResendBtn").addEventListener("click", async function () {
+  if (!forgotOtpEmail || this.disabled) return;
+  hideAuthAlert();
+  try {
+    await academyApi("resendOtp", { email: forgotOtpEmail, purpose: "reset" });
+    startOtpCountdown("forgot", 60);
+    showAuthAlert("A new password reset code has been sent. Check Inbox and Spam.", false);
+  } catch (error) {
+    showAuthAlert(error.message || "Could not resend the code.", true);
+  }
+});
+
+document.getElementById("signupResendBtn").addEventListener("click", async function () {
+  const email = document.getElementById("signupEmail").value.trim().toLowerCase();
+  if (!email || this.disabled) return;
+  hideAuthAlert();
+  try {
+    await academyApi("resendOtp", { email, purpose: "signup" });
+    startOtpCountdown("signup", 60);
+    showAuthAlert("A new verification code has been sent. Check Inbox and Spam.", false);
+  } catch (error) {
+    showAuthAlert(error.message || "Could not resend the code.", true);
   }
 });
 
 
-    function logoutUser() {
+    async function logoutUser() {
+      const token = getAcademySessionToken();
+      try { if (token) await academyApi("logout", { sessionToken: token }); } catch (error) { console.warn("Logout:", error); }
+      localStorage.removeItem(API_CONFIG.storageKeys.portalSession);
       AcademyStorage.setCurrentUser(null);
       updateAuthUI();
       refreshAdmissionStateUI();
@@ -3145,6 +3194,45 @@ document.getElementById("forgotForm").addEventListener("submit", async function 
     /* ===================================================================== */
     /* ADMISSION GATE, SUBMIT, "PAY" (TILL ID + SCANNER), RECEIPT & VERIFY   */
     /* ===================================================================== */
+    async function syncAdmissionStatusFromBackend() {
+      const user = AcademyStorage.getCurrentUser();
+      const token = getAcademySessionToken();
+      if (!user || !token) return null;
+      try {
+        const result = await academyApi("getAdmissionStatus", { sessionToken: token });
+        const a = result.admission;
+        if (!a) return null;
+        const paymentStatus = String(a.paymentStatus || "Pending Verification");
+        const normalized = paymentStatus.toLowerCase();
+        const record = {
+          userEmail: user.email,
+          applicationId: a.applicationId,
+          studentName: a.studentName,
+          guardianName: a.guardianName,
+          studentAge: a.age,
+          studentGender: a.gender,
+          country: a.country,
+          whatsappNumber: a.whatsapp,
+          emailAddress: a.email,
+          selectedCourse: a.course,
+          previousExperience: a.experience,
+          preferredTiming: a.preferredTiming,
+          paymentStatus,
+          status: normalized === "verified" ? "approved" : normalized === "rejected" ? "payment_rejected" : (a.trxId ? "under_review" : "pending_payment"),
+          portalUsername: a.portalUsername || "",
+          classTiming: a.classTiming || "",
+          examResultsJson: a.examResultsJson || "[]",
+          payment: a.trxId ? { senderAccountName: a.accountHolderName, transactionId: a.trxId, receiptImageUrl: a.receiptImageUrl } : null
+        };
+        AcademyStorage.saveAdmissionForUser(user.email, record);
+        refreshAdmissionStateUI();
+        return record;
+      } catch (error) {
+        console.warn("Admission status sync:", error);
+        return null;
+      }
+    }
+
     function refreshAdmissionStateUI() {
       const user = AcademyStorage.getCurrentUser();
       const gate = document.getElementById("admissionLoginGate");
@@ -3199,11 +3287,12 @@ document.getElementById("forgotForm").addEventListener("submit", async function 
       reviewBox.classList.add("hidden");
       verifiedBox.classList.add("hidden");
 
-      if (record.status === "pending_payment") {
+      const normalizedPaymentStatus = String(record.paymentStatus || "").toLowerCase();
+      if (record.status === "pending_payment" || normalizedPaymentStatus === "pending verification" && !record.payment) {
         statusBadge.textContent = currentLang === "en" ? "Submitted — Ready for Fee Payment" : "درخواست جمع ہو گئی — ادائیگی باقی ہے";
         statusBadge.className = "px-3.5 py-1.5 rounded-full text-xs font-bold bg-amber-100 text-amber-800 border border-amber-300";
         payBox.classList.remove("hidden");
-      } else if (record.status === "under_review") {
+      } else if (record.status === "under_review" || normalizedPaymentStatus === "pending verification") {
         statusBadge.textContent = currentLang === "en" ? "Under Verification (24 Hours)" : "تصدیق جاری ہے (24 گھنٹے)";
         statusBadge.className = "px-3.5 py-1.5 rounded-full text-xs font-bold bg-blue-100 text-blue-800 border border-blue-300";
         reviewBox.classList.remove("hidden");
@@ -3211,12 +3300,16 @@ document.getElementById("forgotForm").addEventListener("submit", async function 
           document.getElementById("submittedPaymentReceiptMeta").textContent =
             `${t.lblSenderName}: ${record.payment.senderAccountName} | Trx ID: ${record.payment.transactionId}`;
         }
-      } else if (record.status === "approved") {
+      } else if (record.status === "payment_rejected" || normalizedPaymentStatus === "rejected") {
+        statusBadge.textContent = currentLang === "en" ? "Payment Rejected — Please Contact the Academy" : "ادائیگی مسترد — اکیڈمی سے رابطہ کریں";
+        statusBadge.className = "px-3.5 py-1.5 rounded-full text-xs font-bold bg-red-100 text-red-800 border border-red-300";
+        payBox.classList.remove("hidden");
+      } else if (record.status === "approved" || normalizedPaymentStatus === "verified") {
         statusBadge.textContent = currentLang === "en" ? "Verified & Approved" : "منظور شدہ";
         statusBadge.className = "px-3.5 py-1.5 rounded-full text-xs font-bold bg-emerald-100 text-emeraldDeep border border-emeraldPrimary";
         verifiedBox.classList.remove("hidden");
-        document.getElementById("issuedPortalUsername").textContent = record.portalCredentials.username;
-        document.getElementById("issuedPortalPassword").textContent = record.portalCredentials.password;
+        document.getElementById("issuedPortalUsername").textContent = record.portalUsername || (record.portalCredentials && record.portalCredentials.username) || "Issued by email";
+        document.getElementById("issuedPortalPassword").textContent = "Sent to registered email";
       }
     }
 
@@ -3308,7 +3401,8 @@ document.getElementById("forgotForm").addEventListener("submit", async function 
             // text/plain avoids a browser CORS preflight for the Apps Script web app.
             headers: { "Content-Type": "text/plain;charset=utf-8" },
             body: JSON.stringify({
-              action: "savePublicAdmission",
+              action: "submitAdmission",
+              sessionToken: getAcademySessionToken(),
               admission: {
                 studentName: record.studentName,
                 guardianName: record.guardianName,
@@ -3319,7 +3413,8 @@ document.getElementById("forgotForm").addEventListener("submit", async function 
                 emailAddress: record.emailAddress,
                 selectedCourse: record.selectedCourse,
                 previousExperience: record.previousExperience,
-                preferredTiming: record.preferredTiming
+                preferredTiming: record.preferredTiming,
+                additionalMessage: record.additionalMessage
               }
             })
           });
@@ -3393,7 +3488,7 @@ document.getElementById("forgotForm").addEventListener("submit", async function 
     }
 
     // Submit Payment Details & Receipt Handler
-    document.getElementById("paymentReceiptForm").addEventListener("submit", function (e) {
+    document.getElementById("paymentReceiptForm").addEventListener("submit", async function (e) {
       e.preventDefault();
       clearValidationErrors();
       const t = TRANSLATIONS[currentLang];
@@ -3415,19 +3510,37 @@ document.getElementById("forgotForm").addEventListener("submit", async function 
 
       const record = AcademyStorage.getAdmissionForUser(user.email);
       if (!record) return;
-
-      record.status = "under_review";
-      record.payment = {
-        senderAccountName: senderName,
-        transactionId: trxId,
-        receiptFileName: fileInput.files[0].name,
-        paidAt: new Date().toISOString()
-      };
-
-      waitWithLoading(currentLang === "ur" ? "ادائیگی کی تفصیلات جمع ہو رہی ہیں..." : "Submitting payment details...", () => {
+      if (!currentReceiptBase64) {
+        showFieldError("receiptImageInput", "Please wait for the receipt image to finish loading, then submit again.");
+        return;
+      }
+      const submitBtn = document.querySelector("#paymentReceiptForm button[type='submit']");
+      const originalText = submitBtn.textContent;
+      submitBtn.disabled = true;
+      try {
+        const result = await academyApi("submitPayment", {
+          sessionToken: getAcademySessionToken(),
+          accountHolderName: senderName,
+          trxId,
+          receiptBase64: currentReceiptBase64,
+          receiptFileName: fileInput.files[0].name
+        });
+        record.status = "under_review";
+        record.paymentStatus = result.paymentStatus || "Pending Verification";
+        record.payment = { senderAccountName: senderName, transactionId: trxId, receiptImageUrl: result.receiptImageUrl || "", receiptFileName: fileInput.files[0].name, paidAt: new Date().toISOString() };
         AcademyStorage.saveAdmissionForUser(user.email, record);
+        document.getElementById("paymentReceiptForm").reset();
+        document.getElementById("receiptPreviewWrapper").classList.add("hidden");
+        currentReceiptBase64 = "";
         refreshAdmissionStateUI();
-      });
+        alert(result.message || "Payment details submitted for verification.");
+      } catch (error) {
+        console.error("Payment submission error:", error);
+        alert(error.message || "Payment submission failed. Please try again.");
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = originalText;
+      }
     });
 
     // Simulates Backend Verification & Issuing Student Portal Credentials + Academic Record
@@ -3486,109 +3599,86 @@ document.getElementById("forgotForm").addEventListener("submit", async function 
     }
 
     /* ===================================================================== */
-    /* STUDENT PORTAL (LOGIN + AIOU-STYLE RESULT + SCHEDULE + SYLLABUS)      */
+    /* STUDENT PORTAL (BACKEND SESSION + ACADEMIC DATA)                      */
     /* ===================================================================== */
-    document.getElementById("studentPortalLoginForm").addEventListener("submit", function (e) {
+    let activePortalStudent = null;
+    document.getElementById("studentPortalLoginForm").addEventListener("submit", async function (e) {
       e.preventDefault();
-      const t = TRANSLATIONS[currentLang];
       const errEl = document.getElementById("portalLoginError");
       errEl.classList.add("hidden");
-
-      const uname = document.getElementById("portalUsernameInput").value.trim();
-      const pass = document.getElementById("portalPasswordInput").value.trim();
-
-      const allAdmissions = Object.values(AcademyStorage.getAdmissions());
-      const matchedRecord = allAdmissions.find(
-        r => r.status === "approved" &&
-             r.portalCredentials &&
-             r.portalCredentials.username.toLowerCase() === uname.toLowerCase() &&
-             r.portalCredentials.password === pass
-      );
-
-      if (!matchedRecord) {
-        errEl.textContent = t.errInvalidPortalCreds;
+      try {
+        const result = await academyApi("portalLogin", {
+          username: document.getElementById("portalUsernameInput").value.trim(),
+          password: document.getElementById("portalPasswordInput").value
+        });
+        activePortalStudent = result.student;
+        sessionStorage.setItem(API_CONFIG.storageKeys.portalSession, result.sessionToken);
+        renderStudentPortalDashboard();
+      } catch (error) {
+        errEl.textContent = error.message || "Student portal login failed.";
         errEl.classList.remove("hidden");
-        return;
       }
-
-      sessionStorage.setItem(API_CONFIG.storageKeys.portalSession, matchedRecord.userEmail);
-      renderStudentPortalDashboard();
     });
 
-    function checkStudentPortalSession() {
-      const sessionEmail = sessionStorage.getItem(API_CONFIG.storageKeys.portalSession);
-      if (sessionEmail && AcademyStorage.getAdmissionForUser(sessionEmail)) {
+    async function checkStudentPortalSession() {
+      const token = sessionStorage.getItem(API_CONFIG.storageKeys.portalSession);
+      if (!token) {
+        document.getElementById("portalLoginView").classList.remove("hidden");
+        document.getElementById("portalDashboardView").classList.add("hidden");
+        return;
+      }
+      try {
+        const result = await academyApi("getAdmissionStatus", { sessionToken: token });
+        if (!result.admission) throw new Error("No admission record is linked to this session.");
+        activePortalStudent = {
+          applicationId: result.admission.applicationId,
+          studentName: result.admission.studentName,
+          email: result.admission.email,
+          course: result.admission.course,
+          rollNo: result.admission.portalUsername,
+          classTiming: result.admission.classTiming,
+          examResultsJson: result.admission.examResultsJson
+        };
         renderStudentPortalDashboard();
-      } else {
+      } catch (error) {
+        sessionStorage.removeItem(API_CONFIG.storageKeys.portalSession);
         document.getElementById("portalLoginView").classList.remove("hidden");
         document.getElementById("portalDashboardView").classList.add("hidden");
       }
     }
 
     function renderStudentPortalDashboard() {
-      const sessionEmail = sessionStorage.getItem(API_CONFIG.storageKeys.portalSession);
-      const record = AcademyStorage.getAdmissionForUser(sessionEmail);
-      if (!record || !record.academicPortalData) return;
-
+      const student = activePortalStudent;
+      if (!student) return;
       document.getElementById("portalLoginView").classList.add("hidden");
       document.getElementById("portalDashboardView").classList.remove("hidden");
-
-      const courseObj = COURSES_DATA.find(c => c.id === record.selectedCourse) || COURSES_DATA[0];
+      const courseObj = COURSES_DATA.find(c => c.en.title === student.course || c.id === student.course || c.code === student.course) || COURSES_DATA[0];
       const courseLocalized = courseObj[currentLang];
-      const portal = record.academicPortalData;
-
-      document.getElementById("dashStudentName").textContent = record.studentName;
-      document.getElementById("dashRollNo").textContent = portal.rollNo;
+      let results = [];
+      try {
+        const parsed = typeof student.examResultsJson === "string" ? JSON.parse(student.examResultsJson || "[]") : student.examResultsJson;
+        results = Array.isArray(parsed) ? parsed : (parsed && Array.isArray(parsed.results) ? parsed.results : []);
+      } catch (e) { results = []; }
+      document.getElementById("dashStudentName").textContent = student.studentName || "Student";
+      document.getElementById("dashRollNo").textContent = student.rollNo || student.applicationId || "—";
       document.getElementById("dashCourseTitle").textContent = courseLocalized.title;
-
-      // Class Timing & Teacher
-      document.getElementById("dashClassTime").textContent = portal.classTime;
-      document.getElementById("dashClassDays").textContent = portal.classDays;
-      document.getElementById("dashTeacherName").textContent = portal.teacherName;
-
-      // Syllabus ("What You Will Learn")
+      document.getElementById("dashClassTime").textContent = student.classTiming || "To be announced";
+      document.getElementById("dashClassDays").textContent = "As assigned by the academy";
+      document.getElementById("dashTeacherName").textContent = "To be announced";
       document.getElementById("dashCourseOverview").textContent = courseLocalized.summary;
-      document.getElementById("dashSyllabusModules").innerHTML = courseLocalized.modules.map((mod, idx) => `
-        <div class="p-3.5 rounded-2xl bg-creamBg border border-goldPrimary/30 flex items-start gap-2.5">
-          <span class="w-6 h-6 rounded-lg bg-emeraldPrimary text-goldPrimary text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">${idx + 1}</span>
-          <span class="text-xs sm:text-sm font-medium text-emeraldDeep">${mod}</span>
-        </div>
-      `).join("");
-
-      // AIOU-Style Exam & Result Table
-      document.getElementById("dashAcademicTerm").textContent = portal.academicTerm;
-      document.getElementById("dashBackendRemarks").textContent = portal.remarks;
-
-      document.getElementById("aiouResultTableBody").innerHTML = portal.results.map(row => `
-        <tr class="hover:bg-creamBg/50 transition-colors">
-          <td class="py-3.5 px-4 font-mono font-bold text-emeraldPrimary" dir="ltr">${row.code}</td>
-          <td class="py-3.5 px-4 font-semibold text-emeraldDeep">${currentLang === "ur" ? row.subjectUr : row.subjectEn}</td>
-          <td class="py-3.5 px-4 text-center font-medium">${row.quizMarks}</td>
-          <td class="py-3.5 px-4 text-center font-medium">${row.examMarks}</td>
-          <td class="py-3.5 px-4 text-center font-bold text-emeraldDeep">${row.totalMarks}</td>
-          <td class="py-3.5 px-4 text-center">
-            <span class="px-2.5 py-1 rounded-lg bg-goldLight/50 text-emeraldDeep font-bold">${row.grade}</span>
-          </td>
-          <td class="py-3.5 px-4 text-center">
-            <span class="px-3 py-1 rounded-full bg-emerald-100 text-emeraldDeep font-bold text-xs">
-              ${currentLang === "ur" ? row.statusUr : row.statusEn}
-            </span>
-          </td>
-        </tr>
-      `).join("");
+      document.getElementById("dashSyllabusModules").innerHTML = courseLocalized.modules.map((mod, idx) => `<div class="p-3.5 rounded-2xl bg-creamBg border border-goldPrimary/30 flex items-start gap-2.5"><span class="w-6 h-6 rounded-lg bg-emeraldPrimary text-goldPrimary text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">${idx + 1}</span><span class="text-xs sm:text-sm font-medium text-emeraldDeep">${mod}</span></div>`).join("");
+      document.getElementById("dashAcademicTerm").textContent = "Current Academic Session";
+      document.getElementById("dashBackendRemarks").textContent = "Academic information is updated by the academy administration.";
+      document.getElementById("aiouResultTableBody").innerHTML = results.length ? results.map(row => `<tr class="hover:bg-creamBg/50 transition-colors"><td class="py-3.5 px-4 font-mono font-bold text-emeraldPrimary" dir="ltr">${escapeHtml(row.code || "—")}</td><td class="py-3.5 px-4 font-semibold text-emeraldDeep">${escapeHtml(currentLang === "ur" ? (row.subjectUr || row.subject || "") : (row.subjectEn || row.subject || ""))}</td><td class="py-3.5 px-4 text-center font-medium">${escapeHtml(row.quizMarks ?? "—")}</td><td class="py-3.5 px-4 text-center font-medium">${escapeHtml(row.examMarks ?? "—")}</td><td class="py-3.5 px-4 text-center font-bold text-emeraldDeep">${escapeHtml(row.totalMarks ?? "—")}</td><td class="py-3.5 px-4 text-center">${escapeHtml(row.grade || "—")}</td><td class="py-3.5 px-4 text-center">${escapeHtml(currentLang === "ur" ? (row.statusUr || row.status || "—") : (row.statusEn || row.status || "—"))}</td></tr>`).join("") : `<tr><td colspan="7" class="py-5 px-4 text-center text-slate-500">No examination results have been published yet.</td></tr>`;
     }
 
-    function syncStudentPortalFromBackend() {
-      renderStudentPortalDashboard();
-    }
-
-    function handleZoomJoin(e) {
-      e.preventDefault();
-      window.open("https://zoom.us", "_blank", "noopener,noreferrer");
-    }
-
-    function logoutStudentPortal() {
+    async function syncStudentPortalFromBackend() { await checkStudentPortalSession(); }
+    function handleZoomJoin(e) { e.preventDefault(); window.open("https://zoom.us", "_blank", "noopener,noreferrer"); }
+    async function logoutStudentPortal() {
+      const token = sessionStorage.getItem(API_CONFIG.storageKeys.portalSession);
+      try { if (token) await academyApi("logout", { sessionToken: token }); } catch (error) { console.warn("Portal logout:", error); }
       sessionStorage.removeItem(API_CONFIG.storageKeys.portalSession);
+      activePortalStudent = null;
       document.getElementById("portalLoginView").classList.remove("hidden");
       document.getElementById("portalDashboardView").classList.add("hidden");
     }
@@ -3607,6 +3697,9 @@ document.getElementById("forgotForm").addEventListener("submit", async function 
       renderCourses();
       renderFAQs();
       updateAuthUI();
+      refreshAdmissionStateUI();
+      syncAdmissionStatusFromBackend();
+      checkStudentPortalSession();
     });
   
 
