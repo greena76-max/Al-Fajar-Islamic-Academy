@@ -97,6 +97,17 @@
     }
   </style>
   <script src="https://accounts.google.com/gsi/client" async defer></script>
+
+  <style>
+    .portal-app-card{min-height:142px;padding:18px 12px;border:1px solid rgba(199,157,44,.45);border-radius:22px;background:#fff;box-shadow:0 12px 30px -22px rgba(4,57,39,.45);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;color:#064b36;transition:transform .2s,box-shadow .2s,border-color .2s}
+    .portal-app-card:hover{transform:translateY(-3px);border-color:#c79d2c;box-shadow:0 16px 32px -20px rgba(4,57,39,.55)}
+    .portal-app-icon{width:48px;height:48px;border-radius:15px;background:#064b36;color:#e2b93f;display:grid;place-items:center;font-size:25px;font-weight:800}
+    .portal-app-card small{font-size:11px;color:#64748b}
+    .captcha-visual{font-family:ui-monospace,monospace;font-style:italic;text-shadow:2px 1px rgba(255,255,255,.18),-2px -1px rgba(226,185,63,.4);transform:skew(-3deg);background-image:repeating-linear-gradient(165deg,transparent 0 8px,rgba(255,255,255,.13) 9px 10px)}
+    @media(max-width:640px){.portal-app-card{min-height:125px;padding:14px 8px}.portal-app-icon{width:42px;height:42px}.portal-app-card small{font-size:10px}}
+    @media print{body *{visibility:hidden!important}#publicResultOutput,#publicResultOutput *{visibility:visible!important}#publicResultOutput{position:absolute;left:0;top:0;width:100%}}
+  </style>
+
 </head>
 <body class="bg-creamBg text-slate-800 antialiased selection:bg-goldPrimary selection:text-emeraldDeep">
 
@@ -135,8 +146,8 @@
         <!-- Institutional Crest & Brand Identity -->
         <a href="#home" onclick="navigateTo('home', event)" class="flex items-center gap-3 group focus:outline-none">
           <!-- Academy Logo: keep logo.png in the same GitHub folder as index.html -->
-          <div class="w-12 h-12 rounded-xl bg-white border-2 border-goldPrimary flex items-center justify-center shadow-md group-hover:scale-105 transition-transform shrink-0 overflow-hidden">
-            <img src="./logo.png" alt="Al-Fajar Islamic Academy Logo" class="w-full h-full object-contain p-0.5" onerror="this.style.display='none'; this.parentElement.innerHTML='<span class="text-emeraldDeep font-bold text-xl">ف</span>'" />
+          <div class="w-14 h-14 sm:w-16 sm:h-16 flex items-center justify-center shrink-0 overflow-hidden group-hover:scale-105 transition-transform">
+            <img src="./logo.png" alt="Al-Fajar Islamic Academy Logo" class="w-full h-full object-contain" onerror="this.style.display='none'; this.parentElement.innerHTML='<span class="text-emeraldDeep font-bold text-xl">ف</span>'" />
           </div>
           <div>
             <span class="block text-base sm:text-lg font-bold text-emeraldDeep tracking-tight leading-tight" data-i18n="academyName">
@@ -164,6 +175,9 @@
           </button>
           <button type="button" onclick="navigateTo('portal')" data-nav="portal" class="nav-link px-3.5 py-2 rounded-lg text-sm font-medium text-slate-700 hover:text-emeraldPrimary hover:bg-creamBg transition-all">
             <span data-i18n="navStudentPortal">Student Portal</span>
+          </button>
+          <button type="button" onclick="navigateTo('results')" data-nav="results" class="nav-link px-3.5 py-2 rounded-lg text-sm font-medium text-slate-700 hover:text-emeraldPrimary hover:bg-creamBg transition-all">
+            <span>Results</span>
           </button>
         </nav>
 
@@ -216,6 +230,7 @@
       <button type="button" onclick="navigateTo('portal'); toggleMobileMenu(false);" data-nav-mobile="portal" class="w-full text-start px-4 py-3 rounded-xl font-medium text-slate-700 hover:bg-creamBg">
         <span data-i18n="navStudentPortal">Student Portal</span>
       </button>
+      <button type="button" onclick="navigateTo('results'); toggleMobileMenu(false);" data-nav-mobile="results" class="w-full text-start px-4 py-3 rounded-xl font-medium text-slate-700 hover:bg-creamBg">Results / Download</button>
       <div id="mobileAuthSlot" class="pt-2 border-t border-slate-100 flex flex-col gap-2">
         <button type="button" onclick="openAuthModal('login'); toggleMobileMenu(false);" class="w-full py-3 rounded-xl bg-emeraldPrimary text-white font-semibold text-center border border-goldPrimary/50 shadow">
           <span data-i18n="navLoginSignup">Login / Sign Up</span>
@@ -1097,11 +1112,11 @@
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 bg-white rounded-2xl p-4 border border-emeraldPrimary/30">
                       <div>
                         <span class="text-xs text-slate-500 block" data-i18n="lblAssignedUsername">Student Portal Username</span>
-                        <div class="flex items-center gap-2"><span id="issuedPortalUsername" dir="ltr" data-secret="" class="font-mono text-base font-bold text-emeraldDeep break-all">••••••••</span><button type="button" onclick="toggleAdmissionSecret('issuedPortalUsername',this)" class="rounded-lg border px-2 py-1 text-xs" aria-label="Show username">👁️</button><button type="button" onclick="copyTextById('issuedPortalUsername',this)" class="rounded-lg border px-2 py-1 text-xs" aria-label="Copy username">⧉</button></div>
+                        <div class="flex items-center gap-2"><span id="issuedPortalUsername" dir="ltr" data-secret="" class="font-mono text-base font-bold text-emeraldDeep break-all">••••••••</span><button type="button" onclick="toggleAdmissionSecret('issuedPortalUsername',this)" class="rounded-lg border px-2 py-1 text-xs" aria-label="Show username"><svg class="password-eye-icon w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg></button><button type="button" onclick="copyTextById('issuedPortalUsername',this)" class="rounded-lg border px-2 py-1 text-xs" aria-label="Copy username">⧉</button></div>
                       </div>
                       <div>
                         <span class="text-xs text-slate-500 block" data-i18n="lblAssignedPassword">Student Portal Password</span>
-                        <div class="flex items-center gap-2"><span id="issuedPortalPassword" dir="ltr" data-secret="" class="font-mono text-base font-bold text-emeraldDeep break-all">••••••••</span><button type="button" onclick="toggleAdmissionSecret('issuedPortalPassword',this)" class="rounded-lg border px-2 py-1 text-xs" aria-label="Show password">👁️</button><button type="button" onclick="copyTextById('issuedPortalPassword',this)" class="rounded-lg border px-2 py-1 text-xs" aria-label="Copy password">⧉</button></div>
+                        <div class="flex items-center gap-2"><span id="issuedPortalPassword" dir="ltr" data-secret="" class="font-mono text-base font-bold text-emeraldDeep break-all">••••••••</span><button type="button" onclick="toggleAdmissionSecret('issuedPortalPassword',this)" class="rounded-lg border px-2 py-1 text-xs" aria-label="Show password"><svg class="password-eye-icon w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg></button><button type="button" onclick="copyTextById('issuedPortalPassword',this)" class="rounded-lg border px-2 py-1 text-xs" aria-label="Copy password">⧉</button></div>
                         <p class="mt-2 text-xs font-semibold text-red-700"><span aria-hidden="true">👁️</span> <span data-i18n="dontSharePassword">Don't share your password.</span></p>
                       </div>
                     </div>
@@ -1160,8 +1175,35 @@
       </section>
     </div>
 
+    <!-- PUBLIC RESULTS PAGE: independent from student portal login -->
+    <div id="page-results" class="page-section hidden">
+      <section class="islamic-pattern-emerald text-white py-12 sm:py-14 border-b-4 border-goldPrimary">
+        <div class="max-w-5xl mx-auto px-4 text-center space-y-2">
+          <span class="text-xs font-bold uppercase tracking-wider text-goldPrimary">Academic Records</span>
+          <h1 class="text-3xl sm:text-4xl font-bold">Public Result Download</h1>
+          <p class="text-sm text-creamBg/90">Enter your roll number, choose a subject and complete the security check.</p>
+        </div>
+      </section>
+      <section class="py-10 sm:py-14 islamic-pattern-bg min-h-[55vh]">
+        <div class="max-w-2xl mx-auto px-4">
+          <div class="bg-white rounded-3xl border border-goldPrimary/50 shadow-soft p-5 sm:p-8 space-y-5">
+            <div class="flex items-center gap-3"><div class="w-12 h-12 rounded-2xl bg-emeraldDeep text-goldPrimary grid place-items-center"><svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-width="2" d="M7 3h7l5 5v13H7zM14 3v6h5M10 14h6M10 17h6"/></svg></div><div><h2 class="text-xl font-bold text-emeraldDeep">Find Your Result</h2><p class="text-xs text-slate-500">No account login required</p></div></div>
+            <form id="publicResultLookupForm" class="space-y-4" onsubmit="lookupPublicResult(event)">
+              <div><label for="publicResultRoll" class="block text-sm font-semibold text-emeraldDeep mb-1.5">Roll Number</label><input id="publicResultRoll" required autocomplete="off" class="w-full rounded-xl border border-slate-300 px-4 py-3 text-sm" placeholder="Enter your roll number" /></div>
+              <div><label for="publicResultSubject" class="block text-sm font-semibold text-emeraldDeep mb-1.5">Subject</label><select id="publicResultSubject" required class="w-full rounded-xl border border-slate-300 px-4 py-3 text-sm"><option value="">Select subject</option><option>Noorani Qaida</option><option>Quran Reading</option><option>Quran with Tajweed</option><option>Hifz-ul-Quran</option><option>Quran Revision</option><option>Basic Islamic Education</option><option value="__all">All Published Subjects</option></select></div>
+              <div class="rounded-2xl bg-slate-50 border border-slate-200 p-4 space-y-3"><div class="flex items-center justify-between gap-3"><label class="text-sm font-semibold text-emeraldDeep">Security Verification</label><button type="button" onclick="generatePublicResultCaptcha()" class="text-xs font-bold text-emeraldPrimary underline">Refresh code</button></div><div class="flex flex-col sm:flex-row gap-3 sm:items-center"><div id="publicResultCaptchaCode" class="captcha-visual flex-1 rounded-xl bg-emeraldDeep text-goldPrimary text-center py-3 px-4 text-2xl font-black tracking-[.35em] select-none" aria-label="Verification code"></div><input id="publicResultCaptchaInput" required autocomplete="off" class="flex-1 min-w-0 rounded-xl border border-slate-300 px-4 py-3 text-sm" placeholder="Type the letters shown" /></div></div>
+              <p id="publicResultMessage" class="hidden rounded-xl p-3 text-sm" role="status" aria-live="polite"></p>
+              <button id="publicResultSubmitBtn" type="submit" class="w-full rounded-xl bg-emeraldDeep hover:bg-emeraldPrimary text-white font-bold py-3.5 shadow">Verify & Find Result</button>
+            </form>
+            <div id="publicResultOutput" class="hidden border-t border-slate-100 pt-5"></div>
+            <p class="text-xs text-slate-500 text-center">Only results officially published by the academy can be viewed or downloaded.</p>
+          </div>
+        </div>
+      </section>
+    </div>
+
     <!-- =================================================================== -->
-    <!-- PAGE 5: STUDENT PORTAL PAGE (LOGIN + academy STUDENT DASHBOARD)  -->
+    <!-- PAGE 5: STUDENT PORTAL PAGE (LOGIN + ACADEMY STUDENT DASHBOARD) -->
     <!-- =================================================================== -->
     <div id="page-portal" class="page-section hidden">
       <!-- Page Header -->
@@ -1207,7 +1249,7 @@
                 </label>
                 <div class="relative"><input type="password" id="portalPasswordInput" dir="ltr" autocomplete="current-password" required
                   class="w-full px-4 py-3 rounded-xl border border-slate-300 bg-creamBg/40 focus:bg-white focus:border-emeraldPrimary outline-none text-sm font-mono"
-                  placeholder="••••••••" /> <button type="button" onclick="togglePasswordVisibility('portalPasswordInput',this)" class="absolute inset-y-0 right-3 text-slate-500 text-xs font-semibold" aria-label="Show password">👁️</button></div>
+                  placeholder="••••••••" /> <button type="button" onclick="togglePasswordVisibility('portalPasswordInput',this)" class="absolute inset-y-0 right-3 text-slate-500 text-xs font-semibold" aria-label="Show password"><svg class="password-eye-icon w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg></button></div>
               </div>
 
               <p id="portalLoginError" class="text-xs text-red-600 hidden"></p>
@@ -1252,8 +1294,16 @@
               </div>
             </div>
 
+            <!-- Student portal app-style shortcuts -->
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-5">
+              <button type="button" onclick="portalJumpTo('portalClassSection')" class="portal-app-card"><span class="portal-app-icon">▣</span><span class="font-bold">My Classes</span><small>Schedule & Join</small></button>
+              <button type="button" onclick="portalJumpTo('portalResultsSection')" class="portal-app-card"><span class="portal-app-icon">▤</span><span class="font-bold">My Results</span><small>Marks & Downloads</small></button>
+              <button type="button" onclick="portalJumpTo('portalProfileSection')" class="portal-app-card"><span class="portal-app-icon">♙</span><span class="font-bold">My Profile</span><small>Contact & Settings</small></button>
+              <button type="button" onclick="portalJumpTo('portalCourseSection')" class="portal-app-card"><span class="portal-app-icon">▧</span><span class="font-bold">My Course</span><small>Learning Plan</small></button>
+            </div>
+
             <!-- Row 2: Class Timing ("جس وقت کلاس لینی ہے") & What Will Be Taught ("کورس اور کیا سکھایا جائے گا") -->
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+            <div id="portalClassSection" class="grid grid-cols-1 lg:grid-cols-12 gap-6">
 
               <!-- Class Schedule & Timing Card (5 Cols) -->
               <div class="lg:col-span-5 bg-emeraldDeep islamic-pattern-emerald text-white rounded-3xl p-6 sm:p-7 border-2 border-goldPrimary/60 shadow-soft flex flex-col justify-between space-y-6">
@@ -1288,7 +1338,7 @@
               </div>
 
               <!-- Course & Syllabus Breakdown ("کورس اور کیا سکھایا جائے گا") (7 Cols) -->
-              <div class="lg:col-span-7 bg-white rounded-3xl p-6 sm:p-7 border border-goldPrimary/40 shadow-soft space-y-4">
+              <div id="portalCourseSection" class="lg:col-span-7 bg-white rounded-3xl p-6 sm:p-7 border border-goldPrimary/40 shadow-soft space-y-4">
                 <div class="border-b border-slate-100 pb-3">
                   <span class="text-xs font-bold uppercase tracking-wider text-goldDark" data-i18n="dashSyllabusEyebrow">Curriculum & Learning Plan</span>
                   <h3 class="text-xl font-bold text-emeraldDeep" data-i18n="dashSyllabusTitle">Course & What You Will Learn</h3>
@@ -1300,7 +1350,7 @@
             </div>
 
             <!-- Row 3: academy Exam & Result Card ("امتحانات اور رزلٹ کارڈ") -->
-            <div class="bg-white rounded-3xl p-6 sm:p-8 border-2 border-goldPrimary/50 shadow-soft space-y-5">
+            <div id="portalResultsSection" class="bg-white rounded-3xl p-6 sm:p-8 border-2 border-goldPrimary/50 shadow-soft space-y-5">
               <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b-2 border-emeraldPrimary/15 pb-4">
                 <div>
                   <span class="text-xs font-bold uppercase tracking-wider text-goldDark" data-i18n="resultEyebrow">Official Academic Transcript & Assessment Record</span>
@@ -1366,6 +1416,19 @@
                 <a id="dashResultsPdfLink" href="#" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center rounded-xl bg-emeraldDeep px-5 py-3 text-sm font-bold text-white hover:bg-emeraldPrimary">View Results PDF</a>
               </div>
             </div>
+
+            <!-- Student profile: editable fields are intentionally limited -->
+            <section id="portalProfileSection" class="bg-white rounded-3xl border border-goldPrimary/45 shadow-soft p-5 sm:p-7 space-y-5">
+              <div class="flex items-center justify-between gap-3 border-b border-slate-100 pb-4"><div><p class="text-xs uppercase tracking-wider font-bold text-goldDark">Account Settings</p><h3 class="text-xl font-bold text-emeraldDeep">My Profile</h3><p class="text-xs text-slate-500">Name, address and enrolled subjects are managed by the academy.</p></div><span class="rounded-xl bg-emerald-50 text-emeraldDeep px-3 py-2 text-xs font-bold">Verified Student</span></div>
+              <form id="studentProfileForm" class="grid grid-cols-1 sm:grid-cols-2 gap-4" onsubmit="saveStudentProfile(event)">
+                <div><label class="block text-xs font-semibold mb-1">Full Name (read only)</label><input id="profileStudentName" readonly class="w-full rounded-xl border bg-slate-100 px-3 py-3 text-sm" /></div>
+                <div><label class="block text-xs font-semibold mb-1">Roll Number (read only)</label><input id="profileRollNumber" readonly class="w-full rounded-xl border bg-slate-100 px-3 py-3 text-sm" /></div>
+                <div><label for="profileMobile" class="block text-xs font-semibold mb-1">Mobile / WhatsApp Number</label><input id="profileMobile" type="tel" required class="w-full rounded-xl border px-3 py-3 text-sm" placeholder="+92..." /></div>
+                <div><label for="profileClassTiming" class="block text-xs font-semibold mb-1">Preferred Class Timing</label><input id="profileClassTiming" class="w-full rounded-xl border px-3 py-3 text-sm" placeholder="Request a timing change" /></div>
+                <div class="sm:col-span-2"><button type="submit" class="rounded-xl bg-emeraldDeep text-white px-5 py-3 text-sm font-bold">Save Contact / Timing Request</button></div>
+              </form>
+              <div class="border-t border-slate-100 pt-5"><h4 class="font-bold text-emeraldDeep mb-3">Update Portal Password</h4><form id="portalPasswordUpdateForm" class="grid grid-cols-1 sm:grid-cols-3 gap-3" onsubmit="updatePortalPassword(event)"><input id="profileCurrentPassword" type="password" required class="rounded-xl border px-3 py-3 text-sm" placeholder="Current password"/><input id="profileNewPassword" type="password" required minlength="8" class="rounded-xl border px-3 py-3 text-sm" placeholder="New password"/><button class="rounded-xl bg-goldPrimary text-emeraldDeep px-4 py-3 text-sm font-bold">Update Password</button></form></div>
+            </section>
 
           </div>
 
@@ -1505,7 +1568,7 @@
             <label for="loginPassword" class="text-xs font-semibold text-emeraldDeep" data-i18n="lblPassword">Password</label>
             <button type="button" onclick="switchAuthTab('forgot')" class="text-[11px] font-semibold text-goldDark hover:underline" data-i18n="linkForgotPassword">Forgot Password?</button>
           </div>
-          <div class="relative"><input type="password" id="loginPassword" dir="ltr" required class="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm focus:border-emeraldPrimary outline-none" placeholder="••••••••" /> <button type="button" onclick="togglePasswordVisibility('loginPassword',this)" class="absolute inset-y-0 right-3 text-slate-500 text-xs font-semibold" aria-label="Show password">👁️</button></div>
+          <div class="relative"><input type="password" id="loginPassword" dir="ltr" required class="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm focus:border-emeraldPrimary outline-none" placeholder="••••••••" /> <button type="button" onclick="togglePasswordVisibility('loginPassword',this)" class="absolute inset-y-0 right-3 text-slate-500 text-xs font-semibold" aria-label="Show password"><svg class="password-eye-icon w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg></button></div>
         </div>
         <button type="submit" class="w-full py-3 rounded-xl bg-emeraldPrimary hover:bg-emeraldDeep text-white font-bold text-sm shadow transition-all">
           <span data-i18n="btnLoginSubmit">Login</span>
@@ -1524,11 +1587,11 @@
         </div>
         <div>
           <label for="signupPassword" class="block text-xs font-semibold text-emeraldDeep mb-1" data-i18n="lblPassword">Password</label>
-          <div class="relative"><input type="password" id="signupPassword" dir="ltr" required class="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm focus:border-emeraldPrimary outline-none" placeholder="••••••••" /> <button type="button" onclick="togglePasswordVisibility('signupPassword',this)" class="absolute inset-y-0 right-3 text-slate-500 text-xs font-semibold" aria-label="Show password">👁️</button></div>
+          <div class="relative"><input type="password" id="signupPassword" dir="ltr" required class="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm focus:border-emeraldPrimary outline-none" placeholder="••••••••" /> <button type="button" onclick="togglePasswordVisibility('signupPassword',this)" class="absolute inset-y-0 right-3 text-slate-500 text-xs font-semibold" aria-label="Show password"><svg class="password-eye-icon w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg></button></div>
         </div>
         <div>
           <label for="signupConfirmPassword" class="block text-xs font-semibold text-emeraldDeep mb-1" data-i18n="lblConfirmPassword">Confirm Password</label>
-          <div class="relative"><input type="password" id="signupConfirmPassword" dir="ltr" required class="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm focus:border-emeraldPrimary outline-none" placeholder="••••••••" /> <button type="button" onclick="togglePasswordVisibility('signupConfirmPassword',this)" class="absolute inset-y-0 right-3 text-slate-500 text-xs font-semibold" aria-label="Show password">👁️</button></div>
+          <div class="relative"><input type="password" id="signupConfirmPassword" dir="ltr" required class="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm focus:border-emeraldPrimary outline-none" placeholder="••••••••" /> <button type="button" onclick="togglePasswordVisibility('signupConfirmPassword',this)" class="absolute inset-y-0 right-3 text-slate-500 text-xs font-semibold" aria-label="Show password"><svg class="password-eye-icon w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg></button></div>
         </div>
         <button type="submit" class="w-full py-3 rounded-xl bg-emeraldPrimary hover:bg-emeraldDeep text-white font-bold text-sm shadow transition-all">
           <span data-i18n="btnSignupSubmit">Create Account</span>
@@ -1590,11 +1653,11 @@
           </div>
           <div>
             <label for="forgotNewPassword" class="block text-xs font-semibold text-emeraldDeep mb-1" data-i18n="lblNewPassword">New Password</label>
-            <div class="relative"><input type="password" id="forgotNewPassword" dir="ltr" class="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm focus:border-emeraldPrimary outline-none" placeholder="••••••••" /> <button type="button" onclick="togglePasswordVisibility('forgotNewPassword',this)" class="absolute inset-y-0 right-3 text-slate-500 text-xs font-semibold" aria-label="Show password">👁️</button></div>
+            <div class="relative"><input type="password" id="forgotNewPassword" dir="ltr" class="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm focus:border-emeraldPrimary outline-none" placeholder="••••••••" /> <button type="button" onclick="togglePasswordVisibility('forgotNewPassword',this)" class="absolute inset-y-0 right-3 text-slate-500 text-xs font-semibold" aria-label="Show password"><svg class="password-eye-icon w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg></button></div>
           </div>
           <div>
             <label for="forgotConfirmPassword" class="block text-xs font-semibold text-emeraldDeep mb-1">Confirm New Password</label>
-            <div class="relative"><input type="password" id="forgotConfirmPassword" dir="ltr" class="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm focus:border-emeraldPrimary outline-none" placeholder="••••••••" /> <button type="button" onclick="togglePasswordVisibility('forgotConfirmPassword',this)" class="absolute inset-y-0 right-3 text-slate-500 text-xs font-semibold" aria-label="Show password">👁️</button></div>
+            <div class="relative"><input type="password" id="forgotConfirmPassword" dir="ltr" class="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm focus:border-emeraldPrimary outline-none" placeholder="••••••••" /> <button type="button" onclick="togglePasswordVisibility('forgotConfirmPassword',this)" class="absolute inset-y-0 right-3 text-slate-500 text-xs font-semibold" aria-label="Show password"><svg class="password-eye-icon w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg></button></div>
           </div>
           <button type="button" id="forgotResetBtn" class="w-full py-3 rounded-xl bg-emeraldPrimary hover:bg-emeraldDeep text-white font-bold text-sm shadow transition-all">Reset Password</button>
           <div class="flex items-center justify-between text-xs">
@@ -2685,10 +2748,11 @@
 
       renderCourses();
       renderFAQs();
+      generatePublicResultCaptcha();
       updateAuthUI();
       refreshAdmissionStateUI();
-      if (sessionStorage.getItem(API_CONFIG.storageKeys.portalSession)) {
-        renderStudentPortalDashboard();
+      if (localStorage.getItem(API_CONFIG.storageKeys.portalSession)) {
+        checkStudentPortalSession();
       }
       clearValidationErrors();
     }
@@ -2698,7 +2762,7 @@
      */
     function navigateTo(pageId, event) {
       if (event) event.preventDefault();
-      const pages = ["home", "about", "courses", "admission", "portal"];
+      const pages = ["home", "about", "courses", "admission", "portal", "results"];
       if (!pages.includes(pageId)) pageId = "home";
       currentPage = pageId;
 
@@ -3668,7 +3732,7 @@ document.getElementById("signupResendBtn").addEventListener("click", async funct
           password: document.getElementById("portalPasswordInput").value
         });
         activePortalStudent = result.student;
-        sessionStorage.setItem(API_CONFIG.storageKeys.portalSession, result.sessionToken);
+        localStorage.setItem(API_CONFIG.storageKeys.portalSession, result.sessionToken);
         renderStudentPortalDashboard();
       } catch (error) {
         errEl.textContent = error.message || "Student portal login failed.";
@@ -3679,7 +3743,7 @@ document.getElementById("signupResendBtn").addEventListener("click", async funct
     });
 
     async function checkStudentPortalSession() {
-      const token = sessionStorage.getItem(API_CONFIG.storageKeys.portalSession);
+      const token = localStorage.getItem(API_CONFIG.storageKeys.portalSession);
       if (!token) {
         document.getElementById("portalLoginView").classList.remove("hidden");
         document.getElementById("portalDashboardView").classList.add("hidden");
@@ -3688,24 +3752,32 @@ document.getElementById("signupResendBtn").addEventListener("click", async funct
       try {
         const result = await academyApi("getAdmissionStatus", { sessionToken: token });
         if (!result.admission) throw new Error("No admission record is linked to this session.");
+        const a = result.admission;
+        let publishedResults = [];
+        try {
+          const resultData = await academyApi("getStudentResults", { sessionToken: token });
+          if (resultData && resultData.published && Array.isArray(resultData.results)) publishedResults = resultData.results;
+        } catch (resultError) { console.warn("Published results are not available yet:", resultError); }
         activePortalStudent = {
-          applicationId: result.admission.applicationId,
-          studentName: result.admission.studentName,
-          email: result.admission.email,
-          course: result.admission.course,
-          rollNo: result.admission.rollNo || result.admission.portalUsername,
-          resultsPdfUrl: result.admission.resultsPdfUrl || "",
-          classTiming: result.admission.classTiming || "",
-          classDays: result.admission.classDays || "",
-          teacherName: result.admission.teacherName || "",
-          zoomLink: result.admission.zoomLink || result.admission.classJoinLink || "",
-          academicTerm: result.admission.academicTerm || "",
-          academicRemarks: result.admission.academicRemarks || "",
-          examResultsJson: result.admission.examResultsJson
+          applicationId: a.applicationId,
+          studentName: a.studentName,
+          email: a.email,
+          course: a.course,
+          mobile: a.mobile || a.whatsapp || "",
+          whatsapp: a.whatsapp || "",
+          rollNo: a.rollNo || a.portalUsername || "",
+          resultsPdfUrl: a.resultsPdfUrl || "",
+          classTiming: a.classTiming || "",
+          classDays: a.classDays || "",
+          teacherName: a.teacherName || "",
+          zoomLink: a.zoomJoinLink || a.zoomLink || "",
+          academicTerm: a.academicTerm || "",
+          academicRemarks: a.academicRemarks || "",
+          examResultsJson: JSON.stringify(publishedResults)
         };
         renderStudentPortalDashboard();
       } catch (error) {
-        sessionStorage.removeItem(API_CONFIG.storageKeys.portalSession);
+        localStorage.removeItem(API_CONFIG.storageKeys.portalSession);
         document.getElementById("portalLoginView").classList.remove("hidden");
         document.getElementById("portalDashboardView").classList.add("hidden");
       }
@@ -3724,6 +3796,10 @@ document.getElementById("signupResendBtn").addEventListener("click", async funct
         results = Array.isArray(parsed) ? parsed : (parsed && Array.isArray(parsed.results) ? parsed.results : []);
       } catch (e) { results = []; }
       document.getElementById("dashStudentName").textContent = student.studentName || "Student";
+      const profileName=document.getElementById("profileStudentName"); if(profileName) profileName.value=student.studentName||"";
+      const profileRoll=document.getElementById("profileRollNumber"); if(profileRoll) profileRoll.value=student.rollNo||student.applicationId||"";
+      const profileMobile=document.getElementById("profileMobile"); if(profileMobile) profileMobile.value=student.mobile||student.whatsapp||"";
+      const profileTiming=document.getElementById("profileClassTiming"); if(profileTiming) profileTiming.value=student.classTiming||"";
       document.getElementById("dashRollNo").textContent = student.rollNo || student.applicationId || "—";
       const pdfWrap = document.getElementById("dashResultsPdfWrap");
       const pdfLink = document.getElementById("dashResultsPdfLink");
@@ -3739,8 +3815,10 @@ document.getElementById("signupResendBtn").addEventListener("click", async funct
       const joinBtn = document.getElementById("dashZoomLinkBtn");
       const joinUrl = String(student.zoomLink || "").trim();
       if (joinBtn) {
-        if (/^https:\/\//i.test(joinUrl)) {
+        if (/^https?:\/\//i.test(joinUrl)) {
           joinBtn.href = joinUrl;
+          joinBtn.target = "_blank";
+          joinBtn.rel = "noopener noreferrer";
           joinBtn.classList.remove("opacity-50", "pointer-events-none");
           joinBtn.setAttribute("aria-disabled", "false");
         } else {
@@ -3802,12 +3880,12 @@ document.getElementById("signupResendBtn").addEventListener("click", async funct
     async function syncStudentPortalFromBackend() { await checkStudentPortalSession(); }
     function handleZoomJoin(e) {
       const url = String(activePortalStudent?.zoomLink || "").trim();
-      if (!/^https:\/\//i.test(url)) { e.preventDefault(); showToast("The academy has not published a class joining link yet.", "info"); }
+      if (!/^https?:\/\//i.test(url)) { e.preventDefault(); showToast("The academy has not published a class joining link yet.", "info"); }
     }
     async function logoutStudentPortal() {
-      const token = sessionStorage.getItem(API_CONFIG.storageKeys.portalSession);
+      const token = localStorage.getItem(API_CONFIG.storageKeys.portalSession);
       try { if (token) await academyApi("logout", { sessionToken: token }); } catch (error) { console.warn("Portal logout:", error); }
-      sessionStorage.removeItem(API_CONFIG.storageKeys.portalSession);
+      localStorage.removeItem(API_CONFIG.storageKeys.portalSession);
       activePortalStudent = null;
       document.getElementById("portalLoginView").classList.remove("hidden");
       document.getElementById("portalDashboardView").classList.add("hidden");
@@ -3820,6 +3898,88 @@ document.getElementById("signupResendBtn").addEventListener("click", async funct
       return String(str).replace(/[&<>"']/g, m => ({
         "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
       }[m]));
+    }
+
+
+    // Portal shortcut navigation
+    function portalJumpTo(id) { const el=document.getElementById(id); if(el) el.scrollIntoView({behavior:"smooth",block:"start"}); }
+
+    // Public results lookup UI connected to the Apps Script backend.
+    let publicResultCaptchaAnswer = "";
+    function generatePublicResultCaptcha() {
+      const chars="ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz23456789";
+      publicResultCaptchaAnswer=Array.from({length:6},()=>chars[Math.floor(Math.random()*chars.length)]).join("");
+      const box=document.getElementById("publicResultCaptchaCode"); if(box) box.textContent=publicResultCaptchaAnswer;
+      const input=document.getElementById("publicResultCaptchaInput"); if(input) input.value="";
+    }
+    let publicResultRowsCache = [];
+    async function loadPublicResultSubjects() {
+      const roll = document.getElementById("publicResultRoll").value.trim();
+      const select = document.getElementById("publicResultSubject");
+      if (!roll || !select) return;
+      try {
+        const data = await academyApi("getPublicResult", { rollNumber: roll, subject: "__all" });
+        const rows = Array.isArray(data.results) ? data.results : [];
+        publicResultRowsCache = rows;
+        const subjects = [...new Set(rows.map(r => String(r.subject || "").trim()).filter(Boolean))];
+        select.innerHTML = '<option value="">Select subject</option><option value="__all">All Published Subjects</option>' +
+          subjects.map(v => `<option value="${escapeHtml(v)}">${escapeHtml(v)}</option>`).join("");
+      } catch (e) { /* Keep the form usable; the final lookup will show the server response. */ }
+    }
+    document.addEventListener("DOMContentLoaded", () => {
+      const rollInput = document.getElementById("publicResultRoll");
+      if (rollInput) rollInput.addEventListener("change", loadPublicResultSubjects);
+      if (rollInput) rollInput.addEventListener("blur", loadPublicResultSubjects);
+    });
+
+    async function lookupPublicResult(event) {
+      event.preventDefault();
+      const roll=document.getElementById("publicResultRoll").value.trim();
+      const subject=document.getElementById("publicResultSubject").value;
+      const captcha=document.getElementById("publicResultCaptchaInput").value.trim();
+      const msg=document.getElementById("publicResultMessage"), btn=document.getElementById("publicResultSubmitBtn"), out=document.getElementById("publicResultOutput");
+      msg.classList.remove("hidden"); out.classList.add("hidden");
+      if(captcha!==publicResultCaptchaAnswer){ msg.className="rounded-xl p-3 text-sm bg-red-50 text-red-700"; msg.textContent="Verification code does not match. Please try again."; generatePublicResultCaptcha(); return; }
+      btn.disabled=true; btn.innerHTML='<span class="inline-flex items-center gap-2"><span class="w-4 h-4 rounded-full border-2 border-white/40 border-t-white animate-spin"></span>Checking published result…</span>';
+      try {
+        const data=await academyApi("getPublicResult",{rollNumber:roll,subject:subject});
+        if(!data.ok || !Array.isArray(data.results) || !data.results.length) throw new Error(data.error || "No published result was found for this roll number and subject.");
+        const rows=data.results.map(r=>`<tr><td class="p-3">${escapeHtml(r.code||"")}</td><td class="p-3">${escapeHtml(r.subject||"")}</td><td class="p-3 text-center">${escapeHtml(r.quiz??"")}</td><td class="p-3 text-center">${escapeHtml(r.exam??"")}</td><td class="p-3 text-center font-bold">${escapeHtml(r.total??"")}</td><td class="p-3 text-center">${escapeHtml(r.grade||"")}</td><td class="p-3 text-center">${escapeHtml(r.status||"")}</td></tr>`).join("");
+        out.innerHTML=`<div class="flex flex-wrap items-center justify-between gap-2 mb-3"><div><h3 class="font-bold text-emeraldDeep">Official Published Result</h3><p class="text-xs text-slate-500">Roll Number: ${escapeHtml(data.rollNumber||roll)}</p></div><span class="rounded-full bg-emerald-50 text-emeraldDeep px-3 py-1 text-xs font-bold">Published</span></div><div class="overflow-x-auto rounded-xl border"><table class="w-full text-xs"><thead class="bg-emeraldDeep text-white"><tr><th class="p-3 text-left">Code</th><th class="p-3 text-left">Subject</th><th class="p-3">Quiz</th><th class="p-3">Exam</th><th class="p-3">Total</th><th class="p-3">Grade</th><th class="p-3">Status</th></tr></thead><tbody>${rows}</tbody></table></div><button type="button" onclick="window.print()" class="mt-4 rounded-xl bg-goldPrimary text-emeraldDeep font-bold px-5 py-3">Download / Save PDF</button>`;
+        out.classList.remove("hidden"); msg.className="rounded-xl p-3 text-sm bg-emerald-50 text-emeraldDeep"; msg.textContent="Published result loaded successfully.";
+      } catch(err) { msg.className="rounded-xl p-3 text-sm bg-amber-50 text-amber-800"; msg.textContent=err.message||"Result is not published yet."; }
+      finally { btn.disabled=false; btn.textContent="Verify & Find Result"; generatePublicResultCaptcha(); }
+    }
+
+    async function saveStudentProfile(event) {
+      event.preventDefault();
+      const form=event.currentTarget, submitBtn=form.querySelector('button[type="submit"]');
+      const mobile=document.getElementById("profileMobile").value.trim();
+      const classTiming=document.getElementById("profileClassTiming").value.trim();
+      if (!getAcademySessionToken()) { showToast("Please log in to your Student Portal again.","error"); return; }
+      setActionButtonLoading(submitBtn, currentLang === "ur" ? "محفوظ ہو رہا ہے..." : "Saving profile...");
+      try {
+        const r=await academyApi("updateStudentProfile",{sessionToken:getAcademySessionToken(),mobile:mobile,classTiming:classTiming});
+        if(!r.ok) throw new Error(r.error||"Profile could not be updated.");
+        if (activePortalStudent) { activePortalStudent.mobile=r.mobile||mobile; activePortalStudent.whatsapp=r.mobile||mobile; activePortalStudent.classTiming=r.classTiming||classTiming; }
+        showToast("Profile details updated successfully.","success");
+      } catch(e){ showToast(e.message||"Profile could not be updated.","error"); }
+      finally { clearActionButtonLoading(submitBtn); }
+    }
+    async function updatePortalPassword(event) {
+      event.preventDefault();
+      const form=event.currentTarget, submitBtn=form.querySelector('button[type="submit"]');
+      const currentPassword=document.getElementById("profileCurrentPassword").value;
+      const newPassword=document.getElementById("profileNewPassword").value;
+      if (newPassword.length < 8) { showToast("New password must contain at least 8 characters.","error"); return; }
+      if (!getAcademySessionToken()) { showToast("Please log in to your Student Portal again.","error"); return; }
+      setActionButtonLoading(submitBtn, currentLang === "ur" ? "پاس ورڈ اپ ڈیٹ ہو رہا ہے..." : "Updating password...");
+      try {
+        const r=await academyApi("updatePortalPassword",{sessionToken:getAcademySessionToken(),currentPassword:currentPassword,newPassword:newPassword});
+        if(!r.ok) throw new Error(r.error||"Password could not be updated.");
+        form.reset(); showToast("Student Portal password updated successfully.","success");
+      } catch(e){ showToast(e.message||"Password could not be updated.","error"); }
+      finally { clearActionButtonLoading(submitBtn); }
     }
 
     // Initialize Page on Load
@@ -3905,10 +4065,13 @@ document.getElementById("signupResendBtn").addEventListener("click", async funct
     }
 
     function togglePasswordVisibility(id, button) {
-      const field = document.getElementById(id); if (!field) return;
+      const field = document.getElementById(id); if (!field || !button) return;
       const show = field.type === "password"; field.type = show ? "text" : "password";
-      button.textContent = show ? "🙈" : "👁️";
+      button.innerHTML = show
+        ? '<svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3l18 18M10.6 10.6a2 2 0 002.8 2.8"/><path d="M9.9 5.2A10.8 10.8 0 0112 5c6.4 0 10 7 10 7a16 16 0 01-3.2 4.1M6.2 6.2C3.5 8 2 12 2 12s3.6 7 10 7c1.3 0 2.5-.3 3.6-.8"/></svg>'
+        : '<svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg>';
       button.setAttribute("aria-label", show ? "Hide password" : "Show password");
+      button.title = show ? "Hide password" : "Show password";
     }
     function copyTextById(id, button) {
       const field = document.getElementById(id);
