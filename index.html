@@ -99,6 +99,15 @@
   <script src="https://accounts.google.com/gsi/client" async defer></script>
 
   <style>
+    /* Keep the academy wordmark in English and let the complete logo breathe. */
+    header a[dir="ltr"] { direction:ltr !important; unicode-bidi:isolate; }
+    header a[dir="ltr"] img { object-fit:contain !important; object-position:center !important; }
+    .portal-detail-back{display:none;align-items:center;gap:8px;margin-bottom:16px;padding:10px 16px;border-radius:12px;background:#064b36;color:#fff;font-weight:700;border:1px solid #c79d2c}
+    .portal-detail-back.is-visible{display:inline-flex}
+    .portal-section-hidden{display:none!important}
+    .portal-app-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+    @media(min-width:768px){.portal-app-grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:18px}}
+    .student-photo-preview{width:104px;height:104px;border-radius:50%;object-fit:cover;border:3px solid #c79d2c;background:#f8fafc}
     .portal-app-card{min-height:142px;padding:18px 12px;border:1px solid rgba(199,157,44,.45);border-radius:22px;background:#fff;box-shadow:0 12px 30px -22px rgba(4,57,39,.45);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;color:#064b36;transition:transform .2s,box-shadow .2s,border-color .2s}
     .portal-app-card:hover{transform:translateY(-3px);border-color:#c79d2c;box-shadow:0 16px 32px -20px rgba(4,57,39,.55)}
     .portal-app-icon{width:48px;height:48px;border-radius:15px;background:#064b36;color:#e2b93f;display:grid;place-items:center;font-size:25px;font-weight:800}
@@ -144,16 +153,16 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex items-center justify-between h-20">
         <!-- Institutional Crest & Brand Identity -->
-        <a href="#home" onclick="navigateTo('home', event)" class="flex items-center gap-3 group focus:outline-none">
+        <a href="#home" onclick="navigateTo('home', event)" dir="ltr" class="flex items-center gap-3 group focus:outline-none text-left">
           <!-- Academy Logo: keep logo.png in the same GitHub folder as index.html -->
-          <div class="w-14 h-14 sm:w-16 sm:h-16 flex items-center justify-center shrink-0 overflow-hidden group-hover:scale-105 transition-transform">
-            <img src="./logo.png" alt="Al-Fajar Islamic Academy Logo" class="w-full h-full object-contain" onerror="this.style.display='none'; this.parentElement.innerHTML='<span class="text-emeraldDeep font-bold text-xl">ف</span>'" />
+          <div class="w-14 h-14 sm:w-16 sm:h-16 flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
+            <img src="./logo.png" alt="Al-Fajar Islamic Academy Logo" class="block w-full h-full max-w-full max-h-full object-contain object-center" loading="eager" decoding="async" onerror="this.style.display='none'; this.parentElement.innerHTML='<span class="text-emeraldDeep font-bold text-lg tracking-tight">AF</span>'" />
           </div>
-          <div>
-            <span class="block text-base sm:text-lg font-bold text-emeraldDeep tracking-tight leading-tight" data-i18n="academyName">
+          <div class="min-w-0">
+            <span class="block text-base sm:text-lg font-bold text-emeraldDeep tracking-tight leading-tight whitespace-nowrap">
               Al-Fajar Islamic Academy
             </span>
-            <span class="block text-[11px] sm:text-xs font-medium text-goldDark" data-i18n="academyTagline">
+            <span class="block text-[11px] sm:text-xs font-medium text-goldDark leading-snug whitespace-nowrap">
               Learn the Quran. Live with its Light.
             </span>
           </div>
@@ -814,15 +823,13 @@
                     </div>
 
                     <!-- Required fresh student photograph -->
-                    <div class="rounded-2xl border border-goldPrimary/40 bg-creamBg p-4 space-y-3">
-                      <div class="flex items-center gap-4 flex-wrap">
-                        <img id="admissionStudentPhotoPreview" class="w-24 h-24 rounded-full object-cover border-2 border-goldPrimary bg-white" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23e2e8f0'/%3E%3Ccircle cx='50' cy='36' r='18' fill='%2394a3b8'/%3E%3Cpath d='M16 94c3-23 16-34 34-34s31 11 34 34' fill='%2394a3b8'/%3E%3C/svg%3E" alt="Student photo preview" />
-                        <div class="flex-1 min-w-0">
-                          <label for="admissionStudentPhoto" class="block text-sm font-bold text-emeraldDeep mb-1">Recent Student Photograph <span class="text-red-600">*</span></label>
-                          <input type="file" id="admissionStudentPhoto" accept="image/jpeg,image/png,image/webp" required onchange="previewStudentPhoto(event,'admissionStudentPhotoPreview')" class="w-full text-xs file:me-3 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-emeraldPrimary file:text-white" />
-                          <p class="text-xs text-slate-500 mt-1">JPG, PNG or WEBP · maximum 2 MB</p>
-                          <p id="err-admissionStudentPhoto" class="text-xs text-red-600 mt-1 hidden"></p>
-                        </div>
+                    <div class="rounded-2xl border border-goldPrimary/40 bg-creamBg/60 p-4 flex flex-col sm:flex-row sm:items-center gap-4">
+                      <img id="admissionStudentPhotoPreview" class="student-photo-preview" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23e2e8f0'/%3E%3Ccircle cx='50' cy='36' r='18' fill='%2394a3b8'/%3E%3Cpath d='M16 94c3-23 16-34 34-34s31 11 34 34' fill='%2394a3b8'/%3E%3C/svg%3E" alt="Student photo preview" />
+                      <div class="flex-1">
+                        <label for="admissionStudentPhoto" class="block text-sm font-bold text-emeraldDeep mb-1">Recent Student Photograph <span class="text-red-600">*</span></label>
+                        <input type="file" id="admissionStudentPhoto" accept="image/jpeg,image/png,image/webp" required onchange="previewStudentPhoto(event,'admissionStudentPhotoPreview')" class="w-full text-xs file:me-3 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-emeraldPrimary file:text-white" />
+                        <p class="text-xs text-slate-500 mt-1">Upload a clear, recent passport-style photo (JPG, PNG or WEBP; max 2 MB).</p>
+                        <p id="err-admissionStudentPhoto" class="text-xs text-red-600 mt-1 hidden"></p>
                       </div>
                     </div>
 
@@ -1307,13 +1314,15 @@
               </div>
             </div>
 
-            <!-- Student portal app-style shortcuts -->
-            <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-5">
+            <!-- Student portal app-style shortcuts: cards are the only content shown after login -->
+            <div id="portalAppGrid" class="portal-app-grid">
               <button type="button" onclick="portalJumpTo('portalClassSection')" class="portal-app-card"><span class="portal-app-icon">▣</span><span class="font-bold">My Classes</span><small>Schedule & Join</small></button>
               <button type="button" onclick="portalJumpTo('portalResultsSection')" class="portal-app-card"><span class="portal-app-icon">▤</span><span class="font-bold">My Results</span><small>Marks & Downloads</small></button>
               <button type="button" onclick="portalJumpTo('portalProfileSection')" class="portal-app-card"><span class="portal-app-icon">♙</span><span class="font-bold">My Profile</span><small>Contact & Settings</small></button>
               <button type="button" onclick="portalJumpTo('portalCourseSection')" class="portal-app-card"><span class="portal-app-icon">▧</span><span class="font-bold">My Course</span><small>Learning Plan</small></button>
             </div>
+
+            <button type="button" id="portalDetailBack" class="portal-detail-back" onclick="portalBackToCards()"><span aria-hidden="true">←</span> Back to Student Portal</button>
 
             <!-- Row 2: Class Timing ("جس وقت کلاس لینی ہے") & What Will Be Taught ("کورس اور کیا سکھایا جائے گا") -->
             <div id="portalClassSection" class="grid grid-cols-1 lg:grid-cols-12 gap-6">
@@ -1433,6 +1442,10 @@
             <!-- Student profile: editable fields are intentionally limited -->
             <section id="portalProfileSection" class="bg-white rounded-3xl border border-goldPrimary/45 shadow-soft p-5 sm:p-7 space-y-5">
               <div class="flex items-center justify-between gap-3 border-b border-slate-100 pb-4"><div><p class="text-xs uppercase tracking-wider font-bold text-goldDark">Account Settings</p><h3 class="text-xl font-bold text-emeraldDeep">My Profile</h3><p class="text-xs text-slate-500">Name, address and enrolled subjects are managed by the academy.</p></div><span class="rounded-xl bg-emerald-50 text-emeraldDeep px-3 py-2 text-xs font-bold">Verified Student</span></div>
+              <div class="flex flex-col sm:flex-row sm:items-center gap-4 rounded-2xl bg-creamBg/70 border border-goldPrimary/30 p-4">
+                <img id="profileStudentPhotoPreview" class="student-photo-preview" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23e2e8f0'/%3E%3Ccircle cx='50' cy='36' r='18' fill='%2394a3b8'/%3E%3Cpath d='M16 94c3-23 16-34 34-34s31 11 34 34' fill='%2394a3b8'/%3E%3C/svg%3E" alt="Student profile photo" />
+                <div><label for="profileStudentPhoto" class="block text-sm font-bold text-emeraldDeep mb-1">Update Profile Photograph</label><input id="profileStudentPhoto" type="file" accept="image/jpeg,image/png,image/webp" onchange="previewStudentPhoto(event,'profileStudentPhotoPreview')" class="w-full text-xs file:me-3 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-emeraldPrimary file:text-white"/><p class="text-xs text-slate-500 mt-1">JPG, PNG or WEBP · maximum 2 MB</p></div>
+              </div>
               <form id="studentProfileForm" class="grid grid-cols-1 sm:grid-cols-2 gap-4" onsubmit="saveStudentProfile(event)">
                 <div><label class="block text-xs font-semibold mb-1">Full Name (read only)</label><input id="profileStudentName" readonly class="w-full rounded-xl border bg-slate-100 px-3 py-3 text-sm" /></div>
                 <div><label class="block text-xs font-semibold mb-1">Roll Number (read only)</label><input id="profileRollNumber" readonly class="w-full rounded-xl border bg-slate-100 px-3 py-3 text-sm" /></div>
@@ -1724,29 +1737,6 @@
 
     function getAcademySessionToken() {
       return localStorage.getItem(API_CONFIG.storageKeys.portalSession) || "";
-    }
-    function previewStudentPhoto(event, previewId) {
-      const file = event.target.files && event.target.files[0];
-      const preview = document.getElementById(previewId);
-      const error = document.getElementById("err-admissionStudentPhoto");
-      if (!file) return;
-      if (!/^image\/(jpeg|png|webp)$/i.test(file.type) || file.size > 2 * 1024 * 1024) {
-        event.target.value = "";
-        if (error) { error.textContent = "Choose a JPG, PNG or WEBP image no larger than 2 MB."; error.classList.remove("hidden"); }
-        return;
-      }
-      if (error) error.classList.add("hidden");
-      const reader = new FileReader();
-      reader.onload = () => { if (preview) preview.src = reader.result; };
-      reader.readAsDataURL(file);
-    }
-    function readFileAsDataURL(file) {
-      return new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.onload = () => resolve(String(reader.result || ""));
-        reader.onerror = () => reject(new Error("Could not read the selected student photo."));
-        reader.readAsDataURL(file);
-      });
     }
 
     function startOtpCountdown(kind, seconds = 60) {
@@ -3482,6 +3472,9 @@ document.getElementById("signupResendBtn").addEventListener("click", async funct
       }
     }
 
+    function readFileAsDataURL(file) { return new Promise((resolve,reject)=>{ const reader=new FileReader(); reader.onload=()=>resolve(String(reader.result||"")); reader.onerror=()=>reject(new Error("Could not read the selected photo.")); reader.readAsDataURL(file); }); }
+    function previewStudentPhoto(event, previewId) { const file=event.target.files&&event.target.files[0]; const preview=document.getElementById(previewId); if(!file||!preview)return; if(!/^image\/(jpeg|png|webp)$/i.test(file.type)||file.size>2*1024*1024){event.target.value="";showFieldError(event.target.id,"Use JPG, PNG or WEBP up to 2 MB.");return;} preview.src=URL.createObjectURL(file); const err=document.getElementById("err-"+event.target.id); if(err)err.classList.add("hidden"); }
+
     // Submit Admission Form Handler
     document.getElementById("admissionForm").addEventListener("submit", function (e) {
       e.preventDefault();
@@ -3540,23 +3533,22 @@ document.getElementById("signupResendBtn").addEventListener("click", async funct
       if (!record.selectedCourse) { showFieldError("selectedCourse", t.errRequired); isValid = false; }
       if (!record.previousExperience) { showFieldError("previousExperience", t.errRequired); isValid = false; }
       if (!record.preferredTiming) { showFieldError("preferredTiming", t.errRequired); isValid = false; }
+      const photoInput=document.getElementById("admissionStudentPhoto");
+      const photoFile=photoInput && photoInput.files && photoInput.files[0];
+      if (!photoFile) { showFieldError("admissionStudentPhoto", "A recent student photograph is required."); isValid=false; }
+      else if (!/^image\/(jpeg|png|webp)$/i.test(photoFile.type) || photoFile.size>2*1024*1024) { showFieldError("admissionStudentPhoto", "Use JPG, PNG or WEBP up to 2 MB."); isValid=false; }
 
-      const photoInput = document.getElementById("admissionStudentPhoto");
-      const photoFile = photoInput && photoInput.files ? photoInput.files[0] : null;
-      if (!photoFile) { showFieldError("admissionStudentPhoto", "Please upload the student's recent photograph."); isValid = false; }
-      else if (!/^image\/(jpeg|png|webp)$/i.test(photoFile.type) || photoFile.size > 2 * 1024 * 1024) {
-        showFieldError("admissionStudentPhoto", "Choose a JPG, PNG or WEBP image no larger than 2 MB."); isValid = false;
-      }
       if (!isValid) return;
 
       (async () => {
+        const photoDataUrl = await readFileAsDataURL(photoFile);
+        record.studentPhotoDataUrl = photoDataUrl;
         const submitBtn = document.getElementById("submitAdmissionBtn");
         const oldBtnHtml = submitBtn.innerHTML;
         submitBtn.disabled = true;
         submitBtn.classList.add("opacity-60", "cursor-not-allowed");
         showGlobalLoading(currentLang === "ur" ? "آپ کا داخلہ فارم جمع ہو رہا ہے..." : "Submitting your admission...");
         try {
-          const studentPhotoDataUrl = await readFileAsDataURL(photoFile);
           const response = await fetch(API_CONFIG.googleAppsScriptUrl, {
             method: "POST",
             // text/plain avoids a browser CORS preflight for the Apps Script web app.
@@ -3576,8 +3568,7 @@ document.getElementById("signupResendBtn").addEventListener("click", async funct
                 previousExperience: record.previousExperience,
                 preferredTiming: record.preferredTiming,
                 additionalMessage: record.additionalMessage,
-                studentPhotoDataUrl: studentPhotoDataUrl,
-                studentPhotoFileName: photoFile.name
+                studentPhotoDataUrl: record.studentPhotoDataUrl
               }
             })
           });
@@ -3833,6 +3824,7 @@ document.getElementById("signupResendBtn").addEventListener("click", async funct
       if (!student) return;
       document.getElementById("portalLoginView").classList.add("hidden");
       document.getElementById("portalDashboardView").classList.remove("hidden");
+      portalShowCards();
       const courseObj = COURSES_DATA.find(c => c.en.title === student.course || c.id === student.course || c.code === student.course) || COURSES_DATA[0];
       const courseLocalized = courseObj[currentLang];
       let results = [];
@@ -3946,8 +3938,11 @@ document.getElementById("signupResendBtn").addEventListener("click", async funct
     }
 
 
-    // Portal shortcut navigation
-    function portalJumpTo(id) { const el=document.getElementById(id); if(el) el.scrollIntoView({behavior:"smooth",block:"start"}); }
+    // Portal shortcut navigation: show cards first, then one selected detail panel.
+    const PORTAL_DETAIL_IDS=["portalClassSection","portalResultsSection","portalProfileSection"];
+    function portalShowCards(){ const grid=document.getElementById("portalAppGrid"), back=document.getElementById("portalDetailBack"); if(grid)grid.classList.remove("portal-section-hidden"); if(back)back.classList.remove("is-visible"); PORTAL_DETAIL_IDS.forEach(id=>{const el=document.getElementById(id);if(el)el.classList.add("portal-section-hidden");}); const course=document.getElementById("portalCourseSection");if(course)course.classList.add("portal-section-hidden"); const classBox=document.getElementById("portalClassSection");if(classBox&&classBox.firstElementChild)classBox.firstElementChild.classList.remove("portal-section-hidden"); }
+    function portalBackToCards(){ portalShowCards(); const view=document.getElementById("portalDashboardView"); if(view)view.scrollIntoView({behavior:"smooth",block:"start"}); }
+    function portalJumpTo(id){ const grid=document.getElementById("portalAppGrid"), back=document.getElementById("portalDetailBack"); if(grid)grid.classList.add("portal-section-hidden"); if(back)back.classList.add("is-visible"); PORTAL_DETAIL_IDS.forEach(sectionId=>{const el=document.getElementById(sectionId);if(el)el.classList.toggle("portal-section-hidden",sectionId!==id && !(id==="portalCourseSection"&&sectionId==="portalClassSection"));}); const classBox=document.getElementById("portalClassSection"), course=document.getElementById("portalCourseSection"); if(id==="portalCourseSection"){if(classBox&&classBox.firstElementChild)classBox.firstElementChild.classList.add("portal-section-hidden");if(course)course.classList.remove("portal-section-hidden");}else{if(classBox&&classBox.firstElementChild)classBox.firstElementChild.classList.remove("portal-section-hidden");if(course)course.classList.add("portal-section-hidden");} const el=document.getElementById(id); if(el)el.scrollIntoView({behavior:"smooth",block:"start"}); }
 
     // Public results lookup UI connected to the Apps Script backend.
     let publicResultCaptchaAnswer = "";
@@ -3958,56 +3953,168 @@ document.getElementById("signupResendBtn").addEventListener("click", async funct
       const input=document.getElementById("publicResultCaptchaInput"); if(input) input.value="";
     }
     let publicResultRowsCache = [];
+    let publicResultLookupRoll = "";
+
     async function loadPublicResultSubjects() {
       const roll = document.getElementById("publicResultRoll").value.trim();
       const select = document.getElementById("publicResultSubject");
-      if (!roll || !select) return;
+      const msg = document.getElementById("publicResultMessage");
+      if (!roll || !select) return false;
+
+      // Do not reuse another student's cached subject list.
+      if (publicResultLookupRoll.toLowerCase() === roll.toLowerCase() && publicResultRowsCache.length) {
+        return true;
+      }
+
+      select.disabled = true;
+      select.innerHTML = '<option value="__all">Loading published subjects…</option>';
       try {
         const data = await academyApi("getPublicResult", { rollNumber: roll, subject: "__all" });
         const rows = Array.isArray(data.results) ? data.results : [];
         publicResultRowsCache = rows;
+        publicResultLookupRoll = roll;
+
         const subjects = [...new Set(rows.map(r => String(r.subject || "").trim()).filter(Boolean))];
-        select.innerHTML = '<option value="">Select subject</option><option value="__all">All Published Subjects</option>' +
+        select.innerHTML = '<option value="__all">All Published Subjects</option>' +
           subjects.map(v => `<option value="${escapeHtml(v)}">${escapeHtml(v)}</option>`).join("");
-      } catch (e) { /* Keep the form usable; the final lookup will show the server response. */ }
+
+        // Default to all published subjects so a result is not missed just
+        // because the visitor did not notice the subject selector.
+        select.value = "__all";
+        if (!rows.length && msg) {
+          msg.className = "rounded-xl p-3 text-sm bg-amber-50 text-amber-800";
+          msg.textContent = "No published result was found for this roll number. Please check the roll number or contact the academy.";
+          msg.classList.remove("hidden");
+        }
+        return rows.length > 0;
+      } catch (e) {
+        select.innerHTML = '<option value="__all">All Published Subjects</option>';
+        select.value = "__all";
+        if (msg) {
+          msg.className = "rounded-xl p-3 text-sm bg-amber-50 text-amber-800";
+          msg.textContent = e.message || "Could not load published subjects. Please try again.";
+          msg.classList.remove("hidden");
+        }
+        return false;
+      } finally {
+        select.disabled = false;
+      }
     }
+
     document.addEventListener("DOMContentLoaded", () => {
       const rollInput = document.getElementById("publicResultRoll");
-      if (rollInput) rollInput.addEventListener("change", loadPublicResultSubjects);
-      if (rollInput) rollInput.addEventListener("blur", loadPublicResultSubjects);
+      if (rollInput) {
+        rollInput.addEventListener("change", loadPublicResultSubjects);
+        rollInput.addEventListener("blur", loadPublicResultSubjects);
+        rollInput.addEventListener("keydown", e => {
+          if (e.key === "Enter") {
+            e.preventDefault();
+            loadPublicResultSubjects();
+          }
+        });
+      }
+      generatePublicResultCaptcha();
     });
+
+    function downloadPublicResultCSV() {
+      if (!Array.isArray(publicResultRowsCache) || !publicResultRowsCache.length) {
+        showToast("No result is available to download.", "error");
+        return;
+      }
+      const headers = ["Code", "Subject", "Quiz", "Exam", "Total", "Grade", "Status"];
+      const rows = publicResultRowsCache.map(r => [
+        r.code || "", r.subject || "", r.quiz ?? "", r.exam ?? "",
+        r.total ?? "", r.grade || "", r.status || "Published"
+      ]);
+      const csvCell = value => '"' + String(value ?? "").replace(/"/g, '""') + '"';
+      const csv = [headers, ...rows].map(row => row.map(csvCell).join(",")).join("\r\n");
+      const blob = new Blob(["\uFEFF" + csv], { type: "text/csv;charset=utf-8;" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "Al-Fajar-Result-" + (document.getElementById("publicResultRoll").value.trim() || "student") + ".csv";
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+    }
 
     async function lookupPublicResult(event) {
       event.preventDefault();
-      const roll=document.getElementById("publicResultRoll").value.trim();
-      const subject=document.getElementById("publicResultSubject").value;
-      const captcha=document.getElementById("publicResultCaptchaInput").value.trim();
-      const msg=document.getElementById("publicResultMessage"), btn=document.getElementById("publicResultSubmitBtn"), out=document.getElementById("publicResultOutput");
-      msg.classList.remove("hidden"); out.classList.add("hidden");
-      if(captcha!==publicResultCaptchaAnswer){ msg.className="rounded-xl p-3 text-sm bg-red-50 text-red-700"; msg.textContent="Verification code does not match. Please try again."; generatePublicResultCaptcha(); return; }
-      btn.disabled=true; btn.innerHTML='<span class="inline-flex items-center gap-2"><span class="w-4 h-4 rounded-full border-2 border-white/40 border-t-white animate-spin"></span>Checking published result…</span>';
-      try {
-        const data=await academyApi("getPublicResult",{rollNumber:roll,subject:subject});
-        if(!data.ok || !Array.isArray(data.results) || !data.results.length) throw new Error(data.error || "No published result was found for this roll number and subject.");
-        const rows=data.results.map(r=>`<tr><td class="p-3">${escapeHtml(r.code||"")}</td><td class="p-3">${escapeHtml(r.subject||"")}</td><td class="p-3 text-center">${escapeHtml(r.quiz??"")}</td><td class="p-3 text-center">${escapeHtml(r.exam??"")}</td><td class="p-3 text-center font-bold">${escapeHtml(r.total??"")}</td><td class="p-3 text-center">${escapeHtml(r.grade||"")}</td><td class="p-3 text-center">${escapeHtml(r.status||"")}</td></tr>`).join("");
-        out.innerHTML=`<div class="flex flex-wrap items-center justify-between gap-2 mb-3"><div><h3 class="font-bold text-emeraldDeep">Official Published Result</h3><p class="text-xs text-slate-500">Roll Number: ${escapeHtml(data.rollNumber||roll)}</p></div><span class="rounded-full bg-emerald-50 text-emeraldDeep px-3 py-1 text-xs font-bold">Published</span></div><div class="overflow-x-auto rounded-xl border"><table class="w-full text-xs"><thead class="bg-emeraldDeep text-white"><tr><th class="p-3 text-left">Code</th><th class="p-3 text-left">Subject</th><th class="p-3">Quiz</th><th class="p-3">Exam</th><th class="p-3">Total</th><th class="p-3">Grade</th><th class="p-3">Status</th></tr></thead><tbody>${rows}</tbody></table></div><div class="mt-4 flex flex-wrap gap-3"><button type="button" onclick="window.print()" class="rounded-xl bg-goldPrimary text-emeraldDeep font-bold px-5 py-3">Download / Save PDF</button><button type="button" onclick="downloadPublicResultCSV()" class="rounded-xl bg-emeraldDeep text-white font-bold px-5 py-3">Download Result CSV</button></div>`;
-        out.classList.remove("hidden"); msg.className="rounded-xl p-3 text-sm bg-emerald-50 text-emeraldDeep"; msg.textContent="Published result loaded successfully.";
-      } catch(err) { msg.className="rounded-xl p-3 text-sm bg-amber-50 text-amber-800"; msg.textContent=err.message||"Result is not published yet."; }
-      finally { btn.disabled=false; btn.textContent="Verify & Find Result"; generatePublicResultCaptcha(); }
-    }
+      const roll = document.getElementById("publicResultRoll").value.trim();
+      const subjectSelect = document.getElementById("publicResultSubject");
+      const subject = subjectSelect.value || "__all";
+      const captcha = document.getElementById("publicResultCaptchaInput").value.trim();
+      const msg = document.getElementById("publicResultMessage");
+      const btn = document.getElementById("publicResultSubmitBtn");
+      const out = document.getElementById("publicResultOutput");
 
-    function downloadPublicResultCSV() {
-      const roll = document.getElementById("publicResultRoll")?.value.trim() || "Student";
-      const subject = document.getElementById("publicResultSubject")?.value || "__all";
-      const rows = publicResultRowsCache.filter(r => subject === "__all" || String(r.subject || "").trim() === subject);
-      if (!rows.length) { showToast("No published result is available to download.", "info"); return; }
-      const columns = ["code", "subject", "quiz", "exam", "total", "grade", "status"];
-      const csv = [columns.join(","), ...rows.map(r => columns.map(k => `"${String(r[k] ?? "").replace(/"/g, '""')}"`).join(","))].join("\r\n");
-      const blob = new Blob(["\uFEFF" + csv], { type: "text/csv;charset=utf-8;" });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement("a"); a.href = url;
-      a.download = `Result-${roll.replace(/[^a-z0-9_-]/gi, "_")}.csv`;
-      document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
+      msg.classList.remove("hidden");
+      out.classList.add("hidden");
+      if (!roll) {
+        msg.className = "rounded-xl p-3 text-sm bg-amber-50 text-amber-800";
+        msg.textContent = "Please enter your roll number.";
+        return;
+      }
+      if (captcha.toLowerCase() !== publicResultCaptchaAnswer.toLowerCase()) {
+        msg.className = "rounded-xl p-3 text-sm bg-red-50 text-red-700";
+        msg.textContent = "Verification code does not match. Please try again.";
+        generatePublicResultCaptcha();
+        return;
+      }
+
+      btn.disabled = true;
+      btn.innerHTML = '<span class="inline-flex items-center gap-2"><span class="w-4 h-4 rounded-full border-2 border-white/40 border-t-white animate-spin"></span>Checking published result…</span>';
+      try {
+        // Always refresh when the roll number changes; do not rely on a
+        // previous blur/change event finishing before the visitor submits.
+        if (publicResultLookupRoll.toLowerCase() !== roll.toLowerCase()) {
+          await loadPublicResultSubjects();
+        }
+        const chosenSubject = subjectSelect.value || subject || "__all";
+        const data = await academyApi("getPublicResult", { rollNumber: roll, subject: chosenSubject });
+        if (!Array.isArray(data.results) || !data.results.length) {
+          throw new Error(data.error || "No published result was found. Check the roll number and make sure the academy has published every subject result.");
+        }
+
+        publicResultRowsCache = data.results;
+        publicResultLookupRoll = roll;
+        const rows = data.results.map(r => `<tr>
+          <td class="p-3">${escapeHtml(r.code || "")}</td>
+          <td class="p-3">${escapeHtml(r.subject || "")}</td>
+          <td class="p-3 text-center">${escapeHtml(r.quiz ?? "")}</td>
+          <td class="p-3 text-center">${escapeHtml(r.exam ?? "")}</td>
+          <td class="p-3 text-center font-bold">${escapeHtml(r.total ?? "")}</td>
+          <td class="p-3 text-center">${escapeHtml(r.grade || "")}</td>
+          <td class="p-3 text-center">${escapeHtml(r.status || "Published")}</td>
+        </tr>`).join("");
+
+        out.innerHTML = `<div class="flex flex-wrap items-center justify-between gap-2 mb-3">
+          <div><h3 class="font-bold text-emeraldDeep">Official Published Result</h3>
+          <p class="text-xs text-slate-500">Roll Number: ${escapeHtml(data.rollNumber || roll)}</p></div>
+          <span class="rounded-full bg-emerald-50 text-emeraldDeep px-3 py-1 text-xs font-bold">Published</span>
+        </div>
+        <div class="overflow-x-auto rounded-xl border"><table class="w-full text-xs">
+          <thead class="bg-emeraldDeep text-white"><tr>
+            <th class="p-3 text-left">Code</th><th class="p-3 text-left">Subject</th>
+            <th class="p-3">Quiz</th><th class="p-3">Exam</th><th class="p-3">Total</th>
+            <th class="p-3">Grade</th><th class="p-3">Status</th>
+          </tr></thead><tbody>${rows}</tbody></table></div>
+        <div class="mt-4 flex flex-wrap gap-3">
+          <button type="button" onclick="window.print()" class="rounded-xl bg-goldPrimary text-emeraldDeep font-bold px-5 py-3">Download / Save PDF</button>
+          <button type="button" onclick="downloadPublicResultCSV()" class="rounded-xl bg-emeraldDeep text-white font-bold px-5 py-3">Download CSV</button>
+        </div>`;
+        out.classList.remove("hidden");
+        msg.className = "rounded-xl p-3 text-sm bg-emerald-50 text-emeraldDeep";
+        msg.textContent = "Published result loaded successfully.";
+      } catch (err) {
+        msg.className = "rounded-xl p-3 text-sm bg-amber-50 text-amber-800";
+        msg.textContent = err.message || "Result is not published yet.";
+      } finally {
+        btn.disabled = false;
+        btn.textContent = "Verify & Find Result";
+        generatePublicResultCaptcha();
+      }
     }
 
     async function saveStudentProfile(event) {
@@ -4018,7 +4125,10 @@ document.getElementById("signupResendBtn").addEventListener("click", async funct
       if (!getAcademySessionToken()) { showToast("Please log in to your Student Portal again.","error"); return; }
       setActionButtonLoading(submitBtn, currentLang === "ur" ? "محفوظ ہو رہا ہے..." : "Saving profile...");
       try {
-        const r=await academyApi("updateStudentProfile",{sessionToken:getAcademySessionToken(),mobile:mobile,classTiming:classTiming});
+        const photoInput=document.getElementById("profileStudentPhoto");
+        const photoFile=photoInput&&photoInput.files&&photoInput.files[0];
+        const photoDataUrl=photoFile?await readFileAsDataURL(photoFile):"";
+        const r=await academyApi("updateStudentProfile",{sessionToken:getAcademySessionToken(),mobile:mobile,classTiming:classTiming,studentPhotoDataUrl:photoDataUrl});
         if(!r.ok) throw new Error(r.error||"Profile could not be updated.");
         if (activePortalStudent) { activePortalStudent.mobile=r.mobile||mobile; activePortalStudent.whatsapp=r.mobile||mobile; activePortalStudent.classTiming=r.classTiming||classTiming; }
         showToast("Profile details updated successfully.","success");
