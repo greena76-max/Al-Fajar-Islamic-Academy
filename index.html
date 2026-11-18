@@ -100,8 +100,26 @@
 
   <style>
     /* Keep the academy wordmark in English and let the complete logo breathe. */
-    header a[dir="ltr"] { direction:ltr !important; unicode-bidi:isolate; }
+    header a[dir="ltr"] { direction:ltr !important; unicode-bidi:isolate; min-width:0; flex:0 1 auto; }
+    header a[dir="ltr"] > div:first-child { width:64px; height:64px; flex:0 0 64px; }
     header a[dir="ltr"] img { object-fit:contain !important; object-position:center !important; }
+    header a[dir="ltr"] .academy-wordmark { min-width:0; max-width:245px; }
+    header a[dir="ltr"] .academy-wordmark .academy-name { white-space:normal; overflow-wrap:anywhere; }
+    header a[dir="ltr"] .academy-wordmark .academy-tagline { white-space:normal; }
+    .academy-logo-fallback { display:none; width:100%; height:100%; align-items:center; justify-content:center; border:2px solid #D4AF37; border-radius:50%; background:#043927; color:#D4AF37; }
+    .academy-logo-fallback svg { width:68%; height:68%; }
+    @media(max-width:639px) {
+      header a[dir="ltr"] { gap:8px !important; max-width:calc(100% - 132px); }
+      header a[dir="ltr"] > div:first-child { width:48px; height:48px; flex-basis:48px; }
+      header a[dir="ltr"] .academy-wordmark { max-width:155px; }
+      header a[dir="ltr"] .academy-wordmark .academy-name { font-size:11px; line-height:1.25; }
+      header a[dir="ltr"] .academy-wordmark .academy-tagline { display:none; }
+      header .max-w-7xl > .flex.items-center.justify-between.h-20 { gap:6px; }
+    }
+    @media(min-width:640px) and (max-width:1023px) {
+      header a[dir="ltr"] { max-width:48%; }
+      header a[dir="ltr"] .academy-wordmark { max-width:190px; }
+    }
     .portal-detail-back{display:none;align-items:center;gap:8px;margin-bottom:16px;padding:10px 16px;border-radius:12px;background:#064b36;color:#fff;font-weight:700;border:1px solid #c79d2c}
     .portal-detail-back.is-visible{display:inline-flex}
     .portal-section-hidden{display:none!important}
@@ -154,15 +172,18 @@
       <div class="flex items-center justify-between h-20">
         <!-- Institutional Crest & Brand Identity -->
         <a href="#home" onclick="navigateTo('home', event)" dir="ltr" class="flex items-center gap-3 group focus:outline-none text-left">
-          <!-- Academy Logo: keep logo.png in the same GitHub folder as index.html -->
-          <div class="w-14 h-14 sm:w-16 sm:h-16 flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
-            <img src="./logo.png" alt="Al-Fajar Islamic Academy Logo" class="block w-full h-full max-w-full max-h-full object-contain object-center" loading="eager" decoding="async" onerror="this.style.display='none'; this.parentElement.innerHTML='<span class="text-emeraldDeep font-bold text-lg tracking-tight">AF</span>'" />
+          <!-- Place the real logo image named logo.png beside index.html in the GitHub repository. -->
+          <div class="relative flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
+            <img src="./logo.png" alt="Al-Fajar Islamic Academy crest" class="block w-full h-full max-w-full max-h-full object-contain object-center" loading="eager" decoding="async" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+            <span class="academy-logo-fallback" aria-hidden="true">
+              <svg viewBox="0 0 64 64" fill="none"><path d="M32 7 49 14v15c0 12-7 21-17 27C22 50 15 41 15 29V14L32 7Z" stroke="currentColor" stroke-width="3"/><path d="M22 25h20M24 31h16M27 37h10" stroke="currentColor" stroke-width="3" stroke-linecap="round"/><path d="m32 15 2.2 4.5 5 .7-3.6 3.5.9 5-4.5-2.4-4.5 2.4.9-5-3.6-3.5 5-.7L32 15Z" fill="currentColor"/></svg>
+            </span>
           </div>
-          <div class="min-w-0">
-            <span class="block text-base sm:text-lg font-bold text-emeraldDeep tracking-tight leading-tight whitespace-nowrap">
+          <div class="academy-wordmark min-w-0">
+            <span class="academy-name block text-base sm:text-lg font-bold text-emeraldDeep tracking-tight leading-tight">
               Al-Fajar Islamic Academy
             </span>
-            <span class="block text-[11px] sm:text-xs font-medium text-goldDark leading-snug whitespace-nowrap">
+            <span class="academy-tagline block text-[11px] sm:text-xs font-medium text-goldDark leading-snug">
               Learn the Quran. Live with its Light.
             </span>
           </div>
@@ -1475,7 +1496,8 @@
         <div class="space-y-4">
           <div class="flex items-center gap-3">
             <div class="w-10 h-10 rounded-xl bg-white border border-goldPrimary flex items-center justify-center overflow-hidden">
-              <img src="./logo.png" alt="Al-Fajar Islamic Academy Logo" class="w-full h-full object-contain p-0.5" onerror="this.style.display='none'; this.parentElement.innerHTML='<span class="text-emeraldDeep font-bold text-lg">ف</span>'" />
+              <img src="./logo.png" alt="Al-Fajar Islamic Academy Logo" class="w-full h-full object-contain p-0.5" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+              <span class="academy-logo-fallback" aria-hidden="true"><svg viewBox="0 0 64 64" fill="none"><path d="M32 7 49 14v15c0 12-7 21-17 27C22 50 15 41 15 29V14L32 7Z" stroke="currentColor" stroke-width="3"/><path d="M22 25h20M24 31h16M27 37h10" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg></span>
             </div>
             <div>
               <h3 class="font-bold text-white text-base" data-i18n="academyName">Al-Fajar Islamic Academy</h3>
@@ -4016,6 +4038,82 @@ document.getElementById("signupResendBtn").addEventListener("click", async funct
       generatePublicResultCaptcha();
     });
 
+    function downloadPublicResultPDF() {
+      if (!Array.isArray(publicResultRowsCache) || !publicResultRowsCache.length) {
+        showToast("No result is available to download.", "error");
+        return;
+      }
+      const roll = document.getElementById("publicResultRoll")?.value.trim() || "—";
+      const subject = document.getElementById("publicResultSubject")?.selectedOptions?.[0]?.textContent || "Published Subjects";
+      const rows = publicResultRowsCache.map((r, i) => `
+        <tr>
+          <td class="center">${i + 1}</td>
+          <td>${escapeHtml(r.code || "—")}</td>
+          <td>${escapeHtml(r.subject || "—")}</td>
+          <td class="center">${escapeHtml(r.quiz ?? "—")}</td>
+          <td class="center">${escapeHtml(r.exam ?? "—")}</td>
+          <td class="center strong">${escapeHtml(r.total ?? "—")}</td>
+          <td class="center strong">${escapeHtml(r.grade || "—")}</td>
+          <td class="center"><span class="status">${escapeHtml(r.status || "Published")}</span></td>
+        </tr>`).join("");
+      const logoUrl = new URL("./logo.png", window.location.href).href;
+      const w = window.open("", "_blank");
+      if (!w) {
+        showToast("Please allow pop-ups to download your result PDF.", "error");
+        return;
+      }
+      w.document.write(`<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Al-Fajar Islamic Academy - Result Card</title>
+<style>
+@page{size:A4;margin:14mm}
+*{box-sizing:border-box}
+body{margin:0;background:#f4f8f5;color:#173b2d;font-family:Arial,Helvetica,sans-serif}
+.sheet{max-width:900px;margin:22px auto;background:#fff;border:1px solid #d7e5dc;border-radius:18px;overflow:hidden;box-shadow:0 12px 34px rgba(4,57,39,.10)}
+.top{height:12px;background:linear-gradient(90deg,#043927,#0b684b,#d4af37)}
+.head{padding:26px 30px 22px;display:flex;align-items:center;gap:18px;border-bottom:1px solid #e2ebe5}
+.logo{width:82px;height:82px;object-fit:contain;flex:0 0 82px}
+.brand h1{margin:0;color:#043927;font-size:25px;letter-spacing:.2px}
+.brand p{margin:6px 0 0;color:#9b7a1e;font-size:12px;letter-spacing:1.2px;text-transform:uppercase;font-weight:700}
+.title{margin:22px 30px 8px;padding:14px 18px;border-radius:12px;background:#043927;color:#fff;text-align:center;border:2px solid #d4af37}
+.title h2{margin:0;font-size:22px;letter-spacing:1px}
+.title p{margin:5px 0 0;color:#f3e5ab;font-size:11px}
+.meta{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:18px 30px 20px}
+.meta div{padding:12px 14px;border:1px solid #dbe8df;border-radius:10px;background:#f8fbf9}
+.meta label{display:block;color:#718278;font-size:10px;text-transform:uppercase;letter-spacing:1px;font-weight:700;margin-bottom:5px}
+.meta strong{font-size:14px;color:#043927;overflow-wrap:anywhere}
+table{width:calc(100% - 60px);margin:0 30px;border-collapse:separate;border-spacing:0;border:1px solid #cbdcd1;border-radius:10px;overflow:hidden}
+th{background:#064e3b;color:#fff;font-size:11px;padding:12px 8px;text-align:left}
+td{padding:12px 8px;border-top:1px solid #dce8e0;font-size:11px;color:#29483a}
+tr:nth-child(even) td{background:#f5f9f6}
+.center{text-align:center}.strong{font-weight:700;color:#043927}
+.status{display:inline-block;background:#e7f4eb;color:#075b3c;border:1px solid #b9ddc7;border-radius:30px;padding:4px 8px;font-size:9px;font-weight:700}
+.bottom{margin:22px 30px 0;padding:18px 20px;border-radius:12px;background:#f4f8f5;border:1px solid #dce8e0;display:flex;justify-content:space-between;gap:16px;align-items:center}
+.bottom strong{display:block;color:#043927;font-size:15px}.bottom span{font-size:10px;color:#718278}
+.sign{min-width:150px;text-align:center;border-top:1px solid #7b9385;padding-top:8px;font-weight:700;color:#043927;font-size:11px}
+.foot{margin-top:24px;padding:15px 30px;background:#043927;color:#f3e5ab;text-align:center;font-size:10px;line-height:1.6}
+.actions{text-align:center;margin:18px auto 26px}
+.actions button{border:0;border-radius:9px;background:#064e3b;color:white;padding:11px 22px;font-weight:700;cursor:pointer}
+@media(max-width:600px){.sheet{margin:0;border-radius:0}.head{padding:18px}.logo{width:60px;height:60px;flex-basis:60px}.brand h1{font-size:18px}.title{margin:16px 16px 8px}.meta{margin:14px 16px;gap:8px}table{width:calc(100% - 32px);margin:0 16px}th,td{font-size:9px;padding:8px 4px}.bottom{margin:16px}.foot{padding:12px 16px}}
+@media print{body{background:#fff}.sheet{margin:0 auto;box-shadow:none;border-radius:0}.actions{display:none}}
+</style></head><body>
+<div class="sheet"><div class="top"></div>
+<header class="head"><img class="logo" src="${logoUrl}" alt="Academy Logo" onerror="this.style.display='none'">
+<div class="brand"><h1>Al-Fajar Islamic Academy</h1><p>Learn the Quran. Live with its Light.</p></div></header>
+<section class="title"><h2>STUDENT RESULT CARD</h2><p>OFFICIAL ACADEMIC RECORD</p></section>
+<section class="meta">
+<div><label>Roll Number</label><strong>${escapeHtml(roll)}</strong></div>
+<div><label>Selected Result</label><strong>${escapeHtml(subject)}</strong></div>
+</section>
+<table><thead><tr><th class="center">#</th><th>Code</th><th>Subject</th><th class="center">Quiz</th><th class="center">Exam</th><th class="center">Total</th><th class="center">Grade</th><th class="center">Status</th></tr></thead><tbody>${rows}</tbody></table>
+<section class="bottom"><div><strong>Keep learning and keep progressing!</strong><span>Result verified from the Academy's published academic records.</span></div><div class="sign">Academic Administration</div></section>
+<footer class="foot">Al-Fajar Islamic Academy · Learn the Quran. Live with its Light.<br>Only officially published academic results are shown on this card.</footer>
+</div><div class="actions"><button onclick="window.print()">Print / Save as PDF</button></div>
+<script>window.onload=()=>setTimeout(()=>window.print(),350);<\/script>
+</body></html>`);
+      w.document.close();
+    }
+
     function downloadPublicResultCSV() {
       if (!Array.isArray(publicResultRowsCache) || !publicResultRowsCache.length) {
         showToast("No result is available to download.", "error");
@@ -4101,7 +4199,7 @@ document.getElementById("signupResendBtn").addEventListener("click", async funct
             <th class="p-3">Grade</th><th class="p-3">Status</th>
           </tr></thead><tbody>${rows}</tbody></table></div>
         <div class="mt-4 flex flex-wrap gap-3">
-          <button type="button" onclick="window.print()" class="rounded-xl bg-goldPrimary text-emeraldDeep font-bold px-5 py-3">Download / Save PDF</button>
+          <button type="button" onclick="downloadPublicResultPDF()" class="rounded-xl bg-goldPrimary text-emeraldDeep font-bold px-5 py-3">Download Result PDF</button>
           <button type="button" onclick="downloadPublicResultCSV()" class="rounded-xl bg-emeraldDeep text-white font-bold px-5 py-3">Download CSV</button>
         </div>`;
         out.classList.remove("hidden");
