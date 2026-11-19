@@ -305,6 +305,32 @@
     }
   </style>
 
+
+<style id="academy-gradient-and-mobile-header-v3">
+/* Academy's refreshed green-and-gold gradient polish */
+:root { --af-green-gradient:linear-gradient(135deg,#064e3b 0%,#08704f 52%,#032d22 100%); --af-gold-gradient:linear-gradient(135deg,#f6dc78 0%,#d4af37 48%,#a97912 100%); }
+.bg-emeraldDeep { background-image:linear-gradient(135deg,#064e3b 0%,#043927 55%,#02291e 100%); }
+.bg-emeraldPrimary { background-image:linear-gradient(135deg,#08704f 0%,#064e3b 100%); }
+.bg-gradient-to-r.from-emeraldPrimary, .bg-gradient-to-r.from-emeraldDeep { background-image:var(--af-green-gradient)!important; }
+.bg-gradient-to-r.from-goldPrimary { background-image:var(--af-gold-gradient)!important; }
+/* Keep gradients tasteful: primary CTA and green/gold feature surfaces */
+button.bg-emeraldPrimary, a.bg-emeraldPrimary, .portal-app-icon, #assistantToggle { background-image:var(--af-green-gradient); }
+@media(max-width:767px){
+  /* One-line institution notice; prevent the top bar wrapping into a tall block */
+  body > div.bg-emeraldDeep.text-creamBg.border-b.border-goldPrimary\/25.text-xs.sm\:text-sm > div { flex-wrap:nowrap!important; gap:8px!important; padding:7px 10px!important; }
+  body > div.bg-emeraldDeep.text-creamBg.border-b.border-goldPrimary\/25.text-xs.sm\:text-sm > div > div:first-child { min-width:0!important; flex:1 1 auto!important; display:flex!important; flex-wrap:nowrap!important; align-items:center!important; gap:7px!important; }
+  body > div.bg-emeraldDeep.text-creamBg.border-b.border-goldPrimary\/25.text-xs.sm\:text-sm > div > div:first-child span[data-i18n="topBarNotice"] { display:block!important; white-space:nowrap!important; overflow:hidden!important; text-overflow:ellipsis!important; font-size:10px!important; line-height:1.2!important; }
+  body > div.bg-emeraldDeep.text-creamBg.border-b.border-goldPrimary\/25.text-xs.sm\:text-sm > div > div:last-child { flex:0 0 auto!important; gap:7px!important; font-size:10px!important; }
+  body > div.bg-emeraldDeep.text-creamBg.border-b.border-goldPrimary\/25.text-xs.sm\:text-sm > div > div:last-child button span { white-space:nowrap!important; }
+  /* Smaller, balanced mobile crest */
+  header a[dir="ltr"] > div:first-child { width:min(76vw,340px)!important; height:auto!important; min-height:0!important; }
+  header a[dir="ltr"] > div:first-child img { max-height:155px!important; width:auto!important; max-width:100%!important; margin:0 auto!important; }
+  header .flex.items-center.justify-between.h-20 { padding-top:9px!important; padding-bottom:8px!important; gap:9px!important; }
+  .mobile-quick-search { padding-bottom:12px!important; }
+}
+@media(max-width:380px){ header a[dir="ltr"] > div:first-child img { max-height:138px!important; } }
+</style>
+
 </head>
 <body class="bg-creamBg text-slate-800 antialiased selection:bg-goldPrimary selection:text-emeraldDeep">
 
