@@ -263,6 +263,48 @@
     }
   </style>
 
+
+  <style id="mobile-header-logo-layout-v2">
+    /* Mobile-only header inspired by the user's reference; desktop remains untouched. */
+    @media (max-width:767px) {
+      header .flex.items-center.justify-between.h-20 {
+        display:flex!important; flex-wrap:wrap!important; height:auto!important; min-height:0!important;
+        padding:14px 0 10px!important; gap:12px!important;
+      }
+      header a[dir="ltr"] {
+        order:0!important; flex:0 0 100%!important; width:100%!important; max-width:100%!important;
+        display:flex!important; flex-direction:column!important; align-items:center!important; justify-content:center!important;
+        gap:0!important; margin:0 auto!important;
+      }
+      header a[dir="ltr"] > div:first-child {
+        width:min(94vw,430px)!important; height:auto!important; min-height:0!important; flex:0 0 auto!important;
+        display:flex!important; align-items:center!important; justify-content:center!important;
+      }
+      header a[dir="ltr"] > div:first-child img {
+        display:block!important; width:100%!important; height:auto!important; max-height:220px!important; object-fit:contain!important;
+      }
+      header a[dir="ltr"] .academy-wordmark { display:none!important; }
+      header .flex.items-center.gap-2.sm\:gap-3 {
+        order:1!important; flex:1 0 100%!important; width:100%!important; display:flex!important;
+        justify-content:space-between!important; align-items:center!important; gap:10px!important;
+      }
+      #mobileMenuBtn { order:0!important; min-width:48px!important; width:auto!important; height:48px!important;
+        padding:9px 14px!important; border:2px solid #d4af37!important; border-radius:14px!important;
+        background:#064e3b!important; color:#fff!important; box-shadow:none!important; }
+      header [aria-label="Language Switcher"] { order:1!important; margin-left:auto!important; padding:3px!important;
+        border:2px solid #d4af37!important; border-radius:14px!important; }
+      header [aria-label="Language Switcher"] button { padding:10px 14px!important; font-size:13px!important; min-height:42px!important; }
+      .mobile-quick-search { margin-top:0!important; padding:0 14px 14px!important; }
+      .mobile-quick-search input { height:54px!important; border-radius:999px!important; border:2px solid #d4af37!important;
+        padding-left:18px!important; font-size:15px!important; background:#fff!important; }
+      .mobile-quick-search button { width:42px!important; height:42px!important; top:6px!important; right:6px!important; border-radius:999px!important; }
+    }
+    @media (max-width:380px) {
+      header a[dir="ltr"] > div:first-child img { max-height:180px!important; }
+      header [aria-label="Language Switcher"] button { padding:8px 11px!important; }
+    }
+  </style>
+
 </head>
 <body class="bg-creamBg text-slate-800 antialiased selection:bg-goldPrimary selection:text-emeraldDeep">
 
