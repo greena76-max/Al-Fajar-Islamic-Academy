@@ -331,6 +331,22 @@ button.bg-emeraldPrimary, a.bg-emeraldPrimary, .portal-app-icon, #assistantToggl
 @media(max-width:380px){ header a[dir="ltr"] > div:first-child img { max-height:138px!important; } }
 </style>
 
+
+<style id="mobile-header-final-adjustment">
+@media (max-width:767px){
+  /* Compact mobile crest and clear institution name below it */
+  header a[dir="ltr"]{width:100%!important; flex:0 0 100%!important; align-items:center!important;}
+  header a[dir="ltr"] > div:first-child{width:100%!important; max-width:100%!important; height:auto!important; min-height:0!important;}
+  header a[dir="ltr"] > div:first-child img{width:auto!important; max-width:120px!important; height:auto!important; max-height:95px!important; object-fit:contain!important;}
+  header a[dir="ltr"] .academy-wordmark{display:flex!important; flex-direction:column!important; align-items:center!important; text-align:center!important; margin-top:5px!important; gap:2px!important;}
+  header a[dir="ltr"] .academy-wordmark .academy-name{display:block!important; font-size:15px!important; line-height:1.2!important; font-weight:800!important; text-transform:uppercase!important; letter-spacing:.8px!important;}
+  header a[dir="ltr"] .academy-wordmark .academy-tagline{display:none!important;}
+  .mobile-quick-search{display:none!important;}
+  header .flex.items-center.justify-between.h-20{gap:8px!important; padding-top:7px!important; padding-bottom:8px!important;}
+}
+@media(max-width:380px){header a[dir="ltr"] > div:first-child img{max-width:105px!important; max-height:85px!important;}}
+</style>
+
 </head>
 <body class="bg-creamBg text-slate-800 antialiased selection:bg-goldPrimary selection:text-emeraldDeep">
 
